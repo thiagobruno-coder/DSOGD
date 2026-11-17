@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hub GD · DISCO — Regulação</title>
+<title>Hub GD e DISCO — Regulação</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -1040,13 +1040,427 @@ body.exec-mode .pres{min-height:100vh;padding-top:0}
 .pmuted{font-size:14px;color:var(--mt2)}
 @media (max-width:1100px){.pprocs{grid-template-columns:1fr 1fr}}
 @media (max-width:760px){.phow,.pprocs{grid-template-columns:1fr}.pcapa-fx{left:-16px;right:-16px;height:360px}.pcapa-in{padding-top:20px}}
+
+.po-links{display:grid;gap:0;margin-top:18px;border-top:1px solid #E3E6EE}
+.po-lrow{display:grid;grid-template-columns:200px 1fr;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #E3E6EE}
+.po-lrow .po-lb{margin:0}
+.po-lk{display:inline-flex;align-items:center;gap:4px;font-weight:800;font-size:14px;color:#007A96;text-decoration:none!important;border:1px solid #CFE6EE;background:#F2FAFC;border-radius:999px;padding:4px 12px}
+.po-lk:hover{border-color:#007A96}
+.po-lk.off{color:#9A9EB8;background:#F6F7FB;border:1px dashed #D5D8E5;font-weight:700}
+@media (max-width:760px){.po-lrow{grid-template-columns:1fr;gap:4px}}
+.psys .xlogo b{white-space:nowrap}
+
+.pmlist{display:none}
+@media (max-width:620px){
+  .porb-in .pnd-b,.porb-in .pnd-ic{display:none!important}
+  .porb-in .pnd{padding:.45em;border-left-width:3px;font-size:13px}
+  .pmlist{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:12px}
+  .pml{display:flex;align-items:center;gap:8px;border:1px solid #2A2A55;border-left:3px solid var(--tc);background:#14143A;color:#E8EAF6;font:800 13px Nunito,Arial,sans-serif;border-radius:10px;padding:7px 8px;text-align:left;cursor:pointer}
+  .pml .xn{width:22px;height:22px;font-size:12px;border-radius:6px}
+  .pml.sel{border-color:#B5E622;box-shadow:0 0 0 1px #B5E622}
+  .pml.dim{opacity:.55}
+}
+
+/* tela cheia */
+body.exec-mode{overflow-x:hidden}
+.xstage.pres{max-width:none;margin:0;width:100%}
+.pcapa-in{max-width:none!important}
+.pcapa-h{max-width:none}
+.pband{width:auto!important;margin:-6px -44px 0!important}
+@media (max-width:760px){.pband{margin:-4px -16px 0!important}}
+.pgrid.focus .pdet{max-width:none!important}
+
+/* padronização: todos os processos do mapa com o mesmo tamanho */
+.porb-in .pnd{width:14.5em;height:4.3em;padding:0 .9em 0 .7em;white-space:normal}
+.porb-in .pnd-b{flex:1;min-width:0}
+.porb-in .pnd-b b{line-height:1.15;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.porb-in .pnd-b small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.porb-in .pnd .xn,.porb-in .pnd-ic{flex:none}
+@media (max-width:620px){.porb-in .pnd,.pgrid.focus .porb-in .pnd{width:auto;height:auto;padding:.45em}}
+/* ficha completa: mesma largura para todos os temas */
+.pgrid.focus .pdet{width:100%;max-width:1240px!important;margin-left:auto;margin-right:auto}
+.pdet .pone{width:100%;box-sizing:border-box}
+.pdet .po-facts{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:760px){.pdet .po-facts{grid-template-columns:1fr 1fr}}
+
+/* botão fixo para voltar ao mapa */
+.pback{position:fixed;right:32px;top:50%;z-index:40;display:flex;flex-direction:column;align-items:center;gap:8px;width:92px;padding:16px 10px;border:1px solid rgba(181,230,34,.45);border-radius:18px;background:rgba(20,20,58,.92);backdrop-filter:blur(8px);color:#F2F4FF;font:800 13px/1.25 Nunito,Arial,sans-serif;text-align:center;cursor:pointer;box-shadow:0 14px 40px rgba(0,0,0,.4);
+  opacity:0;pointer-events:none;transform:translate(16px,-50%);transition:opacity .3s,transform .4s cubic-bezier(.22,1,.36,1),border-color .2s}
+.pback.show{opacity:1;pointer-events:auto;transform:translate(0,-50%)}
+.pback:hover{border-color:#B5E622;background:#1A1A4A}
+.pback-ic{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:20px;color:#0A0A20;background:linear-gradient(135deg,#66C8DE,#B5E622);animation:pbob 1.8s ease-in-out infinite}
+@keyframes pbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@media (max-width:1500px){.pback{top:auto;bottom:24px;right:24px;flex-direction:row;width:auto;padding:8px 16px 8px 8px;border-radius:999px;transform:translateY(16px)}.pback.show{transform:none}.pback-ic{width:34px;height:34px;font-size:17px}}
+/* animação da ficha completa ao trocar de processo */
+.pdet .pone{animation:poin .55s cubic-bezier(.22,1,.36,1) both}
+@keyframes poin{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:none}}
+.pdet .pone>*{animation:psin .5s cubic-bezier(.22,1,.36,1) both}
+.pdet .pone>*:nth-child(1){animation-delay:.08s}.pdet .pone>*:nth-child(2){animation-delay:.14s}.pdet .pone>*:nth-child(3){animation-delay:.2s}.pdet .pone>*:nth-child(4){animation-delay:.26s}.pdet .pone>*:nth-child(5){animation-delay:.3s}.pdet .pone>*:nth-child(6){animation-delay:.36s}.pdet .pone>*:nth-child(7){animation-delay:.42s}.pdet .pone>*:nth-child(8){animation-delay:.48s}.pdet .pone>*:nth-child(n+9){animation-delay:.54s}
+.pdet .po-facts .po-fact{animation:psin .45s cubic-bezier(.22,1,.36,1) both}
+.pdet .po-facts .po-fact:nth-child(2){animation-delay:.3s}.pdet .po-facts .po-fact:nth-child(3){animation-delay:.36s}.pdet .po-facts .po-fact:nth-child(4){animation-delay:.42s}
+.pdet .pone::before{transform-origin:left;animation:pbar .7s .1s cubic-bezier(.22,1,.36,1) both}
+@keyframes pbar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media (prefers-reduced-motion:reduce){.pdet .pone,.pdet .pone>*,.pback-ic{animation:none!important}}
+
+/* nomes sempre em uma linha, mesmo tamanho para todos */
+.porb-in .pnd{font-size:clamp(10px,1.17cqw,18px);width:18em;height:3.7em;padding:0 1em 0 .75em;gap:.75em}
+.porb-in .pnd-b b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2;-webkit-line-clamp:unset}
+.porb-in .pnd-b small{font-size:.78em}
+@media (max-width:620px){.porb-in .pnd{width:auto;height:auto;padding:.45em;font-size:13px}}
+
+.pnd-b small{display:flex!important;align-items:center;gap:.45em}
+.pcode{font-style:normal;font-weight:900;font-size:.92em;letter-spacing:.02em;color:#0A0A20;background:#66C8DE;border-radius:.35em;padding:0 .4em;line-height:1.5;flex:none}
+.pnd.t-bad .pnd-b small .plate{color:#FF9E93}
+.pnd.t-bad .pnd-b small{color:var(--mt)}
+
+/* ficha completa minimalista */
+.pone.mini{padding:30px 36px 22px}
+.pone.mini .po-sub{margin-top:2px}
+.pone.mini .po-ref{margin-top:6px;padding-bottom:18px;border-bottom:1px solid #E7E9F1}
+.mfacts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:18px 0 6px}
+.mf{padding:0 16px;border-left:3px solid #E7E9F1;min-width:0}
+.mf:first-child{border-left-color:#009FC2}
+.mf small{display:block;font-size:10.5px;font-weight:900;letter-spacing:.14em;color:#7A7E98;text-transform:uppercase}
+.mf b{display:block;font-size:17px;color:#0A0A20;overflow-wrap:anywhere;line-height:1.3;margin-top:2px}
+.mf span{display:block;font-size:12px;color:#8A8EA8}
+.mand{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:16px 0 4px;padding:16px 0;border-top:1px solid #E7E9F1;border-bottom:1px solid #E7E9F1}
+.mand small{display:block;font-size:10.5px;font-weight:900;letter-spacing:.14em;color:#007A96;text-transform:uppercase}
+.mand p{margin:3px 0 0;font-size:14.5px;color:#1E2140}
+.mlist{display:grid}
+.mrw{display:grid;grid-template-columns:190px 1fr;gap:16px;align-items:baseline;padding:11px 0;border-bottom:1px solid #F0F1F6}
+.mrw:last-child{border-bottom:0}
+.mlb{font-size:11px;font-weight:900;letter-spacing:.14em;color:#007A96;text-transform:uppercase}
+.mvl{min-width:0;font-size:14.5px;color:#2A2E4E}
+.mnone{color:#B4B7C9}
+.mchips{display:flex;gap:6px;flex-wrap:wrap}
+.mchip{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:#007A96;text-decoration:none!important;border:1px solid #CFE6EE;border-radius:999px;padding:3px 12px;background:#F4FAFC;max-width:100%}
+.mchip:hover{border-color:#007A96}
+.mchip.msei b{font-variant-numeric:tabular-nums;color:#14143A}
+.mchip.msei span{font-weight:600;color:#6A6E89;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pdet .mrw,.pdet .mf{animation:psin .45s cubic-bezier(.22,1,.36,1) both}
+.pdet .mrw:nth-child(2){animation-delay:.36s}.pdet .mrw:nth-child(3){animation-delay:.42s}.pdet .mrw:nth-child(4){animation-delay:.48s}.pdet .mrw:nth-child(5){animation-delay:.54s}
+.pdet .mf:nth-child(2){animation-delay:.3s}.pdet .mf:nth-child(3){animation-delay:.36s}.pdet .mf:nth-child(4){animation-delay:.42s}
+@media (max-width:760px){.pone.mini{padding:22px 18px}.mfacts{grid-template-columns:1fr 1fr;row-gap:12px}.mf:nth-child(3){border-left-color:#E7E9F1}.mand{grid-template-columns:1fr;gap:12px}.mrw{grid-template-columns:1fr;gap:4px}}
+/* editor da ficha */
+.fe-ov{position:fixed;inset:0;z-index:90;background:rgba(5,5,20,0);transition:background .25s;display:flex;justify-content:flex-end}
+.fe-ov.show{background:rgba(5,5,20,.55)}
+.fe-panel{width:min(620px,100%);height:100%;background:#0E0E2C;color:#F2F4FF;border-left:1px solid #2A2A55;display:flex;flex-direction:column;font-family:Nunito,Arial,sans-serif;transform:translateX(100%);transition:transform .35s cubic-bezier(.22,1,.36,1);box-shadow:-20px 0 60px rgba(0,0,0,.45)}
+.fe-ov.show .fe-panel{transform:none}
+.fe-hd{display:flex;align-items:center;gap:12px;padding:18px 22px;border-bottom:1px solid #1F1F4C;position:relative}
+.fe-hd::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:linear-gradient(90deg,#009FC2,#66C8DE,#B5E622)}
+.fe-hd b{font:900 19px/1.2 Nunito,Arial,sans-serif;color:#fff}
+.fe-eb{font-size:11px;font-weight:900;letter-spacing:.16em;color:#66C8DE}
+.fe-close{margin-left:auto;width:36px;height:36px;border-radius:10px;border:1px solid #2A2A55;background:#14143A;color:#fff;font-size:20px;cursor:pointer}
+.fe-bd{flex:1;overflow:auto;padding:6px 22px 20px}
+.fe-sec{padding:16px 0;border-bottom:1px solid #1F1F4C;display:grid;gap:12px}
+.fe-st{font-size:11.5px;font-weight:900;letter-spacing:.16em;color:#B5E622;text-transform:uppercase}
+.fe-f{display:grid;gap:5px;margin:0}
+.fe-l{font-size:12.5px;font-weight:800;color:#C4C9E2}
+.fe-h{font-size:11.5px;color:#6A6E89}
+.fe-in{width:100%;box-sizing:border-box;background:#14143A;border:1px solid #2A2A55;border-radius:10px;color:#F2F4FF;font:14.5px/1.45 Nunito,Arial,sans-serif;padding:9px 12px;min-height:40px}
+textarea.fe-in{min-height:76px;resize:vertical}
+.fe-in:focus{outline:none;border-color:#66C8DE;box-shadow:0 0 0 3px rgba(102,200,222,.18)}
+.fe-in::placeholder{color:#5A5E80}
+select.fe-in option{background:#14143A}
+.fe-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fe-dates{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fe-d{display:grid;gap:5px}
+.fe-list{display:grid;gap:8px}
+.fe-lr{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr)) 32px;gap:6px;align-items:center;padding:8px;border:1px solid #23234F;border-radius:12px;background:#11113A}
+.fe-lr .fe-in{min-height:36px;padding:6px 10px;font-size:13.5px}
+.fe-x{width:32px;height:32px;border-radius:8px;border:1px solid #2A2A55;background:none;color:#FF9E93;font-size:18px;cursor:pointer}
+.fe-add{justify-self:start;border:1px dashed #3A3A70;background:none;color:#66C8DE;font:800 13px Nunito,Arial,sans-serif;border-radius:10px;padding:7px 12px;cursor:pointer}
+.fe-add:hover{border-color:#66C8DE}
+.fe-ft{display:flex;justify-content:flex-end;gap:10px;padding:14px 22px;border-top:1px solid #1F1F4C;background:#0B0B26}
+.fe-ft .xbtn{padding:11px 18px;font-size:14.5px}
+.fe-ft .xbtn.ghost{background:#14143A;color:#F2F4FF;border:1px solid #2A2A55}
+@media (max-width:620px){.fe-2,.fe-dates{grid-template-columns:1fr}.fe-lr{grid-template-columns:1fr 32px}.fe-lr .fe-x{grid-row:1;grid-column:2}}
+
+/* documentos em colunas */
+.mlist{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 28px;margin-top:6px}
+.mrw{display:flex!important;flex-direction:column;gap:6px;align-items:stretch;padding:14px 0 14px 14px;border-bottom:0!important;border-left:2px solid #EEF0F6;min-width:0}
+.mrw .mlb{font-size:10.5px}
+.mrw .mvl{font-size:14px}
+.mrw .mchips{flex-direction:column;align-items:flex-start}
+.mrw .mchip{max-width:100%}
+.mrw.mc-resultado{grid-column:span 2}
+.mrw:nth-child(-n+3){border-bottom:1px solid #F0F1F6!important;padding-bottom:16px}
+@media (max-width:900px){.mlist{grid-template-columns:1fr 1fr}.mrw.mc-resultado{grid-column:span 2}.mrw:nth-child(-n+3){border-bottom:0!important}}
+@media (max-width:600px){.mlist{grid-template-columns:1fr}.mrw.mc-resultado{grid-column:auto}}
+
+.mrw:nth-child(-n+3){border-bottom:0!important;padding-bottom:14px}
+.mlist{row-gap:10px;padding-top:4px}
+.mrw .mchip.msei{flex-direction:column;align-items:flex-start;gap:0;border-radius:10px;padding:6px 12px;width:100%;box-sizing:border-box}
+.mrw .mchip.msei b{white-space:nowrap;font-size:13px}
+.mrw .mchip.msei span{white-space:normal;font-size:12px;line-height:1.35}
+
+/* ===== ficha completa — layout trabalhado ===== */
+.pone.wk{padding:28px 34px 22px}
+.wk .po-top{margin-bottom:12px}
+.wst{font-size:11.5px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;padding:4px 11px;border-radius:999px;background:#E6F6FA;color:#007A96}
+.wk.t-bad .wst{background:#FFEDEA;color:#C2412D}.wk.t-warn .wst{background:#FFF5DB;color:#9A6B00}.wk.t-idle .wst{background:#EEF0F6;color:#5A5E7E}
+.whd{display:flex;gap:16px;align-items:flex-start}
+.whd-ic{flex:none;width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,#E3F5FA,#F1F9E1);color:#007A96;box-shadow:inset 0 0 0 1px #D6EDF3}
+.whd-ic svg{width:26px;height:26px}
+.whd-tx{min-width:0}.whd .po-h{margin:0}
+.wref{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;font-size:12.5px;color:#7A7E98;margin:12px 0 0 68px;padding-bottom:18px;border-bottom:1px solid #E7E9F1}
+.wresp{display:inline-flex;align-items:center;gap:6px}.wresp svg{width:14px;height:14px;color:#9AA0BC}.wresp b{color:#3E4263}
+.wfacts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0}
+.wf{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;background:#F6F8FB;border:1px solid #EDF0F5;min-width:0;transition:transform .2s,box-shadow .2s}
+.wf:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(20,20,58,.06)}
+.wf-ic{flex:none;width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:#fff;color:#9AA0BC;box-shadow:0 1px 2px rgba(20,20,58,.06)}
+.wf.on .wf-ic{background:linear-gradient(135deg,#009FC2,#66C8DE);color:#fff}
+.wf-ic svg{width:18px;height:18px}
+.wf-tx{min-width:0}.wf small{display:block;font-size:10.5px;font-weight:900;letter-spacing:.14em;color:#7A7E98;text-transform:uppercase}
+.wf b{display:block;font-size:16.5px;color:#0A0A20;line-height:1.25;overflow-wrap:anywhere}.wf:not(.on) b{color:#B4B7C9}
+.wf-tx span{display:block;font-size:11.5px;color:#8A8EA8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wand{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px}
+.wa{display:flex;gap:12px;padding:14px 16px;border-radius:14px;background:linear-gradient(135deg,#EEF8FB,#F7FBEF);position:relative;overflow:hidden}
+.wa::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#009FC2,#66C8DE)}
+.wa.nx::before{background:linear-gradient(180deg,#66C8DE,#B5E622)}
+.wa-ic{flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#007A96;box-shadow:0 1px 3px rgba(20,20,58,.08)}
+.wa.nx .wa-ic{color:#5C8A00}
+.wa-ic svg{width:16px;height:16px}
+.wa small{display:block;font-size:10.5px;font-weight:900;letter-spacing:.14em;color:#007A96;text-transform:uppercase}
+.wa p{margin:3px 0 0;font-size:14.5px;line-height:1.45;color:#1E2140}
+.wa-by{display:block;margin-top:5px;font-size:12px;color:#7A7E98}
+.wsec{display:flex;align-items:center;gap:12px;font-size:11px;font-weight:900;letter-spacing:.16em;color:#7A7E98;text-transform:uppercase;margin-bottom:12px}
+.wsec::after{content:"";flex:1;height:1px;background:#E7E9F1}
+.wgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.wt{border:1px solid #E7EAF2;border-radius:14px;padding:14px 16px;background:#fff;min-width:0;display:flex;flex-direction:column;gap:10px;transition:border-color .2s,box-shadow .2s,transform .2s}
+.wt:hover{border-color:#BFE3EC;box-shadow:0 10px 24px rgba(0,122,150,.08);transform:translateY(-2px)}
+.wt.res{grid-column:span 2}
+.wt.is-empty{background:#FAFBFD;border-style:dashed}
+.wt-h{display:flex;align-items:center;gap:10px}
+.wt-ic{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:#E6F6FA;color:#007A96}
+.wt.is-empty .wt-ic{background:#EEF0F6;color:#9AA0BC}
+.wt-ic svg{width:16px;height:16px}
+.wt-lb{font-size:11px;font-weight:900;letter-spacing:.14em;color:#007A96;text-transform:uppercase}
+.wt.is-empty .wt-lb{color:#8A8EA8}
+.wt-n{margin-left:auto;width:8px;height:8px;border-radius:50%;background:#B5E622;box-shadow:0 0 0 3px rgba(181,230,34,.2)}
+.wt-b{font-size:14px;color:#2A2E4E;min-width:0}
+.wempty{display:flex;align-items:center;gap:10px;font-size:13px;color:#A6AAC0;font-style:italic}
+.wadd{border:0;background:none;padding:0;font:800 12.5px Nunito,Arial,sans-serif;font-style:normal;color:#007A96;cursor:pointer}
+.wadd:hover{text-decoration:underline}
+.wlist{display:flex;flex-direction:column;gap:6px}
+.wlink{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13.5px;font-weight:800;color:#007A96;text-decoration:none!important;border:1px solid #D3EAF0;border-radius:10px;padding:7px 12px;background:#F4FAFC;transition:background .2s,border-color .2s}
+.wlink:hover{background:#E6F6FA;border-color:#007A96}
+.wlink i{font-style:normal}
+.wlink.off{color:#5A5E7E;background:#F6F7FB;border-color:#E7E9F1}
+.wsei{display:block;text-decoration:none!important;border:1px solid #E1E5EE;border-left:3px solid #009FC2;border-radius:10px;padding:7px 12px;background:#FAFBFD;transition:background .2s}
+.wsei:hover{background:#EEF8FB}
+.wsei b{display:block;font-size:13px;color:#14143A;font-variant-numeric:tabular-nums}
+.wsei span{display:block;font-size:12px;color:#6A6E89;line-height:1.35}
+.pdet .wf,.pdet .wt,.pdet .wa{animation:psin .45s cubic-bezier(.22,1,.36,1) both}
+.pdet .wf:nth-child(2){animation-delay:.28s}.pdet .wf:nth-child(3){animation-delay:.34s}.pdet .wf:nth-child(4){animation-delay:.4s}
+.pdet .wa:nth-child(2){animation-delay:.3s}
+.pdet .wt:nth-child(1){animation-delay:.4s}.pdet .wt:nth-child(2){animation-delay:.46s}.pdet .wt:nth-child(3){animation-delay:.52s}.pdet .wt:nth-child(4){animation-delay:.58s}.pdet .wt:nth-child(5){animation-delay:.64s}
+@media (max-width:1000px){.wfacts{grid-template-columns:1fr 1fr}.wgrid{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.pone.wk{padding:22px 16px}.wref{margin-left:0}.wand,.wgrid{grid-template-columns:1fr}.wt.res{grid-column:auto}.whd-ic{width:42px;height:42px}.wf{padding:10px}.wf-ic{width:30px;height:30px}}
+
+/* ===== refinamento visual (menos ruído, mais leitura) ===== */
+.ph2{font-size:clamp(20px,2vw,28px)!important}
+/* órbitas e anéis: só uma órbita discreta */
+.porbit.o2,.pcore .ring,.pdot{display:none!important}
+.porbit{stroke:rgba(255,255,255,.09)!important}
+/* linhas: uma cor só, discreta; destaque apenas no selecionado */
+.pflow,.pflow.t-ok,.pflow.t-warn,.pflow.t-bad,.pflow.t-idle{stroke:rgba(150,170,220,.22)!important;stroke-dasharray:3 6!important;animation:none!important;opacity:1!important}
+.pflow.sel{stroke:#B5E622!important;stroke-dasharray:6 6!important;stroke-width:2.5!important;animation:pdash 1.4s linear infinite!important}
+.pflow.dim{opacity:.35!important}
+/* centro menor */
+.pcore{width:17cqw!important;height:17cqw!important;box-shadow:0 0 0 1px rgba(102,200,222,.35),0 0 50px rgba(0,159,194,.22)!important}
+.pcin b{font-size:clamp(12px,2cqw,22px)!important}
+.pcin svg{width:2.8cqw!important;height:2.8cqw!important}
+/* cartões: neutros, letra maior, sem ícone */
+.porb-in .pnd{font-size:clamp(10.5px,1.36cqw,19px)!important;width:17.5em!important;height:3.5em!important;padding:0 1em 0 .7em!important;gap:.7em!important;
+  border:1px solid #26265A!important;border-left:1px solid #26265A!important;background:linear-gradient(180deg,#17173F,#121234)!important;box-shadow:0 8px 24px rgba(0,0,0,.3)!important}
+.porb-in .pnd:hover{border-color:#4A4A8A!important}
+.porb-in .pnd .xn,.porb-in .pnd.t-bad .xn{background:#26265A!important;color:#C4C9E2!important;width:1.7em;height:1.7em;font-size:.82em;border-radius:.45em}
+.porb-in .pnd.sel .xn{background:#B5E622!important;color:#0A0A20!important}
+.porb-in .pnd.sel{border-color:#B5E622!important;box-shadow:0 0 0 1px #B5E622,0 0 32px rgba(181,230,34,.25)!important}
+.porb-in .pnd-b b{display:flex!important;align-items:center;gap:.45em;font-size:1em;line-height:1.2}
+.pnm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.sdot{flex:none;width:.5em;height:.5em;border-radius:50%;background:var(--tc)}
+.pnd.t-bad .sdot{box-shadow:0 0 0 .2em rgba(255,122,107,.22)}
+.porb-in .pnd-b small{font-size:.72em!important;color:#9AA0C4!important;margin-top:.15em}
+.porb-in .pnd-b small .plate{color:#FF9E93!important;font-weight:700}
+/* legenda com pontos */
+.pleg .sd{width:9px;height:9px;border:0!important;border-radius:50%}
+.pleg .sd.ok{background:#66C8DE}.pleg .sd.warn{background:#F5B82E}.pleg .sd.bad{background:#FF7A6B}.pleg .sd.idle{background:#6A6E89}
+/* mapa encostado no cartão de resumo, alinhados pelo topo */
+.pgrid.focus{align-items:start!important}
+.pgrid.focus .porb-in{margin-left:auto!important;margin-right:0!important}
+.pgrid.focus .pside{margin-top:8px}
+/* lista do celular sem cores fortes */
+.pml{border-left:1px solid #2A2A55!important}
+.pml .xn{background:#26265A!important;color:#C4C9E2!important}
+.pml::after{content:"";margin-left:auto;width:7px;height:7px;border-radius:50%;background:var(--tc);flex:none}
+.pml.sel .xn{background:#B5E622!important;color:#0A0A20!important}
+/* status pela fase */
+.wk .wst.st-idle{background:#EEF0F6;color:#5A5E7E}.wk .wst.st-mon{background:#E6F6FA;color:#007A96}.wk .wst.st-an{background:#E5EEFB;color:#2457A6}
+.wk .wst.st-el{background:#F1F9E1;color:#4E7A00}.wk .wst.st-ag{background:#FFF5DB;color:#8A6200}.wk .wst.st-enc{background:#E3F5F1;color:#18786A}.wk .wst.st-ok{background:#E3F6EA;color:#17845A}
+.wlate{font-size:11.5px;font-weight:800;color:#C2412D;margin-left:6px}
+/* número da ficha neutro e consistente */
+.pone .po-top .xn{background:#14143A;color:#fff}
+
+@media (max-width:620px){.porb-in .pnd{width:auto!important;height:auto!important;padding:.45em!important;font-size:13px!important}.porb-in .pnd-b{display:none!important}}
+
+/* ficha completa como painel sobreposto */
+.pback{display:none!important}
+.psheet{position:fixed;inset:0;z-index:80;overflow-y:auto;background:rgba(6,6,24,0);backdrop-filter:blur(0);transition:background .3s,backdrop-filter .3s}
+.psheet.show{background:rgba(6,6,24,.72);backdrop-filter:blur(6px)}
+.psheet-wrap{min-height:100%;display:flex;justify-content:center;align-items:flex-start;padding:48px 24px 48px;box-sizing:border-box}
+.psheet-in{width:100%;max-width:1180px;opacity:0;transform:translateY(40px) scale(.98);transition:opacity .3s,transform .45s cubic-bezier(.22,1,.36,1)}
+.psheet.show .psheet-in{opacity:1;transform:none}
+.psheet .pone{width:100%;box-sizing:border-box;box-shadow:0 30px 90px rgba(0,0,0,.55)}
+.psheet .pone>*{animation:psin .45s cubic-bezier(.22,1,.36,1) both}
+.psheet .pone>*:nth-child(2){animation-delay:.06s}.psheet .pone>*:nth-child(3){animation-delay:.1s}.psheet .pone>*:nth-child(4){animation-delay:.14s}.psheet .pone>*:nth-child(5){animation-delay:.18s}.psheet .pone>*:nth-child(6){animation-delay:.22s}.psheet .pone>*:nth-child(n+7){animation-delay:.26s}
+.psheet .wf,.psheet .wt,.psheet .wa{animation:psin .45s cubic-bezier(.22,1,.36,1) both}
+.psheet .wt:nth-child(2){animation-delay:.3s}.psheet .wt:nth-child(3){animation-delay:.34s}.psheet .wt:nth-child(4){animation-delay:.38s}.psheet .wt:nth-child(5){animation-delay:.42s}
+body.sheet-open{overflow:hidden}
+@media (max-width:640px){.psheet-wrap{padding:12px 8px 24px}}
+
+/* ficha completa embaixo do mapa, no tema escuro */
+.pgrid.focus .pdet{display:block!important;grid-column:1/-1;max-width:none!important;width:100%;margin:22px 0 4px!important}
+.pdet.pulse .pone{animation:pdpulse 1s ease}
+@keyframes pdpulse{0%{box-shadow:0 0 0 0 rgba(181,230,34,.5)}100%{box-shadow:0 0 0 14px rgba(181,230,34,0)}}
+.pdet .pone{background:linear-gradient(180deg,#14143A,#101030)!important;color:#E8EAF6;border:1px solid #26265A;box-shadow:0 20px 50px rgba(0,0,0,.35)!important;padding:24px 28px 18px!important;border-radius:18px}
+.pdet .pone::before{height:3px!important}
+.pdet .po-h{color:#fff!important}
+.pdet .po-sub{color:#C4C9E2!important}
+.pdet .wref{color:#8E93B5;border-bottom-color:#23234F!important}
+.pdet .wresp b{color:#E8EAF6}.pdet .wresp svg{color:#6A6E89}
+.pdet .whd-ic{background:rgba(102,200,222,.1);color:#66C8DE;box-shadow:inset 0 0 0 1px rgba(102,200,222,.25)}
+.pdet .pone .po-top .xn{background:#B5E622;color:#0A0A20}
+.pdet .wst{background:rgba(102,200,222,.12)!important;color:#66C8DE!important}
+.pdet .wst.st-ag{background:rgba(245,184,46,.14)!important;color:#F5B82E!important}
+.pdet .wst.st-el,.pdet .wst.st-ok{background:rgba(181,230,34,.12)!important;color:#B5E622!important}
+.pdet .wst.st-idle{background:rgba(255,255,255,.06)!important;color:#9AA0C4!important}
+.pdet .wst.st-an{background:rgba(120,160,255,.14)!important;color:#9DB8FF!important}
+.pdet .wlate{color:#FF9E93}
+.pdet .pcnav button{background:#1C1C48;border-color:#2E2E62;color:#E8EAF6}
+.pdet .pcnav button:hover{background:#26265A}
+.pdet .pcnav .pclose{background:#fff;color:#0A0A20;border-color:#fff}
+.pdet .wf{background:rgba(255,255,255,.035);border-color:#23234F}
+.pdet .wf:hover{box-shadow:none;border-color:#34346A}
+.pdet .wf-ic{background:#1C1C48;color:#6A6E89;box-shadow:none}
+.pdet .wf.on .wf-ic{background:linear-gradient(135deg,#009FC2,#66C8DE);color:#0A0A20}
+.pdet .wf small{color:#8E93B5}.pdet .wf b{color:#fff}.pdet .wf:not(.on) b{color:#4A4E78}.pdet .wf-tx span{color:#8E93B5}
+.pdet .wa{background:linear-gradient(135deg,rgba(0,159,194,.10),rgba(181,230,34,.05))}
+.pdet .wa-ic{background:#1C1C48;color:#66C8DE;box-shadow:none}.pdet .wa.nx .wa-ic{color:#B5E622}
+.pdet .wa small{color:#66C8DE}.pdet .wa.nx small{color:#B5E622}
+.pdet .wa p{color:#F2F4FF}.pdet .wa-by{color:#8E93B5}
+.pdet .wsec{color:#8E93B5}.pdet .wsec::after{background:#23234F}
+.pdet .wt{background:rgba(255,255,255,.03);border-color:#26265A}
+.pdet .wt:hover{border-color:#3A5A8A;box-shadow:none}
+.pdet .wt.is-empty{background:transparent;border-color:#26265A}
+.pdet .wt-ic{background:rgba(102,200,222,.12);color:#66C8DE}
+.pdet .wt.is-empty .wt-ic{background:#1A1A44;color:#4A4E78}
+.pdet .wt-lb{color:#66C8DE}.pdet .wt.is-empty .wt-lb{color:#6A6E89}
+.pdet .wt-b,.pdet .po-p{color:#D6D9EA}
+.pdet .wempty{color:#4A4E78}.pdet .wadd{color:#B5E622}
+.pdet .po-more{color:#66C8DE}
+.pdet .wlink{background:rgba(102,200,222,.08);border-color:rgba(102,200,222,.3);color:#66C8DE}
+.pdet .wlink:hover{background:rgba(102,200,222,.16);border-color:#66C8DE}
+.pdet .wsei{background:rgba(255,255,255,.03);border-color:#2A2A5E;border-left-color:#66C8DE}
+.pdet .wsei:hover{background:rgba(102,200,222,.08)}
+.pdet .wsei b{color:#fff}.pdet .wsei span{color:#9AA0C4}
+.pdet .po-foot{border-top-color:#23234F}
+.pdet .xlink{color:#66C8DE}
+.pdet .xbtn.ghost{background:#1C1C48;color:#E8EAF6;border:1px solid #2E2E62}
+.pdet .pli{background:rgba(255,255,255,.03);border-color:#26265A;color:#E8EAF6}
+.pdet .pli:hover{background:rgba(255,255,255,.06)}
+.pdet .pli-b span,.pdet .pli small{color:#9AA0C4}
+.pdet .pcact{border-top-color:#23234F}
+
+@media (max-width:640px){.pdet .pone{padding:18px 14px 14px!important}.pdet .po-top{flex-wrap:wrap;row-gap:6px}.pdet .wlate{order:5;flex-basis:100%;margin-left:0}.pdet .pcnav button{width:32px;height:32px}.pdet .wst{font-size:10.5px;padding:3px 9px}}
+
+/* ===== tudo numa tela: ficha completa ao lado do mapa ===== */
+.pgrid.focus .pdet{display:none!important}
+.pgrid.focus{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr)!important;column-gap:24px!important;align-items:start!important}
+.pgrid.focus .pside{position:sticky;top:76px;margin-top:0!important;container-type:inline-size}
+.pside .pone{max-height:calc(100vh - 96px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:#2E2E62 transparent;
+  background:linear-gradient(180deg,#14143A,#101030)!important;color:#E8EAF6;border:1px solid #26265A;border-radius:18px;padding:16px 20px 12px!important;box-shadow:0 20px 50px rgba(0,0,0,.35)!important;position:relative}
+.pside .pone::before{height:3px!important}
+.pside .po-top{margin-bottom:8px}
+.pside .whd{gap:12px}
+.pside .whd-ic{width:40px;height:40px;border-radius:11px;background:rgba(102,200,222,.1);color:#66C8DE;box-shadow:inset 0 0 0 1px rgba(102,200,222,.25)}
+.pside .whd-ic svg{width:20px;height:20px}
+.pside .po-h{font-size:21px!important;color:#fff!important}
+.pside .po-sub{font-size:13.5px!important;color:#C4C9E2!important;line-height:1.4}
+.pside .wref{margin:6px 0 0 52px;padding-bottom:10px;font-size:11.5px;color:#8E93B5;border-bottom-color:#23234F!important;gap:4px 14px}
+.pside .wresp b{color:#E8EAF6}
+.pside .wimp{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:10px 0 0;padding:10px 0;border-bottom:1px solid #23234F}
+.pside .wimp small{display:block;font-size:10px;font-weight:900;letter-spacing:.14em;color:#B5E622;text-transform:uppercase;margin-bottom:2px}
+.pside .wimp .po-p{font-size:13px;line-height:1.45;color:#D6D9EA}
+.pside .wfacts{gap:6px;margin:10px 0}
+.pside .wf{padding:7px 9px;gap:8px;border-radius:10px;background:rgba(255,255,255,.035);border-color:#23234F}
+.pside .wf-ic{width:26px;height:26px;border-radius:7px;background:#1C1C48;color:#6A6E89;box-shadow:none}
+.pside .wf-ic svg{width:14px;height:14px}
+.pside .wf.on .wf-ic{background:linear-gradient(135deg,#009FC2,#66C8DE);color:#0A0A20}
+.pside .wf small{font-size:9.5px;color:#8E93B5;letter-spacing:.1em}.pside .wf b{font-size:13.5px;color:#fff}.pside .wf:not(.on) b{color:#4A4E78}
+.pside .wand{gap:8px;margin-bottom:10px}
+.pside .wa{padding:9px 11px;gap:9px;border-radius:11px;background:linear-gradient(135deg,rgba(0,159,194,.10),rgba(181,230,34,.05))}
+.pside .wa-ic{width:24px;height:24px;background:#1C1C48;color:#66C8DE;box-shadow:none}.pside .wa-ic svg{width:13px;height:13px}
+.pside .wa.nx .wa-ic,.pside .wa.nx small{color:#B5E622}
+.pside .wa small{font-size:9.5px;color:#66C8DE}
+.pside .wa p{font-size:13px;color:#F2F4FF;margin-top:1px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.pside .wa-by{font-size:11px;color:#8E93B5;margin-top:3px}
+.pside .wsec{margin-bottom:7px;font-size:10px;color:#8E93B5}.pside .wsec::after{background:#23234F}
+.pside .wgrid{gap:7px}
+.pside .wt{padding:8px 10px;gap:6px;border-radius:11px;background:rgba(255,255,255,.03);border-color:#26265A}
+.pside .wt:hover{transform:none;box-shadow:none;border-color:#3A5A8A}
+.pside .wt.is-empty{background:transparent}
+.pside .wt-ic{width:22px;height:22px;border-radius:6px;background:rgba(102,200,222,.12);color:#66C8DE}.pside .wt-ic svg{width:12px;height:12px}
+.pside .wt.is-empty .wt-ic{background:#1A1A44;color:#4A4E78}
+.pside .wt-lb{font-size:9.5px;color:#66C8DE}.pside .wt.is-empty .wt-lb{color:#6A6E89}
+.pside .wt-b,.pside .wt-b .po-p{font-size:12.5px;color:#D6D9EA;line-height:1.4}
+.pside .wempty{font-size:12px;color:#4A4E78}.pside .wadd{color:#B5E622;font-size:12px}
+.pside .po-more{color:#66C8DE;font-size:11.5px}
+.pside .wlink{font-size:12px;padding:4px 9px;background:rgba(102,200,222,.08);border-color:rgba(102,200,222,.3);color:#66C8DE}
+.pside .wsei{padding:4px 9px;background:rgba(255,255,255,.03);border-color:#2A2A5E;border-left-color:#66C8DE}
+.pside .wsei b{font-size:12px;color:#fff}.pside .wsei span{font-size:11px;color:#9AA0C4}
+.pside .wlist{gap:4px}
+.pside .po-foot{margin-top:10px;padding-top:10px;border-top-color:#23234F}
+.pside .xlink{color:#66C8DE;font-size:13px}
+.pside .xbtn{padding:7px 12px;font-size:12.5px}
+.pside .xbtn.ghost{background:#1C1C48;color:#E8EAF6;border:1px solid #2E2E62}
+.pside .pcnav button{width:30px;height:30px;font-size:16px;background:#1C1C48;border-color:#2E2E62;color:#E8EAF6}
+.pside .pcnav .pclose{background:#fff;color:#0A0A20;border-color:#fff}
+.pside .pone .po-top .xn{background:#B5E622;color:#0A0A20}
+.pside .wst{font-size:10px;padding:3px 9px;background:rgba(102,200,222,.12)!important;color:#66C8DE!important}
+.pside .wst.st-ag{background:rgba(245,184,46,.14)!important;color:#F5B82E!important}
+.pside .wst.st-el,.pside .wst.st-ok{background:rgba(181,230,34,.12)!important;color:#B5E622!important}
+.pside .wst.st-idle{background:rgba(255,255,255,.06)!important;color:#9AA0C4!important}
+.pside .wst.st-an{background:rgba(120,160,255,.14)!important;color:#9DB8FF!important}
+.pside .wlate{color:#FF9E93;font-size:11px}
+.pside .pli{background:rgba(255,255,255,.03);border-color:#26265A;color:#E8EAF6;padding:7px 10px}
+.pside .pli-b b{font-size:13.5px}.pside .pli-b span,.pside .pli small{color:#9AA0C4;font-size:12px}
+.pside .pcact{border-top-color:#23234F}
+.pside .plist{gap:6px}
+.pside .po-sub[style]{margin-bottom:8px!important}
+@container (max-width:560px){.pside .wfacts{grid-template-columns:1fr 1fr}.pside .wgrid{grid-template-columns:1fr 1fr}.pside .wt.res{grid-column:span 2}.pside .wimp{grid-template-columns:1fr}}
+@media (max-width:900px){.pgrid.focus .pside{position:static}.pside .pone{max-height:none;overflow:visible}}
+
+.pres.p1{gap:14px;padding-bottom:12px}
+.pres.p1 .psys-foot{display:none}
+.pres.p1 .phead .ph2{margin-top:2px}
+.pside .pone{max-height:calc(100vh - 186px)}
+.pgrid.focus .pside{top:80px}
+@media (max-width:900px){.pres.p1 .psys-foot{display:flex}}
+
+@container (max-width:760px){.porb-in .pnd{width:13em!important;height:2.9em!important}.porb-in .pnd-b small{display:none!important}}
+@container (max-width:560px){.porb-in .pnd{width:11em!important}}
+
+@container (max-width:760px){.porb-in .pnd{height:auto!important;min-height:2.9em;padding:.4em .8em .4em .6em!important}.porb-in .pnm{white-space:normal!important;overflow:visible!important;line-height:1.15}}
+.pgrid.focus{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)!important}
 </style>
 
 </head>
 <body>
 <header class="top">
   <div class="top-in">
-    <div class="brand" id="brand"><div class="mk"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></div><div><b>Hub GD · DISCO</b><small>Grupo Energisa</small></div></div>
+    <div class="brand" id="brand"><div class="mk"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></div><div><b>Hub GD e DISCO</b><small>Grupo Energisa</small></div></div>
     <nav class="tnavs" aria-label="Seções"><a class="tnav" href="#executivo" data-sec="exec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg><span>Apresentação</span><i></i></a><a class="tnav" href="#visao-geral" data-sec="inicio"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Visão geral</span><i></i></a><a class="tnav" href="#mapa" data-sec="mapa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4.5"/><circle cx="20.5" cy="9.5" r="1.4" fill="currentColor"/></svg><span>Mapa</span><i></i></a><a class="tnav" href="#visao-geral" data-sec="painel"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg><span>Painel gerencial</span><i></i></a><a class="tnav" href="#visao-geral" data-sec="prazos"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>Prazos</span><i></i></a><a class="tnav" href="#visao-geral" data-sec="atividade"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></svg><span>Atividade</span><i></i></a></nav>
     <div class="top-r">
       <button class="btn cta sm edit-only" id="btnNew">+ Atualização <span class="kbd">N</span></button>
@@ -1066,7 +1480,7 @@ body.exec-mode .pres{min-height:100vh;padding-top:0}
   <div class="foot-in">
     <nav class="flinks"><a href="#visao-geral" data-sec="inicio"><i></i>Visão geral</a><a href="#mapa" data-sec="mapa"><i></i>Mapa</a><a href="#visao-geral" data-sec="painel"><i></i>Painel gerencial</a><a href="#visao-geral" data-sec="prazos"><i></i>Prazos</a><a href="#visao-geral" data-sec="atividade"><i></i>Atividade</a></nav>
     <div class="fright">
-      <div class="fbrand"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg><span>Hub GD · DISCO</span></div>
+      <div class="fbrand"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg><span>Hub GD e DISCO</span></div>
       <span class="fmail"><span class="fic"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span><span class="fm">conformidade.regulatoria@energisa.com.br</span></span>
       <p class="fcopy">© 2026 Grupo Energisa · Regulação (Conformidade). Uso interno.</p>
     </div>
@@ -1106,13 +1520,16 @@ body.exec-mode .pres{min-height:100vh;padding-top:0}
 "use strict";
 /* ================== Configuração ================== */
 const TEMAS=[
-  {id:"cp33",sigla:"CP 33/2026"},{id:"erag",sigla:"ERAG"},{id:"sandbox",sigla:"Sandbox Regulatório"},
-  {id:"art28",sigla:"Art. 28 REN 1.000"},{id:"tarifabranca",sigla:"Tarifa Branca"},{id:"excedente",sigla:"Plano de Excedente"},
+  {id:"cp33",sigla:"CP 33/2026 – RED"},{id:"erag",sigla:"ERAG"},{id:"sandbox",sigla:"Sandbox Regulatório"},
+  {id:"art28",sigla:"CP xx – Comercialização de MMGD"},{id:"tarifabranca",sigla:"Tarifa Hora Certa"},{id:"excedente",sigla:"Plano de Gestão de Excedentes"},
+  {id:"cp09",sigla:"CP 09/26 – Tratamento de excedentes"},{id:"valoracao",sigla:"CP xx – Valoração de custos e benefícios da MMGD"},{id:"eletromob",sigla:"CP 042/25 – Eletromobilidade e conexão à rede de distribuição"},
 ];
 const FIELDS=[
+  ["capa","Objeto — texto da capa (repete no mapa e na ficha)","long"],["impDisco","Impacto DISCO (resumo do mapa)","long"],["impRE","Impacto (RE) Energisa (resumo do mapa)","long"],
+  ["linkOnePage","Link do One Page","text"],["linkContribDoc","Contribuição Energisa — link do documento","text"],["linkContribApres","Contribuição Energisa — link da apresentação","text"],["linkResultado","Resultado — link","text"],
   ["nome","Tema","text"],["responsavel","Responsável / área","resp"],["membros","Equipe do processo","team"],["status","Status","status"],["prazo","Próximo prazo","date"],
   ["norma","Norma base","long"],["processo","Processo SEI / referência","long"],["ligacaoGD","Ligação com GD","long"],
-  ["oQueE","Resumo lateral — O que é","long"],["risco","Resumo lateral — Risco","long"],["impactaCurto","Resumo lateral — O que impacta","long"],["resultado","Resumo lateral — Resultado / situação","long"],["impacto","Impacto para a distribuidora","long"],["impactoEnergisa","Impacto para a (RE) Energisa","long"],["tema","Tema em debate (one-page)","long"],["topicos","Temas e subtemas (um por linha: Título | texto)","long"],["marcos","Datas-chave (um por linha: Rótulo | valor | nota)","long"],["conexoes","Conexões (um por linha: Título | códigos | texto)","long"],["implementacao","Prazo de implementação (um por linha: Rótulo | texto)","long"],["fontes","Fontes","long"]
+  ["oQueE","Resumo lateral — O que é","long"],["risco","Resumo lateral — Risco","long"],["impactaCurto","Resumo lateral — O que impacta","long"],["resultado","Resumo lateral — Resultado / situação","long"],["impacto","Impacto para a distribuidora","long"],["impactoEnergisa","Impacto para a (RE) Energisa","long"],["tema","Tema em debate (one-page)","long"],["topicos","Temas e subtemas (um por linha: Título | texto)","long"],["marcos","Abertura / Prazo total / Encerramento / Envio (um por linha: Rótulo | valor | nota)","long"],["conexoes","Conexões (um por linha: Título | códigos | texto)","long"],["implementacao","Prazo de implementação (um por linha: Rótulo | texto)","long"],["fontes","Fontes","long"]
 ];
 const STATUS_OPTS=["A preencher","Em monitoramento","Em análise","Contribuição em elaboração","Aguardando ANEEL","Contribuições encerradas","Concluído"];
 const TEMPLATES=["Reunião realizada com ","ANEEL publicou ","Aguardando retorno da ANEEL sobre ","Contribuição enviada: ","Sem novidades no período."];
@@ -1263,14 +1680,14 @@ function focusTask(){if(!pendingFocus)return;const li=document.querySelector(`li
   li.scrollIntoView({behavior:"smooth",block:"center"});li.classList.add("flash");setTimeout(()=>li.classList.remove("flash"),2600);}
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeDrawer();});
 /* ================== Render ================== */
-function render(anim,keepSide){if(route.view==="tema")seiClosed.delete(route.id);if(!keepSide)renderSide();setTimeout(()=>{focusTask();document.querySelectorAll("table").forEach(t=>{const hs=[...t.querySelectorAll("thead th")].map(h=>h.textContent);t.querySelectorAll("tbody tr").forEach(r=>[...r.children].forEach((td,i)=>td.setAttribute("data-label",hs[i]||"")));});setActiveNav();if(pendingSec&&route.view==="geral"){const s2=pendingSec;pendingSec=null;scrollToSec(s2);}},30);$(".content").classList.toggle("wide",route.view==="mapa");const v=$("#view");v.innerHTML="";document.body.classList.toggle("exec-mode",route.view==="exec");if(route.view!=="exec")exStop();const n=route.view==="tema"?viewTema(route.id):route.view==="mapa"?viewMapa(anim):route.view==="exec"?viewExec(anim):viewGeral();if(anim&&route.view!=="mapa"&&route.view!=="exec")n.classList.add("rise");v.appendChild(n);}
+function render(anim,keepSide){if(route.view==="tema")seiClosed.delete(route.id);if(!keepSide)renderSide();setTimeout(()=>{focusTask();document.querySelectorAll("table").forEach(t=>{const hs=[...t.querySelectorAll("thead th")].map(h=>h.textContent);t.querySelectorAll("tbody tr").forEach(r=>[...r.children].forEach((td,i)=>td.setAttribute("data-label",hs[i]||"")));});setActiveNav();if(pendingSec&&route.view==="geral"){const s2=pendingSec;pendingSec=null;scrollToSec(s2);}},30);$(".content").classList.toggle("wide",route.view==="mapa");const v=$("#view");v.innerHTML="";document.body.classList.toggle("exec-mode",route.view==="exec");setTimeout(()=>typeof pbackUpd==="function"&&pbackUpd(),60);if(route.view!=="exec")exStop();const n=route.view==="tema"?viewTema(route.id):route.view==="mapa"?viewMapa(anim):route.view==="exec"?viewExec(anim):viewGeral();if(anim&&route.view!=="mapa"&&route.view!=="exec")n.classList.add("rise");v.appendChild(n);}
 let q=false;
 function scheduleRender(){if(q)return;q=true;requestAnimationFrame(()=>{q=false;refreshDatalist();const a=document.activeElement;if(a&&a.classList&&a.classList.contains("sei-in")){render(false,true);return;}if((a&&/INPUT|TEXTAREA|SELECT/.test(a.tagName)&&$("#view").contains(a))||editField){if(seiAddOpen===null)renderSide();return;}render(false);});}
 
 function renderSide(){
   const s=$("#side");s.innerHTML="";
   s.appendChild(el("button",{class:"nav-item"+(route.view==="geral"?" on":""),onclick:()=>go("geral")},el("span",{class:"hub"}),el("span",{class:"nm",text:"Visão geral"})));
-  s.appendChild(el("button",{class:"nav-item"+(route.view==="mapa"?" on":""),onclick:()=>go("mapa")},el("span",{class:"hub",style:"background:#0F172A"}),el("span",{class:"nm",text:"Mapa GD · DISCO"})));
+  s.appendChild(el("button",{class:"nav-item"+(route.view==="mapa"?" on":""),onclick:()=>go("mapa")},el("span",{class:"hub",style:"background:#0F172A"}),el("span",{class:"nm",text:"Mapa GD e DISCO"})));
   s.appendChild(el("div",{class:"nav-label row",style:"justify-content:space-between"},"Processos",
     el("button",{class:"sei-toggle-all",onclick:()=>{const allOpen=TEMAS.every(t=>!seiClosed.has(t.id));TEMAS.forEach(t=>allOpen?seiClosed.add(t.id):seiClosed.delete(t.id));renderSide();}},TEMAS.every(t=>!seiClosed.has(t.id))?"recolher todos":"expandir todos")));
   TEMAS.forEach(t=>{const m=lastMov(t.id),f=fresh(t.id),n=seiItems(t.id).length,open=!seiClosed.has(t.id),cur=route.view==="tema"&&route.id===t.id;
@@ -1341,7 +1758,7 @@ function autoSummary(){
   const late=TEMAS.flatMap(t=>acoes[t.id].filter(a=>a.status!=="Concluída"&&a.prazo&&a.prazo<today).map(a=>`${sigla(t.id)}: ${a.descricao} (prazo ${fmtDay(a.prazo)})`));
   return{lines,stale,late};
 }
-function summaryText(){const s=autoSummary();let t=`Hub GD · DISCO — resumo em ${new Date().toLocaleDateString("pt-BR")}\n\n`+s.lines.map(l=>"• "+l).join("\n");
+function summaryText(){const s=autoSummary();let t=`Hub GD e DISCO — resumo em ${new Date().toLocaleDateString("pt-BR")}\n\n`+s.lines.map(l=>"• "+l).join("\n");
   if(s.stale.length)t+=`\n\nPrecisam de atualização: ${s.stale.join(", ")}.`;if(s.late.length)t+=`\nAções atrasadas:\n`+s.late.map(l=>"• "+l).join("\n");return t;}
 
 /* ================== Visão geral ================== */
@@ -1366,14 +1783,14 @@ function viewGeral(){
   const w7=all.filter(m=>daysAgo(m.criadoEm)<=7).length;
   parts.push(`${w7} movimentaç${w7===1?"ão":"ões"} nesta semana`);
   const hasDemo=TEMAS.some(t=>movs[t.id].some(m=>m.demo));
-  if(hasDemo&&!isLocal)w.appendChild(el("div",{class:"demo-note",text:"Exibindo dados de exemplo (pessoas e registros fictícios) para teste do layout."}));
-  w.appendChild(el("div",{class:"page-head",style:"margin-bottom:20px;align-items:center"},el("div",{},el("h1",{text:"Visão geral GD · DISCO"}),el("p",{text:"Os processos de Geração Distribuída em painel: cards, indicadores gerenciais, prazos e atividade recente. Use o seletor para ver o mapa ilustrativo."})),
+  if(false)w.appendChild(el("div",{class:"demo-note",text:"Exibindo dados de exemplo (pessoas e registros fictícios) para teste do layout."}));
+  w.appendChild(el("div",{class:"page-head",style:"margin-bottom:20px;align-items:center"},el("div",{},el("h1",{text:"Visão geral GD e DISCO"}),el("p",{text:"Os processos de Geração Distribuída em painel: cards, indicadores gerenciais, prazos e atividade recente. Use o seletor para ver o mapa ilustrativo."})),
     el("div",{class:"actions"},viewToggle("geral"))));
   const hero=el("section",{class:"fx-hero rise"});
   hero.appendChild(el("div",{class:"fx-bg"}));hero.appendChild(el("div",{class:"fx-ov"}));hero.appendChild(fxWaves());
   const alert=att.length||late.length;
   hero.appendChild(el("div",{class:"fx-in"},
-    el("h1",{},`${greet()}${first?", "+first:""}`,el("br"),"acompanhe o ",el("span",{class:"a",text:"Hub GD · DISCO"})),
+    el("h1",{},`${greet()}${first?", "+first:""}`,el("br"),"acompanhe o ",el("span",{class:"a",text:"Hub GD e DISCO"})),
     el("p",{text:"Os processos regulatórios de Geração Distribuída em um só lugar: quem atualizou, quando, o que mudou e o que está pendente."}),
     el("div",{class:"fx-pill"+(alert?" alert":"")},el("i"),parts.join(" · ").replace(/^./,c=>c.toUpperCase())+"."),
     el("div",{class:"fx-act"},el("button",{class:"fx-btn",onclick:()=>go("mapa")},"Ver mapa ilustrativo",fxArrow()),el("button",{class:"fx-btn",onclick:async()=>{try{await navigator.clipboard.writeText(summaryText());toast("Resumo copiado — cole no Teams ou no e-mail.");}catch(e){toast("Não foi possível copiar neste navegador.",true);}}},"Copiar resumo",fxArrow()),
@@ -1559,10 +1976,13 @@ const IC={
   art28:'<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
   tarifabranca:'<circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/>',
   excedente:'<rect width="16" height="10" x="2" y="7" rx="2"/><line x1="22" x2="22" y1="11" y2="13"/><path d="M6 11h4"/>',
+  eletromob:'<path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/>',
+  valoracao:'<path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>',
+  cp09:'<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
   hub:'<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>'
 };
 function lucide(name){const s2=sv("svg",{viewBox:"0 0 24 24",fill:"none",stroke:"currentColor","stroke-width":"2","stroke-linecap":"round","stroke-linejoin":"round"});s2.innerHTML=IC[name]||IC.hub;return s2;}
-/* ================== Mapa ilustrativo (GD · DISCO no centro) ================== */
+/* ================== Mapa ilustrativo (GD e DISCO no centro) ================== */
 let mapSel=null; // null = visão geral do centro
 function procStats(id){const l=acoes[id],op=l.filter(a=>a.status!=="Concluída"),m=lastMov(id);
   return{m,open:op.length,late:op.filter(a=>situacao(a).k==="late").length,soon:op.filter(a=>situacao(a).k==="soon").length,rep:l.filter(a=>repN(a)).length,
@@ -1577,7 +1997,7 @@ function viewToggle(cur){return el("div",{class:"vtoggle",role:"tablist"},
   el("button",{class:cur==="mapa"?"on":"",role:"tab",onclick:()=>{try{localStorage.setItem("hubgd_view","mapa");}catch(e){}go("mapa");}},"Mapa"));}
 function viewMapa(anim){
   const w=el("div",{class:"mapa"});
-  w.appendChild(el("div",{class:"page-head",style:"margin-bottom:20px;align-items:center"},el("div",{},el("h1",{text:"Mapa GD · DISCO"}),el("p",{text:"A Geração Distribuída no centro e os processos em órbita. Clique em um processo para ver os indicadores; clique no centro para a visão consolidada."})),
+  w.appendChild(el("div",{class:"page-head",style:"margin-bottom:20px;align-items:center"},el("div",{},el("h1",{text:"Mapa GD e DISCO"}),el("p",{text:"A Geração Distribuída no centro e os processos em órbita. Clique em um processo para ver os indicadores; clique no centro para a visão consolidada."})),
     el("div",{class:"actions"},viewToggle("mapa"))));
   const wrap=el("div",{class:"mwrap"});
   /* --- palco --- */
@@ -1594,8 +2014,8 @@ function viewMapa(anim){
       const mo=sv("animateMotion",{dur:(3+Math.random()*2).toFixed(1)+"s",repeatCount:"indefinite",path:`M${p.x},${p.y} L${cx},${cy}`});pulse.appendChild(mo);svg.appendChild(pulse);}});
   stage.appendChild(svg);
   // centro
-  const core=el("button",{class:"core"+(!mapSel?" sel":""),onclick:()=>{mapSel=null;render(false);},"aria-label":"Visão consolidada GD · DISCO"},
-    el("span",{class:"ring r1"}),el("span",{class:"ring r2"}),el("span",{class:"cin"},(()=>{const s3=sv("svg",{viewBox:"0 0 24 24",fill:"none",stroke:"currentColor","stroke-width":"2","stroke-linecap":"round","stroke-linejoin":"round"});s3.innerHTML=IC.erag;return s3;})(),el("b",{text:"GD · DISCO"}),el("small",{text:"Geração Distribuída"})));
+  const core=el("button",{class:"core"+(!mapSel?" sel":""),onclick:()=>{mapSel=null;render(false);},"aria-label":"Visão consolidada GD e DISCO"},
+    el("span",{class:"ring r1"}),el("span",{class:"ring r2"}),el("span",{class:"cin"},(()=>{const s3=sv("svg",{viewBox:"0 0 24 24",fill:"none",stroke:"currentColor","stroke-width":"2","stroke-linecap":"round","stroke-linejoin":"round"});s3.innerHTML=IC.erag;return s3;})(),el("b",{text:"GD e DISCO"}),el("small",{text:"Geração Distribuída"})));
   core.style.left=(cx/W*100)+"%";core.style.top=(cy/H*100)+"%";stage.appendChild(core);
   // nós
   pos.forEach((p,i)=>{const id=p.t.id,s2=procStats(id),tone=procTone(id),sel=mapSel===id;
@@ -1617,7 +2037,7 @@ function mapPanelGeral(){
   const p=el("aside",{class:"mpanel rise"}),acts=TEMAS.flatMap(t=>acoes[t.id].map(a=>({...a,tema:t.id}))),op=acts.filter(a=>a.status!=="Concluída");
   const late=op.filter(a=>situacao(a).k==="late"),soon=op.filter(a=>situacao(a).k==="soon"),rep=acts.filter(a=>repN(a));
   const emDia=TEMAS.filter(t=>["ok","warn"].includes(fresh(t.id))).length,w7=TEMAS.reduce((n,t)=>n+movs[t.id].filter(m=>daysAgo(m.criadoEm)<=7).length,0);
-  p.append(el("div",{class:"mph"},el("span",{class:"pic big"},lucide("erag")),el("div",{},el("h3",{text:"GD · DISCO — visão consolidada"}),el("div",{class:"muted",style:"font-size:13px",text:`${TEMAS.length} processos acompanhados`}))),
+  p.append(el("div",{class:"mph"},el("span",{class:"pic big"},lucide("erag")),el("div",{},el("h3",{text:"GD e DISCO — visão consolidada"}),el("div",{class:"muted",style:"font-size:13px",text:`${TEMAS.length} processos acompanhados`}))),
     el("div",{class:"mstats"},mstat("processos em dia",`${emDia}/${TEMAS.length}`,emDia<TEMAS.length?"warn":""),mstat("movimentações na semana",w7),
       mstat("fora do prazo",late.length,late.length?"bad":"",late.length?()=>openTasks(a=>a.status!=="Concluída"&&situacao(a).k==="late","Fora do prazo — todos os processos"):null),
       mstat("vencem em 7 dias",soon.length,soon.length?"warn":"",soon.length?()=>openTasks(a=>a.status!=="Concluída"&&situacao(a).k==="soon","Vencem em 7 dias"):null),
@@ -1670,43 +2090,44 @@ function mapPanelProc(id){
 let exSel=null,exPlay=null,exPage=0;
 function exTone(id){const s2=procStats(id);if(s2.late)return"bad";const f=fresh(id);if(s2.soon||f==="warn")return"warn";if(f==="bad"||f==="none")return"idle";return"ok";}
 function exStop(){if(exPlay){clearInterval(exPlay);exPlay=null;const b=document.querySelector(".pplay");if(b)b.textContent="▶ Tocar";}}
-const EX_SHORT={cp33:"CP 33",erag:"ERAG",sandbox:"Sandbox",art28:"Art. 28",tarifabranca:"Tarifa Branca",excedente:"Excedente"};
+const EX_SHORT={cp33:"RED",erag:"ERAG",sandbox:"Sandbox · MAI",art28:"Comercialização MMGD",tarifabranca:"Hora Certa",excedente:"Gestão de Excedentes",cp09:"Excedentes",valoracao:"Custos e Benefícios",eletromob:"Eletromobilidade"};
+const EX_CODE={cp33:"CP 33/26",art28:"CP xx",cp09:"CP 09/26",valoracao:"CP xx",eletromob:"CP 42/25"};
 const EX_PAGES=["Capa","Mapa"];
 function exNum(id){return TEMAS.findIndex(t=>t.id===id)+1;}
-function exPageGo(p,sel){exStop();pmTipHide();exPage=Math.max(0,Math.min(EX_PAGES.length-1,p));exSel=sel===undefined?(exPage===1?exSel:null):sel;render(true);window.scrollTo({top:0});}
+function exPageGo(p,sel){exStop();closeSheet();pmTipHide();exPage=Math.max(0,Math.min(EX_PAGES.length-1,p));exSel=sel===undefined?(exPage===1?exSel:null):sel;render(true);window.scrollTo({top:0});}
 function exAllOpen(){return TEMAS.flatMap(t=>acoes[t.id].map(a=>({...a,tema:t.id}))).filter(a=>a.status!=="Concluída");}
 function lastResumo(id){const l=[...movs[id]].sort((a,b)=>(b.criadoEm||"").localeCompare(a.criadoEm||""));return l.find(m=>(m.tipo||"resumo")==="resumo")||l[0];}
 
 /* ---------- página 1: capa ---------- */
-const EX_DESC={cp33:"Consulta Pública 33/2026 — novo Módulo 3 do PRODIST (RED)",erag:"Envolve GD e sistema",sandbox:"Sandbox regulatório — ambiente experimental supervisionado pela ANEEL",art28:"REN 1.000/2021, art. 28 — titularidade de uma ou mais instalações",tarifabranca:"Modalidade tarifária horária branca (Hora Certa)",excedente:"Plano de Excedente de GD"};
+const EX_DESC={cp33:"Consulta Pública 033/26 – RED. Conceito único de RED: observabilidade, operabilidade e controlabilidade da MMGD.",erag:"Desconexão automática por proteção de sobrefrequência.",sandbox:"Mecanismo de Acionamento Intermediado (MAI). Interface ONS/DSO.",art28:"Aplicação do art. 28 da Lei 14.300/22, que caracteriza a MMGD como forma de produção de energia elétrica destinada ao consumo próprio.",tarifabranca:"Aplicação automática de tarifa horária para os consumidores de baixa tensão dos subgrupos B1 (residencial), B2 (rural) e B3 (comercial, industrial, outros) com consumo mensal igual ou superior a 1 MW.",excedente:"Redução de usinas Tipo III em situação de excedentes.",cp09:"Fortalecimento do papel da distribuidora na operação da rede.",valoracao:"Impactos MMGD; soluções para acomodação da MMGD.",eletromob:"Integração da eletromobilidade ao sistema elétrico, conciliando expansão da infraestrutura de recarga, planejamento da rede e competição equilibrada no mercado."};
+const capaTxt=id=>((fichas[id]||{}).capa)||EX_DESC[id]||((fichas[id]||{}).nome)||"";
 function exCapa(){
   const w=el("section",{class:"pcapa"});
   const fx=el("div",{class:"pband","aria-hidden":"true"});fx.appendChild(fxWaves());
   w.append(
     el("div",{class:"pcapa-in"},
-      el("div",{class:"xeyebrow",text:"ENERGISA · REGULAÇÃO (CONFORMIDADE)"}),
-      el("h1",{class:"pcapa-h"},"Hub ",el("span",{class:"g",text:"GD · DISCO"})),fx,
-      el("p",{class:"pcapa-l",text:"Um só lugar para acompanhar os processos regulatórios que afetam a Geração Distribuída e o papel da distribuidora (DISCO). Cada responsável atualiza o seu processo; aqui fica o resumo para todos."})),
+      el("div",{class:"xeyebrow",text:"ENERGISA · VPR · DREG · GRTC"}),
+      el("h1",{class:"pcapa-h"},"Hub ",el("span",{class:"g",text:"GD e DISCO"})),fx,
+      el("p",{class:"pcapa-l",text:"Um só lugar para acompanhar os processos regulatórios que impactam a micro e minigeração distribuída (MMGD) e a atuação das distribuidoras (DISCO)."})),
     el("div",{class:"psec",text:"COMO FUNCIONA O HUB"}),
     el("div",{class:"phow"},...[["1","Cada um atualiza o seu","O responsável registra andamentos, documentos, prazos e de quem depende — sem precisar escolher o processo."],
       ["2","O mapa mostra o todo","A GD fica no centro e os processos em volta. Clicando em cada um, aparece o resumo."],
       ["3","Todos ficam por dentro","Último andamento, próximo passo e pontos de atenção de cada processo, sempre atualizados."]].map(([n,t,d])=>el("div",{class:"phw"},el("span",{class:"xn",text:n}),el("div",{},el("b",{text:t}),el("span",{text:d}))))),
-    el("div",{class:"psec",text:"OS SEIS PROCESSOS ACOMPANHADOS"}),
+    el("div",{class:"psec",text:"OS PROCESSOS ACOMPANHADOS"}),
     el("div",{class:"pprocs"},...TEMAS.map((t,i)=>{const f=fichas[t.id]||{};return el("button",{class:"pproc",onclick:()=>exPageGo(1,t.id)},
-      el("div",{class:"pproc-h"},el("span",{class:"xn",text:String(i+1)}),el("span",{class:"pnd-ic"},lucide(t.id)),el("b",{text:EX_SHORT[t.id]||sigla(t.id)})),
-      el("span",{class:"pproc-d",text:f.nome||EX_DESC[t.id]||""}),
-      f.ligacaoGD&&f.ligacaoGD.replace(/\.$/,"")!==(f.nome||EX_DESC[t.id]||"")?el("span",{class:"pproc-g"},el("i",{text:"GD "}),f.ligacaoGD):null);})),
+      el("div",{class:"pproc-h"},el("span",{class:"xn",text:String(i+1)}),el("span",{class:"pnd-ic"},lucide(t.id)),el("b",{text:sigla(t.id)})),
+      el("span",{class:"pproc-d",text:capaTxt(t.id)}));})),
     el("div",{class:"pfoot"},el("span",{class:"pmuted",text:"Clique em um processo para abrir o resumo no mapa."}),
       el("button",{class:"pcta",onclick:()=>exPageGo(1,null)},"Ver o mapa ",fxArrow())));
   return w;
 }
 
 /* ---------- página 2: mapa interativo ---------- */
-const PM={W:1000,H:560,cx:500,cy:280,rx:405,ry:215};
+const PM={W:1000,H:560,cx:500,cy:280,rx:398,ry:226};
 function pmPos(){return TEMAS.map((t,i)=>{const a=-Math.PI/2+i*2*Math.PI/TEMAS.length;return{id:t.id,x:PM.cx+Math.cos(a)*PM.rx,y:PM.cy+Math.sin(a)*PM.ry};});}
 function exMapa(anim){
   const w=el("section",{class:"pmapa"});
-  w.appendChild(el("div",{class:"phead"},el("div",{},el("div",{class:"xeyebrow",text:"MAPA · A GD NO CENTRO"}),el("h2",{class:"ph2",text:"Clique em um processo para ver o resumo"})),
+  w.appendChild(el("div",{class:"phead"},el("div",{},el("div",{class:"xeyebrow",text:"MAPA · CLIQUE EM UM PROCESSO PARA VER O RESUMO"}),el("h2",{class:"ph2",text:"GD e DISCO: no centro das decisões regulatórias"})),
     el("button",{class:"pplay",onclick:()=>{if(exPlay){exStop();return;}exCycle(1);exPlay=setInterval(()=>exCycle(1),7000);document.querySelector(".pplay").textContent="❚❚ Pausar";}},"▶ Tocar")));
   const grid=el("div",{class:"pgrid"+(exSel?" focus":"")});
   const orb=el("div",{class:"porb"+(anim?" enter":"")}),inner=el("div",{class:"porb-in"});
@@ -1716,25 +2137,27 @@ function exMapa(anim){
   pmPos().forEach(p=>{const tone=exTone(p.id);const ln=sv("line",{x1:PM.cx,y1:PM.cy,x2:p.x,y2:p.y,class:"pflow t-"+tone,"data-id":p.id});svg.appendChild(ln);
     if(procStats(p.id).m30){const d=sv("circle",{r:4,class:"pdot t-"+tone,"data-id":p.id});d.appendChild(sv("animateMotion",{dur:(3+Math.random()*2).toFixed(1)+"s",repeatCount:"indefinite",path:`M${p.x},${p.y} L${PM.cx},${PM.cy}`}));svg.appendChild(d);}});
   inner.appendChild(svg);
-  const core=el("button",{class:"pcore","data-id":"core",onclick:()=>exSelect(exSel==="core"?null:"core"),"aria-label":"GD · DISCO — visão consolidada"},
-    el("span",{class:"ring r1"}),el("span",{class:"ring r2"}),el("span",{class:"pcin"},lucide("erag"),el("b",{text:"GD · DISCO"}),el("small",{text:"Geração Distribuída"})));
+  const core=el("button",{class:"pcore","data-id":"core",onclick:()=>exSelect(exSel==="core"?null:"core"),"aria-label":"GD e DISCO — visão consolidada"},
+    el("span",{class:"ring r1"}),el("span",{class:"ring r2"}),el("span",{class:"pcin"},lucide("erag"),el("b",{text:"GD e DISCO"}),el("small",{text:"Geração Distribuída"})));
   core.style.left=PM.cx/PM.W*100+"%";core.style.top=PM.cy/PM.H*100+"%";inner.appendChild(core);
   pmPos().forEach((p,i)=>{const s2=procStats(p.id),tone=exTone(p.id);
     const n=el("button",{class:"pnd t-"+tone,"data-id":p.id,onclick:()=>{exStop();exSelect(exSel===p.id?null:p.id);},"aria-label":sigla(p.id)},
-      el("span",{class:"xn",text:String(i+1)}),el("span",{class:"pnd-ic"},lucide(p.id)),
-      el("span",{class:"pnd-b"},el("b",{text:EX_SHORT[p.id]||sigla(p.id)}),el("small",{text:s2.late?`${s2.late} fora do prazo`:s2.m?rel(s2.m.criadoEm):"sem atualização"})));
+      el("span",{class:"xn",text:String(i+1)}),
+      el("span",{class:"pnd-b"},el("b",{},el("span",{class:"pnm",text:EX_SHORT[p.id]||sigla(p.id)}),el("i",{class:"sdot",title:TONE[tone].t})),el("small",{},EX_CODE[p.id]?el("i",{class:"pcode",text:EX_CODE[p.id]}):null,el("span",{class:s2.late?"plate":"",text:s2.late?`${s2.late} fora do prazo`:s2.m?rel(s2.m.criadoEm):"sem atualização"}))));
     n.style.left=p.x/PM.W*100+"%";n.style.top=p.y/PM.H*100+"%";n.style.animationDelay=(anim?150+i*70:0)+"ms";
     n.addEventListener("mouseenter",()=>pmTipShow(n,p.id));n.addEventListener("mouseleave",pmTipHide);n.addEventListener("click",pmTipHide);
     inner.appendChild(n);});
   core.addEventListener("mouseenter",()=>pmTipShow(core,"core"));core.addEventListener("mouseleave",pmTipHide);core.addEventListener("click",pmTipHide);
   orb.appendChild(inner);
-  orb.appendChild(el("div",{class:"pleg sm"},...[["ok","em dia"],["warn","atenção"],["bad","fora do prazo"],["idle","parado"]].map(([k,t])=>el("span",{},el("i",{class:k}),t))));
+  orb.appendChild(el("div",{class:"pmlist"},...TEMAS.map((t,i)=>el("button",{class:"pml t-"+exTone(t.id),"data-id":t.id,onclick:()=>{exStop();exSelect(exSel===t.id?null:t.id);}},el("span",{class:"xn",text:String(i+1)}),EX_SHORT[t.id]||sigla(t.id)))));
+  orb.appendChild(el("div",{class:"pleg sm"},...[["ok","em dia"],["warn","atenção"],["bad","fora do prazo"],["idle","parado"]].map(([k,t])=>el("span",{},el("i",{class:"sd "+k}),t))));
   grid.appendChild(orb);
   grid.appendChild(el("aside",{class:"pside"}));
   const det=el("div",{class:"pdet"});
   grid.appendChild(det);
   w.appendChild(grid);
-  setTimeout(()=>exSelect(exSel,true),0);
+  if(!document.querySelector("body>.pback"))document.body.appendChild(el("button",{class:"pback",onclick:()=>{window.scrollTo({top:0,behavior:"smooth"});},"aria-label":"Voltar ao mapa"},el("span",{class:"pback-ic",text:"↑"}),el("span",{text:"Voltar ao mapa"})));
+  setTimeout(()=>{exSelect(exSel,true);pbackUpd();},0);
   return w;
 }
 function pmCut(s,n){s=String(s||"").replace(/\s+/g," ").trim();return s.length>n?s.slice(0,n-1).replace(/\s+\S*$/,"")+"…":s;}
@@ -1746,19 +2169,19 @@ function pmTipShow(node,id){
   const t=pmTipEl();t.innerHTML="";
   if(id==="core"){const op=exAllOpen(),late=op.filter(a=>situacao(a).k==="late").length;
     t.className="ptip";
-    t.append(el("div",{class:"ptt"},el("b",{text:"GD · DISCO"}),el("span",{class:"ptone",text:"visão consolidada"})),
+    t.append(el("div",{class:"ptt"},el("b",{text:"GD e DISCO"}),el("span",{class:"ptone",text:"visão consolidada"})),
       el("div",{class:"ptx",text:`${TEMAS.length} processos acompanhados · ${op.length} pendência${op.length===1?"":"s"} em aberto${late?`, ${late} fora do prazo`:""}.`}),
       el("div",{class:"pthint",text:"Clique para ver o resumo de todos"}));}
   else{const f=fichas[id]||{},s2=procStats(id),tone=exTone(id),m=lastResumo(id);
     const op=acoes[id].filter(a=>a.status!=="Concluída").sort((a,b)=>situacao(a).o-situacao(b).o||(a.prazo||"9").localeCompare(b.prazo||"9"));const next=op.find(a=>a.prazo)||op[0];
     t.className="ptip t-"+tone;
-    t.append(el("div",{class:"ptt"},el("b",{text:sigla(id)}),el("span",{class:"ptone",text:f.status||"A preencher"})),
-      f.nome?el("div",{class:"ptn",text:pmCut(f.nome,90)}):null,
+    t.append(...[el("div",{class:"ptt"},el("b",{text:sigla(id)}),el("span",{class:"ptone",text:f.status||"A preencher"})),
+      capaTxt(id)?el("div",{class:"ptn",text:pmCut(capaTxt(id),110)}):null,
       el("div",{class:"ptl",text:"Último andamento"+(m?" · "+rel(m.criadoEm):"")}),
       el("div",{class:"ptx",text:m?pmCut(m.texto,170):"Nenhuma atualização registrada ainda."}),
       next?el("div",{},el("div",{class:"ptl",text:"Próximo passo"+(next.prazo?" · "+fmtDay(next.prazo):"")}),el("div",{class:"ptx",text:pmCut(next.descricao,110)})):null,
       el("div",{class:"ptm"},el("span",{},el("b",{text:String(s2.open)})," em aberto"),el("span",{},"Resp. ",el("b",{text:f.responsavel||"a definir"}))),
-      el("div",{class:"pthint",text:"Clique para abrir o resumo completo"}));}
+      el("div",{class:"pthint",text:"Clique para abrir o resumo completo"})].filter(Boolean));}
   t.classList.remove("show");
   const nr=node.getBoundingClientRect(),coreEl=document.querySelector(".pcore"),cr=coreEl?coreEl.getBoundingClientRect():nr;
   const w=t.offsetWidth,h=t.offsetHeight,vw=innerWidth,vh=innerHeight,m=10,top0=74,g=14;
@@ -1777,33 +2200,39 @@ function pmTipShow(node,id){
   t.style.left=Math.round(c.l)+"px";t.style.top=Math.round(c.fit?c.tp:clampY(c.tp))+"px";
   requestAnimationFrame(()=>{if(node.matches(":hover"))t.classList.add("show");});
 }
+function pbackUpd(){const b=document.querySelector(".pback"),d=route.view==="exec"&&exPage===1&&exSel?document.querySelector(".pgrid.focus .pdet"):null;if(!b)return;b.classList.toggle("show",!!(d&&d.getBoundingClientRect().top<innerHeight*.55));}
+window.addEventListener("scroll",pbackUpd,{passive:true});window.addEventListener("resize",pbackUpd);
+function sheetEl(){return document.getElementById("psheet");}
+function fillSheet(){const s=sheetEl();if(!s)return;const box=s.querySelector(".psheet-in");box.innerHTML="";if(!exSel){closeSheet();return;}box.appendChild(exSel==="core"?exDetGD():exDetProc(exSel));}
+function openSheet(){if(!exSel)return;let s=sheetEl();if(!s){s=el("div",{id:"psheet",class:"psheet",role:"dialog","aria-modal":"true","aria-label":"Ficha completa",onclick:e=>{if(e.target===s||e.target.classList.contains("psheet-wrap"))closeSheet();}},el("div",{class:"psheet-wrap"},el("div",{class:"psheet-in"})));document.body.appendChild(s);}
+  fillSheet();s.scrollTop=0;document.body.classList.add("sheet-open");requestAnimationFrame(()=>s.classList.add("show"));}
+function closeSheet(){const s=sheetEl();if(!s){exStop();exSelect(null);window.scrollTo({top:0,behavior:"smooth"});return;}s.classList.remove("show");document.body.classList.remove("sheet-open");setTimeout(()=>{if(!s.classList.contains("show"))s.remove();},320);}
 function exCycle(d){const ids=TEMAS.map(t=>t.id);let i=ids.indexOf(exSel);i=i<0?(d>0?0:ids.length-1):(i+d+ids.length)%ids.length;exSelect(ids[i]);}
 function exSelect(id,silent){
   exSel=id;pmTipHide();const grid=document.querySelector(".pgrid");if(!grid)return;
   grid.classList.toggle("focus",!!id);
   grid.querySelectorAll("[data-id]").forEach(n=>{const k=n.getAttribute("data-id");n.classList.toggle("sel",!!id&&k===id);n.classList.toggle("dim",!!id&&id!=="core"&&k!==id&&k!=="core");});
   const det=grid.querySelector(".pdet"),side=grid.querySelector(".pside");det.innerHTML="";if(side)side.innerHTML="";
-  if(id){det.appendChild(id==="core"?exDetGD():exDetProc(id));if(side){const was=side.dataset.open==="1";side.classList.toggle("swap",was);side.appendChild(exSide(id));if(was)[...side.firstChild.children].forEach((c,k)=>c.style.setProperty("--i",k));side.dataset.open="1";}}else if(side)side.dataset.open="";
+  if(id){if(side){const was=side.dataset.open==="1";side.classList.toggle("swap",was);side.appendChild(id==="core"?exDetGD():exDetProc(id));if(was)[...side.firstChild.children].forEach((c,k)=>c.style.setProperty("--i",k));side.dataset.open="1";}}else if(side)side.dataset.open="";setTimeout(pbackUpd,50);
 }
 function exSide(id){
-  const goDet=()=>{const d=document.querySelector(".pdet");if(d)window.scrollTo({top:d.getBoundingClientRect().top+scrollY-84,behavior:"smooth"});};
+  const goDet=()=>{exStop();const d=document.querySelector(".pdet");if(d){const r=d.getBoundingClientRect();if(r.top>innerHeight*.7)window.scrollTo({top:r.top+scrollY-90,behavior:"smooth"});d.classList.remove("pulse");void d.offsetWidth;d.classList.add("pulse");}};
   const nav=el("span",{class:"pcnav"},...(id==="core"?[]:[el("button",{"aria-label":"Anterior",onclick:()=>{exStop();exCycle(-1);}},"‹"),el("button",{"aria-label":"Próximo",onclick:()=>{exStop();exCycle(1);}},"›")]),el("button",{class:"pclose","aria-label":"Fechar",onclick:()=>{exStop();exSelect(null);}},"×"));
   const item=(lb,tx)=>tx?el("div",{class:"ps-it"},el("small",{text:lb}),el("p",{text:pmCut(tx,230)})):null;
   if(id==="core"){const op=exAllOpen();
-    return el("div",{class:"ps-card"},el("div",{class:"ps-top"},el("span",{class:"ps-eb",text:"Visão consolidada"}),nav),el("h3",{text:"GD · DISCO"}),
-      item("O que é","Hub que reúne os processos regulatórios ligados à Geração Distribuída e ao papel da distribuidora como operadora da rede (DSO)."),
+    return el("div",{class:"ps-card"},el("div",{class:"ps-top"},el("span",{class:"ps-eb",text:"Visão consolidada"}),nav),el("h3",{text:"GD e DISCO"}),
+      item("O que é","Um só lugar para acompanhar os processos regulatórios que impactam a micro e minigeração distribuída (MMGD) e a atuação das distribuidoras (DISCO)."),
       item("Processos",TEMAS.map(t=>sigla(t.id)).join(" · ")),
       item("Situação",`${TEMAS.length} processos acompanhados · ${op.length} pendência${op.length===1?"":"s"} em aberto.`),
-      el("button",{class:"ps-go",onclick:goDet},"Ver resumo de todos ↓"));}
+      el("button",{class:"ps-go",onclick:goDet},"Ver resumo de todos"));}
   const f=fichas[id]||{},m=lastResumo(id),i=exNum(id);
   return el("div",{class:"ps-card"},
     el("div",{class:"ps-top"},el("span",{class:"xn",text:String(i)}),el("span",{class:"ps-eb",text:f.status||"A preencher"}),nav),
     el("h3",{text:sigla(id)}),
-    item("O que é",f.oQueE||f.tema||f.nome),
-    item("Risco",f.risco),
-    item("O que impacta",f.impactaCurto||f.impacto),
-    item("Resultado",f.resultado||(m?m.texto:"")),
-    el("button",{class:"ps-go",onclick:goDet},"Ver ficha completa ↓"));
+    item("O que é (objeto)",capaTxt(id)),
+    item("Impacto DISCO",f.impDisco||f.impactaCurto||f.impacto),
+    item("Impacto (RE) Energisa",f.impRE||f.impactoEnergisa),
+    el("button",{class:"ps-go",onclick:goDet},"Ver ficha completa"));
 }
 function pBlock(lbl,txt,cls){return txt?el("div",{class:"pblk "+(cls||"")},el("div",{class:"pbl",text:lbl}),typeof txt==="string"?el("div",{class:"pbt",text:txt}):txt):null;}
 function poLines(v){return String(v||"").split(/\n+/).map(x=>x.trim()).filter(Boolean).map(x=>x.split("|").map(y=>y.trim()));}
@@ -1811,49 +2240,122 @@ function poText(txt,lines,cls){const box=el("div",{class:"po-p po-clamp "+(cls||
   const w=el("div",{},box);const b=el("button",{class:"po-more",text:"ler mais",onclick:()=>{const open=box.classList.toggle("po-open");box.style.webkitLineClamp=open?"unset":lines;b.textContent=open?"ler menos":"ler mais";}});
   b.style.display="none";w.appendChild(b);requestAnimationFrame(()=>{if(box.scrollHeight>box.clientHeight+2)b.style.display="";});return w;}
 function poSec(lb,...kids){kids=kids.filter(Boolean);return kids.length?el("div",{class:"po-sec"},el("div",{class:"po-lb",text:lb}),...kids):null;}
+function contribList(f){if(Array.isArray(f.contrib))return f.contrib.filter(x=>x&&(x.titulo||x.link));const o=[];if(f.linkContribDoc)o.push({titulo:"Documento",link:f.linkContribDoc});if(f.linkContribApres)o.push({titulo:"Apresentação",link:f.linkContribApres});return o;}
+const isUrl=u=>/^https?:\/\//i.test(u||"");
+const ST_TONE={"A preencher":"st-idle","Em monitoramento":"st-mon","Em análise":"st-an","Contribuição em elaboração":"st-el","Aguardando ANEEL":"st-ag","Contribuições encerradas":"st-enc","Concluído":"st-ok"};
+const MI={cal:'<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/>',
+  hour:'<path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.17a2 2 0 0 0-.59-1.42L12 12l-4.41 4.41A2 2 0 0 0 7 17.83V22"/><path d="M7 2v4.17a2 2 0 0 0 .59 1.42L12 12l4.41-4.41A2 2 0 0 0 17 6.17V2"/>',
+  flag:'<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/>',
+  send:'<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',
+  clock:'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+  next:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+  page:'<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/>',
+  law:'<path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>',
+  folder:'<path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>',
+  docs:'<path d="M16 2H8a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/><path d="M4 6v14a2 2 0 0 0 2 2h10"/><path d="M10 7h4"/><path d="M10 11h4"/>',
+  award:'<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>',
+  user:'<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>'};
+function mic(k){const s=sv("svg",{viewBox:"0 0 24 24",fill:"none",stroke:"currentColor","stroke-width":"2","stroke-linecap":"round","stroke-linejoin":"round","aria-hidden":"true"});s.innerHTML=MI[k];return s;}
 function exDetProc(id){
-  const f=fichas[id]||{},m=lastResumo(id),i=exNum(id);
+  const f=fichas[id]||{},m=lastResumo(id),i=exNum(id),tone=exTone(id);
   const op=acoes[id].filter(a=>a.status!=="Concluída").sort((a,b)=>(a.prazo||"9").localeCompare(b.prazo||"9"));
-  const next=op.find(a=>a.prazo)||op[0],sei=seiItems(id);
-  let facts=poLines(f.marcos).slice(0,4);
-  if(!facts.length)facts=[["Status",f.status||"A preencher",""],["Responsável",f.responsavel||"a definir",""],["Próximo prazo",next&&next.prazo?fmtDay(next.prazo):"—",next?pmCut(next.descricao,40):"sem prazo combinado"],["Última atualização",m?fmtD(m.criadoEm):"—",m?rel(m.criadoEm):""]];
-  const tops=poLines(f.topicos),cx=poLines(f.conexoes),impl=poLines(f.implementacao);
-  const d=el("article",{class:"pone"});
+  const next=op.find(a=>a.prazo)||op[0],sei=seiItems(id),mk=poLines(f.marcos),cb=contribList(f);
+  const fact=(lb,ic)=>{const r=mk.find(x=>(x[0]||"").toLowerCase().replace(/\s+/g," ").startsWith(lb.toLowerCase()));const has=r&&r[1];
+    return el("div",{class:"wf"+(has?" on":"")},el("span",{class:"wf-ic"},mic(ic)),el("div",{class:"wf-tx"},el("small",{text:lb}),el("b",{text:has?r[1]:"—"}),r&&r[2]?el("span",{text:r[2]}):null));};
+  const chip=(t,u)=>isUrl(u)?el("a",{class:"wlink",href:u,target:"_blank",rel:"noopener"},el("span",{text:t}),el("i",{text:"↗"})):el("span",{class:"wlink off",text:t});
+  const empty=()=>el("div",{class:"wempty"},el("span",{text:"Não informado"}),canWrite?el("button",{class:"wadd edit-only",onclick:()=>{exStop();openFichaEditor(id);}},"+ incluir"):null);
+  const tile=(lb,ic,cls,...v)=>{v=v.filter(Boolean);return el("div",{class:"wt "+(cls||"")+(v.length?"":" is-empty")},el("div",{class:"wt-h"},el("span",{class:"wt-ic"},mic(ic)),el("span",{class:"wt-lb",text:lb}),v.length&&cls!=="res"?el("span",{class:"wt-n"}):null),el("div",{class:"wt-b"},...(v.length?v:[empty()])));};
+  const d=el("article",{class:"pone mini wk t-"+tone});
   d.append(...[
-    el("div",{class:"po-top"},el("span",{class:"xn",text:String(i)}),el("span",{class:"po-eb",text:`Processo ${i} de ${TEMAS.length} · ${f.status||"A preencher"}`}),
-      el("span",{class:"pcnav"},el("button",{"aria-label":"Anterior",onclick:()=>{exStop();exCycle(-1);}},"‹"),el("button",{"aria-label":"Próximo",onclick:()=>{exStop();exCycle(1);}},"›"),el("button",{class:"pclose","aria-label":"Fechar",onclick:()=>{exStop();exSelect(null);window.scrollTo({top:0,behavior:"smooth"});}},"×"))),
-    el("h3",{class:"po-h",text:sigla(id)}),
-    f.nome?el("div",{class:"po-sub",text:f.nome}):null,
-    el("div",{class:"po-ref",text:[f.processo?pmCut(f.processo,170):"",`Responsável: ${f.responsavel||"a definir"}`].filter(Boolean).join(" · ")}),
-    el("div",{class:"po-rule"}),
-    el("div",{class:"po-facts"},...facts.map(([a,b,c])=>el("div",{class:"po-fact"},el("small",{text:a||""}),el("b",{text:b||"—"}),c?el("span",{text:c}):null))),
-    el("div",{class:"po-and"},
-      el("div",{},el("small",{text:"Último andamento"+(m?" · "+rel(m.criadoEm):"")}),el("p",{text:m?pmCut(m.texto,220):"Nenhuma atualização registrada ainda."})),
-      el("div",{},el("small",{text:"Próximo passo"+(next&&next.prazo?" · "+fmtDay(next.prazo):"")}),el("p",{text:next?pmCut(next.descricao+(next.dependeTipo?` — ${next.direcao==="entregar"?"entregar para":"aguardando"} ${next.dependeDe||next.dependeTipo}`:""),220):"Sem próximo passo cadastrado."}))),
-    f.tema?poSec("Tema em debate",poText(f.tema,3)):null,
-    tops.length?poSec("Temas e subtemas",el("div",{class:"po-grid"},...tops.map(([t,x],k)=>el("div",{class:"po-top3"},el("b",{text:`${k+1}. ${t}`}),x?poText(x,2):null)))):null,
-    f.ligacaoGD?poSec("Ligação com a GD",poText(f.ligacaoGD,2)):null,
-    (f.impacto||f.impactoEnergisa)?poSec("Impactos",el("div",{class:"po-grid"},
-      f.impacto?el("div",{class:"po-imp"},el("b",{text:"Distribuidora"}),poText(f.impacto,3)):null,
-      f.impactoEnergisa?el("div",{class:"po-imp"},el("b",{text:"(RE) Energisa"}),poText(f.impactoEnergisa,3)):null)):null,
-    cx.length?poSec("Conexão com a agenda regulatória",el("div",{class:"po-cx"},...cx.map(([t,c,x])=>el("div",{},el("b",{text:t}),c?el("i",{text:c}):null,x?poText(x,2):null)))):null,
-    impl.length?poSec("Prazo de implementação",el("div",{class:"po-impl"},...impl.map(([a,b])=>el("div",{},el("b",{text:a+(b?": ":"")}),b||"")))):null,
-    f.norma?poSec("Norma base",poText(f.norma,2)):null,
-    sei.length?el("div",{class:"pseis",style:"margin-top:14px"},el("span",{class:"pbl",text:"SEI"}),...sei.slice(0,3).map(x=>el("a",{class:"xchip",href:/^https?:/.test(x.link||"")?x.link:SEI_PESQ,target:"_blank",rel:"noopener",onclick:async()=>{if(!/^https?:/.test(x.link||"")){try{await navigator.clipboard.writeText(x.numero);toast(`Número ${x.numero} copiado.`);}catch(e){}}},text:x.numero||"Link SEI"}))):null,
-    f.fontes?el("div",{class:"po-src",text:"Fontes: "+pmCut(f.fontes,240)}):null,
-    el("div",{class:"po-foot"},el("button",{class:"xlink",onclick:()=>window.scrollTo({top:0,behavior:"smooth"})},"↑ voltar ao mapa"),
-      el("span",{class:"row",style:"gap:8px"},el("button",{class:"xbtn ghost",onclick:()=>{exStop();go("tema",id);}},"Abrir processo"),el("button",{class:"xbtn edit-only",onclick:()=>{exStop();openModal(id);}},"+ Atualização")))].filter(Boolean));
+    el("div",{class:"po-top"},el("span",{class:"xn",text:String(i)}),el("span",{class:"wst "+(ST_TONE[f.status||"A preencher"]||"st-idle"),text:f.status||"A preencher"}),(()=>{const lt=acoes[id].filter(a=>a.status!=="Concluída"&&situacao(a).k==="late").length;return lt?el("span",{class:"wlate",text:`⚠ ${lt} fora do prazo`}):null;})(),
+      el("span",{class:"pcnav"},el("button",{"aria-label":"Anterior",onclick:()=>{exStop();exCycle(-1);}},"‹"),el("button",{"aria-label":"Próximo",onclick:()=>{exStop();exCycle(1);}},"›"),el("button",{class:"pclose","aria-label":"Fechar ficha",onclick:()=>{exStop();closeSheet();}},"×"))),
+    el("div",{class:"whd"},el("span",{class:"whd-ic"},lucide(id)),el("div",{class:"whd-tx"},el("h3",{class:"po-h",text:sigla(id)}),capaTxt(id)?el("div",{class:"po-sub",text:capaTxt(id)}):null)),
+    el("div",{class:"wref"},f.processo?el("span",{},pmCut(f.processo,240)):null,el("span",{class:"wresp"},mic("user"),"Responsável: ",el("b",{text:f.responsavel||"a definir"}))),
+    (f.impDisco||f.impactaCurto||f.impacto||f.impRE||f.impactoEnergisa)?el("div",{class:"wimp"},
+      el("div",{},el("small",{text:"Impacto DISCO"}),(f.impDisco||f.impactaCurto||f.impacto)?poText(f.impDisco||f.impactaCurto||f.impacto,3):el("span",{class:"mnone",text:"—"})),
+      el("div",{},el("small",{text:"Impacto (RE) Energisa"}),(f.impRE||f.impactoEnergisa)?poText(f.impRE||f.impactoEnergisa,3):el("span",{class:"mnone",text:"—"}))):null,
+    el("div",{class:"wfacts"},fact("Abertura","cal"),fact("Prazo total","hour"),fact("Encerramento","flag"),fact("Envio","send")),
+    el("div",{class:"wand"},
+      el("div",{class:"wa"},el("span",{class:"wa-ic"},mic("clock")),el("div",{},el("small",{text:"Último andamento"+(m?" · "+rel(m.criadoEm):"")}),el("p",{text:m?pmCut(m.texto,220):"Nenhuma atualização registrada ainda."}),m?el("span",{class:"wa-by",text:`${nameOf(m.autorId)} · ${fmtD(m.criadoEm)}`}):null)),
+      el("div",{class:"wa nx"},el("span",{class:"wa-ic"},mic("next")),el("div",{},el("small",{text:"Próximo passo"+(next&&next.prazo?" · "+fmtDay(next.prazo):"")}),el("p",{text:next?pmCut(next.descricao,220):"Sem próximo passo cadastrado."}),next&&next.dependeTipo?el("span",{class:"wa-by",text:`${next.direcao==="entregar"?"Entregar para":"Aguardando"} ${next.dependeDe||next.dependeTipo}`}):null))),
+    el("div",{class:"wsec",text:"Documentos e referências"}),
+    el("div",{class:"wgrid"},
+      tile("One Page","page","",isUrl(f.linkOnePage)?chip("Abrir One Page",f.linkOnePage):null),
+      tile("Norma base","law","",f.norma?poText(f.norma,3):null),
+      tile("Processos SEI","folder","",sei.length?el("div",{class:"wlist"},...sei.map(x=>el("a",{class:"wsei",title:x.titulo||"",href:isUrl(x.link)?x.link:SEI_PESQ,target:"_blank",rel:"noopener",onclick:async()=>{if(!isUrl(x.link)){try{await navigator.clipboard.writeText(x.numero);toast(`Número ${x.numero} copiado.`);}catch(e){}}}},el("b",{text:x.numero||"SEI"}),x.titulo?el("span",{text:x.titulo}):null))):null),
+      tile("Contribuição Energisa","docs","",cb.length?el("div",{class:"wlist"},...cb.map(x=>chip(x.titulo||"Documento",x.link))):null),
+      tile("Resultado","award","res",(f.resultado||isUrl(f.linkResultado))?el("div",{},f.resultado?poText(f.resultado,3):null,isUrl(f.linkResultado)?el("div",{style:"margin-top:8px"},chip("Abrir resultado",f.linkResultado)):null):null)),
+    el("div",{class:"po-foot"},el("button",{class:"xlink",onclick:()=>closeSheet()},"← voltar ao mapa"),
+      el("span",{class:"row",style:"gap:8px"},el("button",{class:"xbtn ghost edit-only",onclick:()=>{exStop();openFichaEditor(id);}},"✎ Editar ficha"),el("button",{class:"xbtn edit-only",onclick:()=>{exStop();openModal(id);}},"+ Atualização")))].filter(Boolean));
   return d;
 }
+/* ---------- Editor da ficha (modelo novo) ---------- */
+function openFichaEditor(id){
+  if(!canWrite){toast("Você está em modo leitura.",true);return;}
+  closeFichaEditor();
+  const f=fichas[id]||{},mk=poLines(f.marcos);
+  const inp=(v,ph,type)=>{const x=el(type==="ta"?"textarea":"input",{class:"fe-in",placeholder:ph||""});x.value=v||"";return x;};
+  const fld=(lb,node,hint)=>el("label",{class:"fe-f"},el("span",{class:"fe-l",text:lb}),node,hint?el("span",{class:"fe-h",text:hint}):null);
+  const F={sigla:inp(f.sigla||sigla(id),"Nome do processo"),capa:inp(capaTxt(id),"Texto que aparece na capa, no mapa e na ficha","ta"),
+    responsavel:inp(f.responsavel,"Nome do responsável"),processo:inp(f.processo,"Ex.: Processo 48500.000000/2026-00 · Atividade AR 25-15 da Agenda Regulatória · Relatora: …","ta"),
+    impDisco:inp(f.impDisco,"Impacto para as distribuidoras (aparece no mapa)","ta"),impRE:inp(f.impRE,"Impacto para a (RE) Energisa (aparece no mapa)","ta"),
+    linkOnePage:inp(f.linkOnePage,"https://…"),norma:inp(f.norma,"Norma base","ta"),resultado:inp(f.resultado,"Escreva o resultado por extenso","ta"),linkResultado:inp(f.linkResultado,"https://… (opcional)")};
+  F.responsavel.setAttribute("list","dlResp");
+  const st=el("select",{class:"fe-in"},...STATUS_OPTS.map(s=>el("option",{value:s,text:s})));if(f.status&&!STATUS_OPTS.includes(f.status))st.appendChild(el("option",{value:f.status,text:f.status}));st.value=f.status||"A preencher";
+  const DL=["Abertura","Prazo total","Encerramento","Envio"],dates=DL.map(lb=>{const r=mk.find(x=>(x[0]||"").toLowerCase().startsWith(lb.toLowerCase()))||[];return{lb,v:inp(r[1],"—"),n:inp(r[2],"observação (opcional)")};});
+  const extraMk=mk.filter(x=>!DL.some(lb=>(x[0]||"").toLowerCase().startsWith(lb.toLowerCase())));
+  // listas
+  const mkList=(items,cols,addTxt)=>{const box=el("div",{class:"fe-list"}),rows=[];
+    const add=(it)=>{const ins=cols.map(([k,ph])=>inp(it&&it[k],ph));const r=el("div",{class:"fe-lr"},...ins,el("button",{type:"button",class:"fe-x",title:"Remover","aria-label":"Remover",onclick:()=>{r.remove();rec.del=true;}},"×"));const rec={it,ins,del:false};rows.push(rec);box.insertBefore(r,addBtn);};
+    const addBtn=el("button",{type:"button",class:"fe-add",onclick:()=>add(null)},addTxt);box.appendChild(addBtn);items.forEach(add);if(!items.length)add(null);
+    box.read=()=>rows.filter(r=>!r.del).map(r=>({it:r.it,v:Object.fromEntries(cols.map(([k],j)=>[k,r.ins[j].value.trim()]))}));box.removed=()=>rows.filter(r=>r.del&&r.it).map(r=>r.it);return box;};
+  const seiBox=mkList(seiItems(id).map(x=>({...x})),[["numero","48500.000000/2026-00"],["titulo","Assunto (opcional)"],["link","Link do SEI (opcional)"]],"+ adicionar processo SEI");
+  const cbBox=mkList(contribList(f),[["titulo","Ex.: Contribuição, Apresentação, Carta…"],["link","https://…"]],"+ adicionar documento");
+  const sec=(t,...k)=>el("section",{class:"fe-sec"},el("div",{class:"fe-st",text:t}),...k);
+  const panel=el("div",{class:"fe-panel",role:"dialog","aria-label":"Editar ficha"},
+    el("div",{class:"fe-hd"},el("span",{class:"xn",text:String(exNum(id))}),el("div",{},el("div",{class:"fe-eb",text:"EDITAR FICHA"}),el("b",{text:sigla(id)})),el("button",{class:"fe-close","aria-label":"Fechar",onclick:closeFichaEditor},"×")),
+    el("div",{class:"fe-bd"},
+      sec("Processo",fld("Nome",F.sigla),fld("Objeto (texto da capa)",F.capa),el("div",{class:"fe-2"},fld("Status",st),fld("Responsável",F.responsavel)),fld("Processo, atividade e relator",F.processo)),
+      sec("Datas",el("div",{class:"fe-dates"},...dates.map(d=>el("div",{class:"fe-d"},el("span",{class:"fe-l",text:d.lb}),d.v,d.n)))),
+      sec("Resumo do mapa",fld("Impacto DISCO",F.impDisco),fld("Impacto (RE) Energisa",F.impRE)),
+      sec("Documentos",fld("One Page — link",F.linkOnePage),fld("Norma base",F.norma),
+        el("div",{class:"fe-f"},el("span",{class:"fe-l",text:"Processos SEI"}),seiBox,el("span",{class:"fe-h",text:"Cole o link da pesquisa pública para abrir direto; sem link, o número é copiado ao clicar."})),
+        el("div",{class:"fe-f"},el("span",{class:"fe-l",text:"Contribuição Energisa"}),cbBox)),
+      sec("Resultado",fld("Resultado (por extenso)",F.resultado),fld("Link do resultado",F.linkResultado))),
+    el("div",{class:"fe-ft"},el("button",{class:"xbtn ghost",onclick:closeFichaEditor},"Cancelar"),el("button",{class:"xbtn",onclick:()=>saveFicha()},"Salvar ficha")));
+  const ov=el("div",{class:"fe-ov",id:"feOv",onclick:e=>{if(e.target.id==="feOv")closeFichaEditor();}},panel);
+  document.body.appendChild(ov);requestAnimationFrame(()=>ov.classList.add("show"));setTimeout(()=>F.capa.focus(),300);
+  async function saveFicha(){
+    const nv={};Object.entries(F).forEach(([k,x])=>nv[k]=x.value.trim());nv.status=st.value;
+    nv.marcos=[...dates.filter(d=>d.v.value.trim()||d.n.value.trim()).map(d=>[d.lb,d.v.value.trim(),d.n.value.trim()].join(" | ")),...extraMk.map(x=>x.join(" | "))].join("\n");
+    nv.contrib=cbBox.read().map(r=>r.v).filter(x=>x.titulo||x.link);
+    const LB={sigla:"nome",capa:"objeto",responsavel:"responsável",processo:"processo",impDisco:"impacto DISCO",impRE:"impacto (RE) Energisa",linkOnePage:"One Page",norma:"norma base",resultado:"resultado",linkResultado:"link do resultado",status:"status",marcos:"datas",contrib:"contribuição Energisa"};
+    const ch=Object.keys(nv).filter(k=>JSON.stringify(nv[k]??"")!==JSON.stringify(k==="contrib"?contribList(f):(k==="sigla"?(f.sigla||sigla(id)):k==="capa"?capaTxt(id):(f[k]??""))));
+    const seiRows=seiBox.read(),seiDel=seiBox.removed();
+    for(const r of seiRows){const v=r.v;if(!v.numero&&!v.link)continue;if(v.numero&&!SEI_RX.test(v.numero)){SEI_RX.lastIndex=0;toast(`Número SEI inválido: ${v.numero}. Use 48500.000000/2026-00.`,true);return;}SEI_RX.lastIndex=0;}
+    const seiOps=[];seiDel.forEach(it=>seiOps.push(["del",it]));seiRows.forEach(r=>{const v=r.v;if(!v.numero&&!v.link)return;if(!r.it)seiOps.push(["add",v]);else if(v.numero!==(r.it.numero||"")||v.titulo!==(r.it.titulo||"")||v.link!==(r.it.link||""))seiOps.push(["upd",r.it,v]);});
+    if(!ch.length&&!seiOps.length){closeFichaEditor();return;}
+    const ok=await save(async()=>{
+      if(ch.length){const base={...(fichas[id]||{})};delete base.linkContribDoc;delete base.linkContribApres;await db.doc("temas/"+id).set({...base,...nv,atualizadoPor:myId||null,atualizadoEm:new Date().toISOString()});await addMov(id,"ficha","Ficha atualizada — "+ch.map(k=>LB[k]||k).join(", ")+".");}
+      for(const [op,it,v] of seiOps){
+        if(op==="del"){if(it.src==="sei")await db.doc(`temas/${id}/sei/${it.id}`).delete();else await db.doc(`temas/${id}/docs/${it.id}`).delete();await addMov(id,"documento",`Processo SEI removido: ${it.numero||it.link}`);}
+        else if(op==="add"){await db.collection(`temas/${id}/sei`).add({...it,autorId:myId||null,criadoEm:new Date().toISOString()});await addMov(id,"documento",`Processo SEI incluído: ${it.numero||it.link}${it.titulo?" — "+it.titulo:""}`);}
+        else{if(it.src==="sei")await db.doc(`temas/${id}/sei/${it.id}`).update(v);else await db.doc(`temas/${id}/docs/${it.id}`).update({numero:v.numero,link:v.link,titulo:v.titulo||("Processo "+v.numero)});await addMov(id,"documento",`Processo SEI editado: ${v.numero||v.link}`);}}
+    },"Ficha salva.");
+    if(ok)closeFichaEditor();
+  }
+}
+function closeFichaEditor(){const o=document.getElementById("feOv");if(!o)return;o.classList.remove("show");setTimeout(()=>o.remove(),250);}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&document.getElementById("feOv"))closeFichaEditor();});
 function exDetGD(){
   const op=exAllOpen(),late=op.filter(a=>situacao(a).k==="late").length;
   const d=el("article",{class:"pone"});
-  d.append(el("div",{class:"po-top"},el("span",{class:"xn",text:"GD"}),el("span",{class:"po-eb",text:"Visão consolidada"}),el("span",{class:"pcnav"},el("button",{class:"pclose","aria-label":"Fechar",onclick:()=>{exSelect(null);window.scrollTo({top:0,behavior:"smooth"});}},"×"))),
-    el("h3",{class:"po-h",text:"GD · DISCO"}),
+  d.append(el("div",{class:"po-top"},el("span",{class:"xn",text:"GD"}),el("span",{class:"po-eb",text:"Visão consolidada"}),el("span",{class:"pcnav"},el("button",{class:"pclose","aria-label":"Fechar",onclick:()=>closeSheet()},"×"))),
+    el("h3",{class:"po-h",text:"GD e DISCO"}),
     el("div",{class:"po-sub",style:"margin-bottom:14px",text:`Geração Distribuída e o papel de operador da distribuição. ${op.length} pendências em aberto${late?`, ${late} fora do prazo`:""}.`}),
     el("div",{class:"plist"},...TEMAS.map((t,i)=>{const m=lastResumo(t.id),tone=exTone(t.id);return el("button",{class:"pli t-"+tone,onclick:()=>exSelect(t.id)},el("span",{class:"xn",text:String(i+1)}),
       el("span",{class:"pli-b"},el("b",{text:sigla(t.id)}),el("span",{text:m?m.texto:"Sem atualização registrada."})),el("small",{text:m?rel(m.criadoEm):"—"}));})),
-    el("div",{class:"pcact"},el("button",{class:"xlink",onclick:()=>exSelect(null)},"← voltar ao mapa"),el("button",{class:"xbtn ghost",onclick:async()=>{try{await navigator.clipboard.writeText(summaryText());toast("Resumo copiado.");}catch(e){toast("Não foi possível copiar.",true);}}},"Copiar resumo")));
+    el("div",{class:"pcact"},el("button",{class:"xlink",onclick:()=>closeSheet()},"← voltar ao mapa"),el("button",{class:"xbtn ghost",onclick:async()=>{try{await navigator.clipboard.writeText(summaryText());toast("Resumo copiado.");}catch(e){toast("Não foi possível copiar.",true);}}},"Copiar resumo")));
   return d;
 }
 
@@ -1875,7 +2377,7 @@ function viewExec(anim){
   const w=el("div",{class:"xstage pres p"+exPage+(anim?" enter":"")});
   const me=myId?el("span",{class:"pme"},avatar(myId)):null;
   w.appendChild(el("header",{class:"psys"},
-    el("button",{class:"xlogo",onclick:()=>exPageGo(0),"aria-label":"Ir para a capa"},el("small",{text:"energisa"}),el("b",{},el("span",{class:"g",text:"GD"}),"·DISCO")),
+    el("button",{class:"xlogo",onclick:()=>exPageGo(0),"aria-label":"Ir para a capa"},el("small",{text:"energisa"}),el("b",{},el("span",{class:"g",text:"GD"})," e DISCO")),
     el("nav",{class:"psys-nav","aria-label":"Páginas"},
       el("button",{class:"parr",disabled:exPage===0,onclick:()=>exPageGo(exPage-1),"aria-label":"Página anterior"},"‹"),
       ...EX_PAGES.map((t,i)=>el("button",{class:"pstep"+(exPage===i?" on":""),"aria-current":exPage===i?"page":null,onclick:()=>exPageGo(i,i===1?null:undefined)},el("span",{class:"xsn",text:String(i+1)}),t)),
@@ -1887,7 +2389,7 @@ function viewExec(anim){
   return w;
 }
 document.addEventListener("keydown",e=>{if(route.view!=="exec"||/INPUT|TEXTAREA|SELECT/.test((document.activeElement||{}).tagName)||$("#scrim").classList.contains("show"))return;
-  if(e.key==="Escape"&&exSel){exStop();exSelect(null);return;}
+  if(e.key==="Escape"&&document.getElementById("feOv"))return;if(e.key==="Escape"&&sheetEl()){closeSheet();return;}if(e.key==="Escape"&&exSel){exStop();exSelect(null);return;}
   if(e.key!=="ArrowRight"&&e.key!=="ArrowLeft")return;const d=e.key==="ArrowRight"?1:-1;exStop();
   if(exPage===1&&exSel&&exSel!=="core"){exCycle(d);return;}
   if(exPage===1&&!exSel&&d>0){exSelect(TEMAS[0].id);return;}
@@ -2225,7 +2727,8 @@ async function save(fn,okMsg){
 
 /* ===== Modo demonstração local (arquivo aberto fora do claude.ai): dados de exemplo em memória ===== */
 let isLocal=false;
-const DEMO_DATA={"temas/cp33/movs/demo0": {"tipo": "resumo", "texto": "Kick-off interno da CP 33 com Regulação Técnica e Engenharia; divisão dos temas da contribuição.", "autorId": "demo:Carla Mendes", "criadoEm": "2026-08-26T10:50:00Z", "demo": true}, "temas/cp33/movs/demo1": {"tipo": "documento", "texto": "Documento incluído: NT 107/2026-STD", "autorId": "demo:Rafael Duarte", "criadoEm": "2026-09-09T10:50:00Z", "demo": true}, "temas/cp33/movs/demo2": {"tipo": "resumo", "texto": "Levantamento com a Engenharia do parque de GD Tipo III e minigeração afetado pelos prazos de 120/180 dias.", "autorId": "demo:Juliana Prado", "criadoEm": "2026-09-18T10:05:00Z", "demo": true}, "temas/cp33/movs/demo3": {"tipo": "acao", "texto": "Aguardando receber de Engenharia: estimativa de custo de telecomando — prazo combinado para 25/10/2026.", "autorId": "demo:Carla Mendes", "criadoEm": "2026-10-02T10:20:00Z", "demo": true}, "temas/cp33/movs/demo4": {"tipo": "acao", "texto": "Prazo repactuado — \"Estimativa de custo de telecomando\": 25/10/2026 → 05/11/2026. Motivo: Engenharia pediu mais prazo para cotar fornecedores.", "autorId": "demo:Rafael Duarte", "criadoEm": "2026-10-24T10:05:00Z", "demo": true}, "temas/cp33/movs/demo5": {"tipo": "resumo", "texto": "Contribuição protocolada na ANEEL dentro do prazo (09/11). Aguardando análise da STD.", "autorId": "demo:Carla Mendes", "criadoEm": "2026-11-06T10:50:00Z", "demo": true}, "temas/cp33/movs/demo6": {"tipo": "ficha", "texto": "Ficha — Status: Contribuição em elaboração → Contribuições encerradas.", "autorId": "demo:Juliana Prado", "criadoEm": "2026-11-09T10:05:00Z", "demo": true}, "temas/erag/movs/demo0": {"tipo": "resumo", "texto": "Primeira reunião do grupo ERAG; definido escopo inicial envolvendo GD e sistema.", "autorId": "demo:Marcos Lima", "criadoEm": "2026-09-03T10:05:00Z", "demo": true}, "temas/erag/movs/demo1": {"tipo": "acao", "texto": "Aguardando receber de ONS: dados de inversão de fluxo por subestação — prazo combinado para 30/10/2026.", "autorId": "demo:Patrícia Rocha", "criadoEm": "2026-09-25T10:20:00Z", "demo": true}, "temas/erag/movs/demo2": {"tipo": "documento", "texto": "Documento incluído: Ofício 245/2026", "autorId": "demo:Marcos Lima", "criadoEm": "2026-10-10T10:05:00Z", "demo": true}, "temas/erag/movs/demo3": {"tipo": "resumo", "texto": "ONS sinalizou atraso no envio dos dados; cobrado por e-mail.", "autorId": "demo:Patrícia Rocha", "criadoEm": "2026-10-23T10:50:00Z", "demo": true}, "temas/erag/movs/demo4": {"tipo": "acao", "texto": "Entregar para ANEEL: relatório preliminar ERAG — prazo combinado para 28/11/2026.", "autorId": "demo:Marcos Lima", "criadoEm": "2026-11-03T10:05:00Z", "demo": true}, "temas/sandbox/movs/demo0": {"tipo": "resumo", "texto": "Avaliação das chamadas de sandbox tarifário e da proposta DSO do ONS.", "autorId": "demo:Eduardo Sales", "criadoEm": "2026-08-19T10:20:00Z", "demo": true}, "temas/sandbox/movs/demo1": {"tipo": "documento", "texto": "Documento incluído: NT 12/2026-STR", "autorId": "demo:Juliana Prado", "criadoEm": "2026-09-13T10:05:00Z", "demo": true}, "temas/sandbox/movs/demo2": {"tipo": "acao", "texto": "Aguardando receber de Pessoa — Beatriz Nogueira: parecer sobre afastamentos regulatórios — prazo combinado para 15/11/2026.", "autorId": "demo:Eduardo Sales", "criadoEm": "2026-10-06T10:20:00Z", "demo": true}, "temas/sandbox/movs/demo3": {"tipo": "resumo", "texto": "Reunião com P&D para definir municípios-piloto.", "autorId": "demo:Juliana Prado", "criadoEm": "2026-10-31T10:35:00Z", "demo": true}, "temas/art28/movs/demo0": {"tipo": "resumo", "texto": "Mapeamento de casos de múltiplas UCs no mesmo local com GD.", "autorId": "demo:Beatriz Nogueira", "criadoEm": "2026-09-21T10:50:00Z", "demo": true}, "temas/art28/movs/demo1": {"tipo": "acao", "texto": "Aguardando receber de Jurídico: entendimento sobre fracionamento de GD — prazo combinado para 10/11/2026.", "autorId": "demo:Rafael Duarte", "criadoEm": "2026-10-16T10:20:00Z", "demo": true}, "temas/tarifabranca/movs/demo0": {"tipo": "resumo", "texto": "Análise do impacto da tarifa branca no faturamento de UCs com GD (postos tarifários).", "autorId": "demo:Patrícia Rocha", "criadoEm": "2026-08-09T10:05:00Z", "demo": true}, "temas/tarifabranca/movs/demo1": {"tipo": "documento", "texto": "Documento incluído: Despacho 1.980/2026", "autorId": "demo:Carla Mendes", "criadoEm": "2026-09-07T10:35:00Z", "demo": true}, "temas/tarifabranca/movs/demo2": {"tipo": "resumo", "texto": "Base de clientes com GD em tarifa branca extraída do faturamento.", "autorId": "demo:Patrícia Rocha", "criadoEm": "2026-09-29T10:20:00Z", "demo": true}, "temas/tarifabranca/movs/demo3": {"tipo": "acao", "texto": "Entregar para Comercial: nota de orientação ao atendimento — prazo combinado para 20/11/2026.", "autorId": "demo:Carla Mendes", "criadoEm": "2026-10-28T10:05:00Z", "demo": true}, "temas/excedente/movs/demo0": {"tipo": "resumo", "texto": "Início da discussão do Plano de Excedente; levantamento das regras de alocação (arts. 655-G e 655-H).", "autorId": "demo:Rafael Duarte", "criadoEm": "2026-10-04T10:20:00Z", "demo": true}, "temas/excedente/movs/demo1": {"tipo": "acao", "texto": "Aguardando receber de ANEEL: resposta à consulta sobre comercialização de excedente — sem prazo combinado.", "autorId": "demo:Eduardo Sales", "criadoEm": "2026-10-30T10:35:00Z", "demo": true}, "temas/cp33/acoes/demo0": {"descricao": "Estimativa de custo de telecomando", "direcao": "receber", "dependeTipo": "Área interna", "dependeDe": "Engenharia", "prazo": "2026-11-05", "prazoOriginal": "2026-10-25", "combinadoEm": "2026-10-02", "repactuacoes": [{"de": "2026-10-25", "para": "2026-11-05", "motivo": "Engenharia pediu mais prazo para cotar fornecedores", "autorId": "demo:Rafael Duarte", "em": "2026-10-24T10:35:00Z"}], "responsavel": "Carla Mendes", "status": "Concluída", "autorId": "demo:Carla Mendes", "criadoEm": "2026-10-02T10:20:00Z", "demo": true}, "temas/cp33/acoes/demo1": {"descricao": "Acompanhar análise das contribuições pela STD", "direcao": "receber", "dependeTipo": "ANEEL", "dependeDe": "ANEEL", "prazo": "", "prazoOriginal": "", "combinadoEm": "", "repactuacoes": [], "responsavel": "Juliana Prado", "status": "Em andamento", "autorId": "demo:Juliana Prado", "criadoEm": "2026-11-06T10:50:00Z", "demo": true}, "temas/erag/acoes/demo0": {"descricao": "Dados de inversão de fluxo por subestação", "direcao": "receber", "dependeTipo": "Outro órgão", "dependeDe": "ONS", "prazo": "2026-10-30", "prazoOriginal": "2026-10-30", "combinadoEm": "2026-09-25", "repactuacoes": [], "responsavel": "Patrícia Rocha", "status": "Pendente", "autorId": "demo:Patrícia Rocha", "criadoEm": "2026-09-25T10:05:00Z", "demo": true}, "temas/erag/acoes/demo1": {"descricao": "Relatório preliminar ERAG", "direcao": "entregar", "dependeTipo": "ANEEL", "dependeDe": "ANEEL", "prazo": "2026-11-28", "prazoOriginal": "2026-11-28", "combinadoEm": "2026-11-03", "repactuacoes": [], "responsavel": "Marcos Lima", "status": "Em andamento", "autorId": "demo:Marcos Lima", "criadoEm": "2026-11-03T10:05:00Z", "demo": true}, "temas/sandbox/acoes/demo0": {"descricao": "Parecer sobre afastamentos regulatórios", "direcao": "receber", "dependeTipo": "Pessoa", "dependeDe": "Beatriz Nogueira", "prazo": "2026-11-15", "prazoOriginal": "2026-11-06", "combinadoEm": "2026-10-06", "repactuacoes": [{"de": "2026-11-06", "para": "2026-11-15", "motivo": "Aguardando definição dos municípios-piloto", "autorId": "demo:Eduardo Sales", "em": "2026-11-04T10:05:00Z"}], "responsavel": "Eduardo Sales", "status": "Em andamento", "autorId": "demo:Eduardo Sales", "criadoEm": "2026-10-06T10:35:00Z", "demo": true}, "temas/art28/acoes/demo0": {"descricao": "Entendimento sobre fracionamento de GD", "direcao": "receber", "dependeTipo": "Área interna", "dependeDe": "Jurídico", "prazo": "2026-11-10", "prazoOriginal": "2026-11-10", "combinadoEm": "2026-10-16", "repactuacoes": [], "responsavel": "Rafael Duarte", "status": "Pendente", "autorId": "demo:Rafael Duarte", "criadoEm": "2026-10-16T10:05:00Z", "demo": true}, "temas/tarifabranca/acoes/demo0": {"descricao": "Nota de orientação ao atendimento", "direcao": "entregar", "dependeTipo": "Área interna", "dependeDe": "Comercial", "prazo": "2026-11-20", "prazoOriginal": "2026-11-13", "combinadoEm": "2026-10-28", "repactuacoes": [{"de": "2026-11-13", "para": "2026-11-20", "motivo": "Inclusão de exemplos de fatura a pedido do Comercial", "autorId": "demo:Carla Mendes", "em": "2026-11-08T10:20:00Z"}], "responsavel": "Patrícia Rocha", "status": "Pendente", "autorId": "demo:Carla Mendes", "criadoEm": "2026-10-28T10:05:00Z", "demo": true}, "temas/excedente/acoes/demo0": {"descricao": "Resposta à consulta sobre comercialização de excedente", "direcao": "receber", "dependeTipo": "ANEEL", "dependeDe": "ANEEL", "prazo": "", "prazoOriginal": "", "combinadoEm": "", "repactuacoes": [], "responsavel": "Rafael Duarte", "status": "Pendente", "autorId": "demo:Eduardo Sales", "criadoEm": "2026-10-30T10:05:00Z", "demo": true}, "temas/cp33/docs/demo0": {"titulo": "NT 107/2026-STD", "tipo": "Nota Técnica", "numero": "107/2026-STD", "data": "", "link": "", "autorId": "demo:Carla Mendes", "criadoEm": "2026-09-09T10:05:00Z", "demo": true}, "temas/erag/docs/demo0": {"titulo": "Ofício 245/2026", "tipo": "Ofício", "numero": "245/2026", "data": "", "link": "", "autorId": "demo:Marcos Lima", "criadoEm": "2026-10-10T10:20:00Z", "demo": true}, "temas/sandbox/docs/demo0": {"titulo": "NT 12/2026-STR", "tipo": "Nota Técnica", "numero": "12/2026-STR", "data": "", "link": "", "autorId": "demo:Juliana Prado", "criadoEm": "2026-09-13T10:50:00Z", "demo": true}, "temas/tarifabranca/docs/demo0": {"titulo": "Despacho 1.980/2026", "tipo": "Despacho", "numero": "1.980/2026", "data": "", "link": "", "autorId": "demo:Carla Mendes", "criadoEm": "2026-09-07T10:50:00Z", "demo": true}, "temas/art28": {"fontes": "REN 1.000/2021 compilada", "ligacaoGD": "A titularidade de várias UCs é a base para alocar excedentes de MMGD em outras unidades do mesmo titular (art. 655-G, §3º, II).", "nome": "REN 1.000/2021, art. 28 — titularidade de uma ou mais instalações", "norma": "Art. 28. O consumidor ou os demais usuários podem ser titulares de uma ou mais instalações, no mesmo local ou em locais diversos.", "sigla": "Art. 28 REN 1.000", "status": "Em análise", "membros": ["demo:Beatriz Nogueira", "demo:Rafael Duarte"], "responsavel": "Beatriz Nogueira", "demo": true}, "temas/cp33": {"fontes": "Nota 20 do projeto Jurisprudência regulatória", "impacto": "Distribuidora responde pela comunicação até o ponto de conexão, segurança cibernética e definição dos meios (papel de DSO).", "ligacaoGD": "Conceito único de RED; observabilidade, operabilidade e controlabilidade da MMGD.", "nome": "Consulta Pública 33/2026 — novo Módulo 3 do PRODIST (RED)", "norma": "PRODIST Módulo 3 → minuta do novo Módulo 3; Lei 15.269/2025", "processo": "48500.002211/2026-10 · NT 107/2026-STD", "sigla": "CP 33/2026", "status": "Contribuições encerradas", "membros": ["demo:Carla Mendes", "demo:Rafael Duarte", "demo:Juliana Prado"], "responsavel": "Carla Mendes", "demo": true}, "temas/erag": {"ligacaoGD": "Envolve GD e sistema.", "sigla": "ERAG", "status": "Aguardando ANEEL", "membros": ["demo:Marcos Lima", "demo:Patrícia Rocha"], "responsavel": "Marcos Lima", "demo": true}, "temas/excedente": {"norma": "Possíveis referências (validar): REN 1.000 arts. 655-G, 655-H e 655-X.", "sigla": "Plano de Excedente", "status": "Em análise", "membros": ["demo:Rafael Duarte", "demo:Eduardo Sales"], "responsavel": "Rafael Duarte", "demo": true}, "temas/sandbox": {"nome": "Sandbox regulatório (ambiente experimental supervisionado pela ANEEL)", "norma": "Sandboxes tarifários: REN 1.045/2022 (PROPDI).", "sigla": "Sandbox Regulatório", "status": "Em monitoramento", "membros": ["demo:Eduardo Sales", "demo:Juliana Prado"], "responsavel": "Eduardo Sales", "demo": true}, "temas/tarifabranca": {"nome": "Modalidade tarifária horária branca (Hora Certa)", "norma": "REN 1.000/2021: arts. 212, 219, 222, 223 e 224.", "sigla": "Tarifa Branca", "status": "Em monitoramento", "membros": ["demo:Patrícia Rocha", "demo:Carla Mendes"], "responsavel": "Patrícia Rocha", "demo": true}, "temas/cp33/sei/s1": {"numero": "48500.002211/2026-10", "titulo": "CP 33/2026 — novo Módulo 3 (RED)", "link": "", "criadoEm": "2026-09-09T10:00:00Z"}, "temas/sandbox/sei/s1": {"numero": "48500.034297/2025-69", "titulo": "NT 12/2026-STR — sandboxes tarifários", "link": "", "criadoEm": "2026-09-13T10:00:00Z"}};
+const DEMO_DATA={"temas/cp33/movs/demo0": {"tipo": "resumo", "texto": "Kick-off interno da CP 33 com Regulação Técnica e Engenharia; divisão dos temas da contribuição.", "autorId": "demo:Carla Mendes", "criadoEm": "2026-08-26T10:50:00Z", "demo": true}, "temas/cp33/movs/demo1": {"tipo": "documento", "texto": "Documento incluído: NT 107/2026-STD", "autorId": "demo:Rafael Duarte", "criadoEm": "2026-09-09T10:50:00Z", "demo": true}, "temas/cp33/movs/demo2": {"tipo": "resumo", "texto": "Levantamento com a Engenharia do parque de GD Tipo III e minigeração afetado pelos prazos de 120/180 dias.", "autorId": "demo:Juliana Prado", "criadoEm": "2026-09-18T10:05:00Z", "demo": true}, "temas/cp33/movs/demo3": {"tipo": "acao", "texto": "Aguardando receber de Engenharia: estimativa de custo de telecomando — prazo combinado para 25/10/2026.", "autorId": "demo:Carla Mendes", "criadoEm": "2026-10-02T10:20:00Z", "demo": true}, "temas/cp33/movs/demo4": {"tipo": "acao", "texto": "Prazo repactuado — \"Estimativa de custo de telecomando\": 25/10/2026 → 05/11/2026. Motivo: Engenharia pediu mais prazo para cotar fornecedores.", "autorId": "demo:Rafael Duarte", "criadoEm": "2026-10-24T10:05:00Z", "demo": true}, "temas/cp33/movs/demo5": {"tipo": "resumo", "texto": "Contribuição protocolada na ANEEL dentro do prazo (09/11). Aguardando análise da STD.", "autorId": "demo:Carla Mendes", "criadoEm": "2026-11-06T10:50:00Z", "demo": true}, "temas/cp33/movs/demo6": {"tipo": "ficha", "texto": "Ficha — Status: Contribuição em elaboração → Contribuições encerradas.", "autorId": "demo:Juliana Prado", "criadoEm": "2026-11-09T10:05:00Z", "demo": true}, "temas/erag/movs/demo0": {"tipo": "resumo", "texto": "Primeira reunião do grupo ERAG; definido escopo inicial envolvendo GD e sistema.", "autorId": "demo:Marcos Lima", "criadoEm": "2026-09-03T10:05:00Z", "demo": true}, "temas/erag/movs/demo1": {"tipo": "acao", "texto": "Aguardando receber de ONS: dados de inversão de fluxo por subestação — prazo combinado para 30/10/2026.", "autorId": "demo:Patrícia Rocha", "criadoEm": "2026-09-25T10:20:00Z", "demo": true}, "temas/erag/movs/demo2": {"tipo": "documento", "texto": "Documento incluído: Ofício 245/2026", "autorId": "demo:Marcos Lima", "criadoEm": "2026-10-10T10:05:00Z", "demo": true}, "temas/erag/movs/demo3": {"tipo": "resumo", "texto": "ONS sinalizou atraso no envio dos dados; cobrado por e-mail.", "autorId": "demo:Patrícia Rocha", "criadoEm": "2026-10-23T10:50:00Z", "demo": true}, "temas/erag/movs/demo4": {"tipo": "acao", "texto": "Entregar para ANEEL: relatório preliminar ERAG — prazo combinado para 28/11/2026.", "autorId": "demo:Marcos Lima", "criadoEm": "2026-11-03T10:05:00Z", "demo": true}, "temas/sandbox/movs/demo0": {"tipo": "resumo", "texto": "Avaliação das chamadas de sandbox tarifário e da proposta DSO do ONS.", "autorId": "demo:Eduardo Sales", "criadoEm": "2026-08-19T10:20:00Z", "demo": true}, "temas/sandbox/movs/demo1": {"tipo": "documento", "texto": "Documento incluído: NT 12/2026-STR", "autorId": "demo:Juliana Prado", "criadoEm": "2026-09-13T10:05:00Z", "demo": true}, "temas/sandbox/movs/demo2": {"tipo": "acao", "texto": "Aguardando receber de Pessoa — Beatriz Nogueira: parecer sobre afastamentos regulatórios — prazo combinado para 15/11/2026.", "autorId": "demo:Eduardo Sales", "criadoEm": "2026-10-06T10:20:00Z", "demo": true}, "temas/sandbox/movs/demo3": {"tipo": "resumo", "texto": "Reunião com P&D para definir municípios-piloto.", "autorId": "demo:Juliana Prado", "criadoEm": "2026-10-31T10:35:00Z", "demo": true}, "temas/art28/movs/demo0": {"tipo": "resumo", "texto": "Mapeamento de casos de múltiplas UCs no mesmo local com GD.", "autorId": "demo:Beatriz Nogueira", "criadoEm": "2026-09-21T10:50:00Z", "demo": true}, "temas/art28/movs/demo1": {"tipo": "acao", "texto": "Aguardando receber de Jurídico: entendimento sobre fracionamento de GD — prazo combinado para 10/11/2026.", "autorId": "demo:Rafael Duarte", "criadoEm": "2026-10-16T10:20:00Z", "demo": true}, "temas/tarifabranca/movs/demo0": {"tipo": "resumo", "texto": "Análise do impacto da tarifa branca no faturamento de UCs com GD (postos tarifários).", "autorId": "demo:Patrícia Rocha", "criadoEm": "2026-08-09T10:05:00Z", "demo": true}, "temas/tarifabranca/movs/demo1": {"tipo": "documento", "texto": "Documento incluído: Despacho 1.980/2026", "autorId": "demo:Carla Mendes", "criadoEm": "2026-09-07T10:35:00Z", "demo": true}, "temas/tarifabranca/movs/demo2": {"tipo": "resumo", "texto": "Base de clientes com GD em tarifa branca extraída do faturamento.", "autorId": "demo:Patrícia Rocha", "criadoEm": "2026-09-29T10:20:00Z", "demo": true}, "temas/tarifabranca/movs/demo3": {"tipo": "acao", "texto": "Entregar para Comercial: nota de orientação ao atendimento — prazo combinado para 20/11/2026.", "autorId": "demo:Carla Mendes", "criadoEm": "2026-10-28T10:05:00Z", "demo": true}, "temas/excedente/movs/demo0": {"tipo": "resumo", "texto": "Início da discussão do Plano de Excedente; levantamento das regras de alocação (arts. 655-G e 655-H).", "autorId": "demo:Rafael Duarte", "criadoEm": "2026-10-04T10:20:00Z", "demo": true}, "temas/excedente/movs/demo1": {"tipo": "acao", "texto": "Aguardando receber de ANEEL: resposta à consulta sobre comercialização de excedente — sem prazo combinado.", "autorId": "demo:Eduardo Sales", "criadoEm": "2026-10-30T10:35:00Z", "demo": true}, "temas/cp33/acoes/demo0": {"descricao": "Estimativa de custo de telecomando", "direcao": "receber", "dependeTipo": "Área interna", "dependeDe": "Engenharia", "prazo": "2026-11-05", "prazoOriginal": "2026-10-25", "combinadoEm": "2026-10-02", "repactuacoes": [{"de": "2026-10-25", "para": "2026-11-05", "motivo": "Engenharia pediu mais prazo para cotar fornecedores", "autorId": "demo:Rafael Duarte", "em": "2026-10-24T10:35:00Z"}], "responsavel": "Carla Mendes", "status": "Concluída", "autorId": "demo:Carla Mendes", "criadoEm": "2026-10-02T10:20:00Z", "demo": true}, "temas/cp33/acoes/demo1": {"descricao": "Acompanhar análise das contribuições pela STD", "direcao": "receber", "dependeTipo": "ANEEL", "dependeDe": "ANEEL", "prazo": "", "prazoOriginal": "", "combinadoEm": "", "repactuacoes": [], "responsavel": "Juliana Prado", "status": "Em andamento", "autorId": "demo:Juliana Prado", "criadoEm": "2026-11-06T10:50:00Z", "demo": true}, "temas/erag/acoes/demo0": {"descricao": "Dados de inversão de fluxo por subestação", "direcao": "receber", "dependeTipo": "Outro órgão", "dependeDe": "ONS", "prazo": "2026-10-30", "prazoOriginal": "2026-10-30", "combinadoEm": "2026-09-25", "repactuacoes": [], "responsavel": "Patrícia Rocha", "status": "Pendente", "autorId": "demo:Patrícia Rocha", "criadoEm": "2026-09-25T10:05:00Z", "demo": true}, "temas/erag/acoes/demo1": {"descricao": "Relatório preliminar ERAG", "direcao": "entregar", "dependeTipo": "ANEEL", "dependeDe": "ANEEL", "prazo": "2026-11-28", "prazoOriginal": "2026-11-28", "combinadoEm": "2026-11-03", "repactuacoes": [], "responsavel": "Marcos Lima", "status": "Em andamento", "autorId": "demo:Marcos Lima", "criadoEm": "2026-11-03T10:05:00Z", "demo": true}, "temas/sandbox/acoes/demo0": {"descricao": "Parecer sobre afastamentos regulatórios", "direcao": "receber", "dependeTipo": "Pessoa", "dependeDe": "Beatriz Nogueira", "prazo": "2026-11-15", "prazoOriginal": "2026-11-06", "combinadoEm": "2026-10-06", "repactuacoes": [{"de": "2026-11-06", "para": "2026-11-15", "motivo": "Aguardando definição dos municípios-piloto", "autorId": "demo:Eduardo Sales", "em": "2026-11-04T10:05:00Z"}], "responsavel": "Eduardo Sales", "status": "Em andamento", "autorId": "demo:Eduardo Sales", "criadoEm": "2026-10-06T10:35:00Z", "demo": true}, "temas/art28/acoes/demo0": {"descricao": "Entendimento sobre fracionamento de GD", "direcao": "receber", "dependeTipo": "Área interna", "dependeDe": "Jurídico", "prazo": "2026-11-10", "prazoOriginal": "2026-11-10", "combinadoEm": "2026-10-16", "repactuacoes": [], "responsavel": "Rafael Duarte", "status": "Pendente", "autorId": "demo:Rafael Duarte", "criadoEm": "2026-10-16T10:05:00Z", "demo": true}, "temas/tarifabranca/acoes/demo0": {"descricao": "Nota de orientação ao atendimento", "direcao": "entregar", "dependeTipo": "Área interna", "dependeDe": "Comercial", "prazo": "2026-11-20", "prazoOriginal": "2026-11-13", "combinadoEm": "2026-10-28", "repactuacoes": [{"de": "2026-11-13", "para": "2026-11-20", "motivo": "Inclusão de exemplos de fatura a pedido do Comercial", "autorId": "demo:Carla Mendes", "em": "2026-11-08T10:20:00Z"}], "responsavel": "Patrícia Rocha", "status": "Pendente", "autorId": "demo:Carla Mendes", "criadoEm": "2026-10-28T10:05:00Z", "demo": true}, "temas/excedente/acoes/demo0": {"descricao": "Resposta à consulta sobre comercialização de excedente", "direcao": "receber", "dependeTipo": "ANEEL", "dependeDe": "ANEEL", "prazo": "", "prazoOriginal": "", "combinadoEm": "", "repactuacoes": [], "responsavel": "Rafael Duarte", "status": "Pendente", "autorId": "demo:Eduardo Sales", "criadoEm": "2026-10-30T10:05:00Z", "demo": true}, "temas/cp33/docs/demo0": {"titulo": "NT 107/2026-STD", "tipo": "Nota Técnica", "numero": "107/2026-STD", "data": "", "link": "", "autorId": "demo:Carla Mendes", "criadoEm": "2026-09-09T10:05:00Z", "demo": true}, "temas/erag/docs/demo0": {"titulo": "Ofício 245/2026", "tipo": "Ofício", "numero": "245/2026", "data": "", "link": "", "autorId": "demo:Marcos Lima", "criadoEm": "2026-10-10T10:20:00Z", "demo": true}, "temas/sandbox/docs/demo0": {"titulo": "NT 12/2026-STR", "tipo": "Nota Técnica", "numero": "12/2026-STR", "data": "", "link": "", "autorId": "demo:Juliana Prado", "criadoEm": "2026-09-13T10:50:00Z", "demo": true}, "temas/tarifabranca/docs/demo0": {"titulo": "Despacho 1.980/2026", "tipo": "Despacho", "numero": "1.980/2026", "data": "", "link": "", "autorId": "demo:Carla Mendes", "criadoEm": "2026-09-07T10:50:00Z", "demo": true}, "temas/art28": {"fontes": "REN 1.000/2021 compilada", "ligacaoGD": "A titularidade de várias UCs é a base para alocar excedentes de MMGD em outras unidades do mesmo titular (art. 655-G, §3º, II).", "nome": "CP xx – Comercialização de MMGD", "norma": "Art. 28. O consumidor ou os demais usuários podem ser titulares de uma ou mais instalações, no mesmo local ou em locais diversos.", "sigla": "CP xx – Comercialização de MMGD", "status": "Em análise", "membros": ["demo:Beatriz Nogueira", "demo:Rafael Duarte"], "responsavel": "Beatriz Nogueira", "demo": true}, "temas/cp33": {"fontes": "Nota 20 do projeto Jurisprudência regulatória", "impacto": "Distribuidora responde pela comunicação até o ponto de conexão, segurança cibernética e definição dos meios (papel de DSO).", "ligacaoGD": "Conceito único de RED; observabilidade, operabilidade e controlabilidade da MMGD.", "nome": "Consulta Pública 33/2026 — novo Módulo 3 do PRODIST (RED)", "norma": "PRODIST Módulo 3 → minuta do novo Módulo 3; Lei 15.269/2025", "processo": "48500.002211/2026-10 · NT 107/2026-STD", "sigla": "CP 33/2026 – RED", "status": "Contribuições encerradas", "membros": ["demo:Carla Mendes", "demo:Rafael Duarte", "demo:Juliana Prado"], "responsavel": "Carla Mendes", "demo": true}, "temas/erag": {"ligacaoGD": "Envolve GD e sistema.", "sigla": "ERAG", "status": "Aguardando ANEEL", "membros": ["demo:Marcos Lima", "demo:Patrícia Rocha"], "responsavel": "Marcos Lima", "demo": true}, "temas/excedente": {"norma": "Possíveis referências (validar): REN 1.000 arts. 655-G, 655-H e 655-X.", "sigla": "Plano de Gestão de Excedentes", "status": "Em análise", "membros": ["demo:Rafael Duarte", "demo:Eduardo Sales"], "responsavel": "Rafael Duarte", "demo": true}, "temas/sandbox": {"nome": "Sandbox regulatório (ambiente experimental supervisionado pela ANEEL)", "norma": "Sandboxes tarifários: REN 1.045/2022 (PROPDI).", "sigla": "Sandbox Regulatório", "status": "Em monitoramento", "membros": ["demo:Eduardo Sales", "demo:Juliana Prado"], "responsavel": "Eduardo Sales", "demo": true}, "temas/tarifabranca": {"nome": "Modalidade tarifária horária branca (Hora Certa)", "norma": "REN 1.000/2021: arts. 212, 219, 222, 223 e 224.", "sigla": "Tarifa Hora Certa", "status": "Em monitoramento", "membros": ["demo:Patrícia Rocha", "demo:Carla Mendes"], "responsavel": "Patrícia Rocha", "demo": true}, "temas/cp33/sei/s1": {"numero": "48500.002211/2026-10", "titulo": "CP 33/2026 — novo Módulo 3 (RED)", "link": "", "criadoEm": "2026-09-09T10:00:00Z"}, "temas/sandbox/sei/s1": {"numero": "48500.034297/2025-69", "titulo": "NT 12/2026-STR — sandboxes tarifários", "link": "", "criadoEm": "2026-09-13T10:00:00Z"}};
+Object.assign(DEMO_DATA["temas/cp33"],{impDisco:"Novas exigências regulatórias e tecnológicas poderão elevar a complexidade operacional e os investimentos necessários para as distribuidoras.",impRE:"A implementação da proposta exigirá evolução tecnológica e operacional das usinas da (RE) Energisa, com reflexos em custos, governança e integração com as distribuidoras."});
 function localDB(seed){const st=new Map(Object.entries(seed).map(([k,v])=>[k,JSON.parse(JSON.stringify(v))]));const ls=new Map();let n=0;
   const col=p=>p.split("/").slice(0,-1).join("/");
   const snap=p=>({metadata:{fromCache:false,hasPendingWrites:false},docs:[...st.entries()].filter(([k])=>col(k)===p).map(([k,v])=>({id:k.split("/").pop(),exists:true,data:()=>v}))});
@@ -2245,10 +2748,10 @@ readHash();render(true);
   if(user){try{myId=await user.id();}catch(e){}
     try{const c=await user.can("data.write");if(c===false){canWrite=false;document.body.classList.add("ro");}}catch(e){}
     try{const me=await user.me();if(me){if(myId)names[myId]=me.name||"Você";$("#me").append(avatar(myId),el("span",{class:"who-name",text:(me.name||"")+(canWrite?"":" · somente leitura")}));}}catch(e){}}
-  if(LOCAL){setTimeout(()=>banner("Modo demonstração: dados de exemplo com pessoas fictícias. Você pode testar tudo, mas nada é salvo — ao recarregar, volta ao início."),50);}
+  
   if(!db){clearTimeout(timer);banner("Faça login no claude.ai para ver e registrar as atualizações.");canWrite=false;document.body.classList.add("ro");render(false);return;}
   const onErr=e=>{clearTimeout(timer);if(e&&e.code!=="revoked")banner("A conexão com os dados caiu. Recarregue a página.");};
-  db.collection("temas").onSnapshot(s=>{if(!s.metadata.fromCache){clearTimeout(timer);banner(LOCAL?"Modo demonstração: dados de exemplo com pessoas fictícias. Você pode testar tudo, mas nada é salvo — ao recarregar, volta ao início.":"");dbReady=true;}s.docs.forEach(d=>fichas[d.id]=d.data());resolveNames(s.docs.flatMap(d=>[d.data().atualizadoPor,...(d.data().membros||[])])).then(scheduleRender);scheduleRender();},onErr);
+  db.collection("temas").onSnapshot(s=>{if(!s.metadata.fromCache){clearTimeout(timer);banner("");dbReady=true;}s.docs.forEach(d=>fichas[d.id]=d.data());resolveNames(s.docs.flatMap(d=>[d.data().atualizadoPor,...(d.data().membros||[])])).then(scheduleRender);scheduleRender();},onErr);
   TEMAS.forEach(t=>{
     db.collection(`temas/${t.id}/movs`).onSnapshot(s=>{movs[t.id]=s.docs.map(d=>({id:d.id,...d.data()}));resolveNames(movs[t.id].map(m=>m.autorId)).then(r=>r&&scheduleRender());scheduleRender();},onErr);
     db.collection(`temas/${t.id}/docs`).onSnapshot(s=>{docs[t.id]=s.docs.map(d=>({id:d.id,...d.data()}));scheduleRender();},onErr);
