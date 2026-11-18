@@ -2399,6 +2399,10 @@ function openFichaEditor(id){
     impDisco:inp(f.impDisco,"Impacto para as distribuidoras (aparece no mapa)","ta"),impRE:inp(f.impRE,"Impacto para a (RE) Energisa (aparece no mapa)","ta"),
     linkOnePage:inp(f.linkOnePage,"https://…"),norma:inp(f.norma,"Norma base (texto, opcional)","ta"),linkNorma:inp(f.linkNorma,"https://… (link da norma base)"),resultado:inp(f.resultado,"Escreva o resultado por extenso","ta"),linkResultado:inp(f.linkResultado,"https://… (opcional)")};
   F.responsavel.setAttribute("list","dlResp");
+  const lastM=lastResumo(id),opA=acoes[id].filter(a=>a.status!=="Concluída").sort((a,b)=>(a.prazo||"9").localeCompare(b.prazo||"9")),nextA=opA.find(a=>a.prazo)||opA[0]||null;
+  const anTx=inp(lastM?lastM.texto:"","O que aconteceu por último neste processo","ta"),npTx=inp(nextA?nextA.descricao:"","Próxima ação a fazer","ta");
+  const npPz=el("input",{class:"fe-in",type:"date"});npPz.value=nextA&&/^\d{4}-\d{2}-\d{2}/.test(nextA.prazo||"")?nextA.prazo.slice(0,10):"";
+  const npQuem=inp(nextA?(nextA.dependeDe||nextA.dependeTipo||""):"","Ex.: ANEEL, Jurídico, Engenharia (opcional)");
   const st=el("select",{class:"fe-in"},...STATUS_OPTS.map(s=>el("option",{value:s,text:s})));if(f.status&&!STATUS_OPTS.includes(f.status))st.appendChild(el("option",{value:f.status,text:f.status}));st.value=f.status||"A preencher";
   const DL=["Abertura","Prazo total","Encerramento","Envio"],dates=DL.map(lb=>{const r=mk.find(x=>(x[0]||"").toLowerCase().startsWith(lb.toLowerCase()))||[];return{lb,v:inp(r[1],"—"),n:inp(r[2],"observação (opcional)")};});
   const extraMk=mk.filter(x=>!DL.some(lb=>(x[0]||"").toLowerCase().startsWith(lb.toLowerCase())));
@@ -2417,6 +2421,7 @@ function openFichaEditor(id){
     el("div",{class:"fe-bd"},
       sec("Processo",fld("Nome",F.sigla),fld("Objeto (texto da capa)",F.capa),el("div",{class:"fe-2"},fld("Status",st),fld("Responsável",F.responsavel)),el("div",{class:"fe-2"},fld("Prazo",F.prazo)),fld("Processo, atividade e relator",F.processo)),
       sec("Datas",el("div",{class:"fe-dates"},...dates.map(d=>el("div",{class:"fe-d"},el("span",{class:"fe-l",text:d.lb}),d.v,d.n)))),
+      sec("Andamento",fld("Último andamento",anTx),fld("Próximo passo",npTx),el("div",{class:"fe-2"},fld("Prazo do próximo passo",npPz),fld("Aguardando quem",npQuem))),
       sec("Resumo do mapa",fld("Impacto DISCO",F.impDisco),fld("Impacto (RE) Energisa",F.impRE)),
       sec("Documentos",fld("One Page — arquivo ou link",withAtt(F.linkOnePage)),fld("Norma base — link",withAtt(F.linkNorma)),fld("Norma base — texto",F.norma),
         el("div",{class:"fe-f"},el("span",{class:"fe-l",text:"Processos SEI"}),seiBox,el("span",{class:"fe-h",text:"Cole o link da pesquisa pública para abrir direto; sem link, o número é copiado ao clicar."})),
@@ -2434,9 +2439,14 @@ function openFichaEditor(id){
     const seiRows=seiBox.read(),seiDel=seiBox.removed();
     for(const r of seiRows){const v=r.v;if(!v.numero&&!v.link)continue;if(v.numero&&!SEI_RX.test(v.numero)){SEI_RX.lastIndex=0;toast(`Número SEI inválido: ${v.numero}. Use 48500.000000/2026-00.`,true);return;}SEI_RX.lastIndex=0;}
     const seiOps=[];seiDel.forEach(it=>seiOps.push(["del",it]));seiRows.forEach(r=>{const v=r.v;if(!v.numero&&!v.link)return;if(!r.it)seiOps.push(["add",v]);else if(v.numero!==(r.it.numero||"")||v.titulo!==(r.it.titulo||"")||v.link!==(r.it.link||""))seiOps.push(["upd",r.it,v]);});
-    if(!ch.length&&!seiOps.length){closeFichaEditor();return;}
+    const anV=anTx.value.trim(),npV=npTx.value.trim(),pzV=npPz.value,qV=npQuem.value.trim();
+    const anCh=anV!==(lastM?lastM.texto||"":""),npCh=npV!==(nextA?nextA.descricao||"":"")||pzV!==(nextA&&nextA.prazo?String(nextA.prazo).slice(0,10):"")||qV!==(nextA?(nextA.dependeDe||nextA.dependeTipo||""):"");
+    if(!ch.length&&!seiOps.length&&!anCh&&!(npCh&&(npV||nextA))){closeFichaEditor();return;}
     const ok=await save(async()=>{
       if(ch.length){const base={...(fichas[id]||{})};delete base.linkContribDoc;delete base.linkContribApres;await db.doc("temas/"+id).set({...base,...nv,atualizadoPor:myId||null,atualizadoEm:new Date().toISOString()});await addMov(id,"ficha","Ficha atualizada — "+ch.map(k=>LB[k]||k).join(", ")+".");}
+      if(anCh&&anV){if(lastM&&lastM.id)await db.doc(`temas/${id}/movs/${lastM.id}`).update({texto:anV,editadoEm:new Date().toISOString(),editadoPor:myId||null});else await db.collection(`temas/${id}/movs`).add({tipo:"resumo",texto:anV,autorId:myId||null,criadoEm:new Date().toISOString()});}
+      if(npCh){if(nextA&&nextA.id){if(npV)await db.doc(`temas/${id}/acoes/${nextA.id}`).update({descricao:npV,prazo:pzV,dependeDe:qV,dependeTipo:qV?(nextA.dependeTipo||"Área"):"",direcao:qV?(nextA.direcao||"receber"):""});else await db.doc(`temas/${id}/acoes/${nextA.id}`).update({status:"Concluída"});}
+        else if(npV)await db.collection(`temas/${id}/acoes`).add({descricao:npV,prazo:pzV,prazoOriginal:pzV,dependeTipo:qV?"Área":"",dependeDe:qV,direcao:qV?"receber":"",repactuacoes:[],status:"Pendente",autorId:myId||null,criadoEm:new Date().toISOString()});}
       for(const [op,it,v] of seiOps){
         if(op==="del"){if(it.src==="sei")await db.doc(`temas/${id}/sei/${it.id}`).delete();else await db.doc(`temas/${id}/docs/${it.id}`).delete();await addMov(id,"documento",`Processo SEI removido: ${it.numero||it.link}`);}
         else if(op==="add"){await db.collection(`temas/${id}/sei`).add({...it,autorId:myId||null,criadoEm:new Date().toISOString()});await addMov(id,"documento",`Processo SEI incluído: ${it.numero||it.link}${it.titulo?" — "+it.titulo:""}`);}
