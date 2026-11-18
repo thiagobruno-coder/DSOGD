@@ -1454,6 +1454,41 @@ body.sheet-open{overflow:hidden}
 
 @container (max-width:760px){.porb-in .pnd{height:auto!important;min-height:2.9em;padding:.4em .8em .4em .6em!important}.porb-in .pnm{white-space:normal!important;overflow:visible!important;line-height:1.15}}
 .pgrid.focus{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)!important}
+
+.porb .pleg.sm{display:none!important}
+.wt-plus{margin-left:auto;width:22px;height:22px;border-radius:6px;border:1px solid rgba(181,230,34,.4);background:none;color:#B5E622;font:900 14px/1 Nunito,Arial,sans-serif;cursor:pointer}
+.wt-plus+.wt-n{margin-left:6px}
+.dz{display:flex;align-items:center;gap:14px;padding:18px;border:1.5px dashed #3A3A70;border-radius:14px;background:#11113A;cursor:pointer;transition:border-color .2s,background .2s}
+.dz:hover,.dz.over,.dz:focus{border-color:#66C8DE;background:#15154A;outline:none}
+.dz.ok{border-style:solid;border-color:#B5E622}
+.dz.busy{opacity:.7;pointer-events:none}
+.dz-ic{flex:none;width:40px;height:40px;border-radius:10px;display:grid;place-items:center;background:rgba(102,200,222,.12);color:#66C8DE}.dz-ic svg{width:20px;height:20px}
+.dz-st{display:block;font-weight:800;font-size:14px;color:#F2F4FF}.dz small{color:#6A6E89;font-size:12px}
+.qa-ov{align-items:center;justify-content:center}
+.fe-panel.qa{width:min(520px,94vw);height:auto;max-height:90vh;border:1px solid #2A2A55;border-radius:18px;transform:translateY(20px) scale(.98);opacity:0;transition:transform .3s cubic-bezier(.22,1,.36,1),opacity .25s}
+.qa-ov.show .fe-panel.qa{transform:none;opacity:1}
+.qa-bd{display:grid;gap:14px;padding:18px 22px}
+.fe-row{display:flex;gap:6px}.fe-row .fe-in{flex:1}
+.fe-att{flex:none;border:1px solid #2A2A55;background:#14143A;color:#66C8DE;border-radius:9px;font:800 12.5px Nunito,Arial,sans-serif;padding:0 10px;cursor:pointer;min-height:36px}
+.fe-att:hover{border-color:#66C8DE}
+.fe-lr.has-att{grid-template-columns:repeat(auto-fit,minmax(130px,1fr)) 36px 32px}
+
+.porb-in .pnd-b small>span{display:none!important}
+
+
+.porb-in .pnd{height:auto!important;min-height:3.5em;padding-top:.45em!important;padding-bottom:.45em!important}
+.porb-in .pnm{white-space:normal!important;overflow:visible!important;line-height:1.15}
+
+.porb-in .pnd{height:4.15em!important;min-height:0}
+@container (max-width:760px){.porb-in .pnd{height:3.2em!important}}
+
+.porb-in .pnd-b small:not(:has(.pcode,.pprz)){display:none!important}
+.porb-in .pnd-b small:has(.pcode,.pprz){display:flex!important}
+.pprz{font-style:normal;font-weight:800;font-size:.92em;color:#B5E622;white-space:nowrap}
+.wprz{display:inline-flex;align-items:center;gap:6px;color:#B5E622;font-weight:700}.wprz svg{width:14px;height:14px}.wprz b{color:#fff}
+.porb-in .pprz{display:none!important}
+.porb-in .pnd-b small:not(:has(.pcode)){display:none!important}
+.wlate{display:none!important}
 </style>
 
 </head>
@@ -2090,8 +2125,9 @@ function mapPanelProc(id){
 let exSel=null,exPlay=null,exPage=0;
 function exTone(id){const s2=procStats(id);if(s2.late)return"bad";const f=fresh(id);if(s2.soon||f==="warn")return"warn";if(f==="bad"||f==="none")return"idle";return"ok";}
 function exStop(){if(exPlay){clearInterval(exPlay);exPlay=null;const b=document.querySelector(".pplay");if(b)b.textContent="▶ Tocar";}}
-const EX_SHORT={cp33:"RED",erag:"ERAG",sandbox:"Sandbox · MAI",art28:"Comercialização MMGD",tarifabranca:"Hora Certa",excedente:"Gestão de Excedentes",cp09:"Excedentes",valoracao:"Custos e Benefícios",eletromob:"Eletromobilidade"};
-const EX_CODE={cp33:"CP 33/26",art28:"CP xx",cp09:"CP 09/26",valoracao:"CP xx",eletromob:"CP 42/25"};
+const EX_SHORT={cp33:"RED",erag:"ERAG",sandbox:"Sandbox · MAI",art28:"Comercialização MMGD",tarifabranca:"Hora Certa",excedente:"Plano de Gestão de Excedentes",cp09:"Tratamento de Excedentes",valoracao:"Custos e Benefícios",eletromob:"Eletromobilidade"};
+const EX_CODE={cp33:"CP 33/2026",art28:"CP xx",cp09:"CP 09/2026",valoracao:"CP xx",eletromob:"CP 42/2025"};
+const przTxt=v=>{v=(v||"").trim();if(!v)return"";const m=v.match(/^(\d{4})-(\d{2})-(\d{2})/);return m?`${m[3]}/${m[2]}/${m[1]}`:v;};
 const EX_PAGES=["Capa","Mapa"];
 function exNum(id){return TEMAS.findIndex(t=>t.id===id)+1;}
 function exPageGo(p,sel){exStop();closeSheet();pmTipHide();exPage=Math.max(0,Math.min(EX_PAGES.length-1,p));exSel=sel===undefined?(exPage===1?exSel:null):sel;render(true);window.scrollTo({top:0});}
@@ -2143,7 +2179,7 @@ function exMapa(anim){
   pmPos().forEach((p,i)=>{const s2=procStats(p.id),tone=exTone(p.id);
     const n=el("button",{class:"pnd t-"+tone,"data-id":p.id,onclick:()=>{exStop();exSelect(exSel===p.id?null:p.id);},"aria-label":sigla(p.id)},
       el("span",{class:"xn",text:String(i+1)}),
-      el("span",{class:"pnd-b"},el("b",{},el("span",{class:"pnm",text:EX_SHORT[p.id]||sigla(p.id)}),el("i",{class:"sdot",title:TONE[tone].t})),el("small",{},EX_CODE[p.id]?el("i",{class:"pcode",text:EX_CODE[p.id]}):null,el("span",{class:s2.late?"plate":"",text:s2.late?`${s2.late} fora do prazo`:s2.m?rel(s2.m.criadoEm):"sem atualização"}))));
+      el("span",{class:"pnd-b"},el("b",{},el("span",{class:"pnm",text:EX_SHORT[p.id]||sigla(p.id)}),el("i",{class:"sdot",title:TONE[tone].t})),el("small",{},EX_CODE[p.id]?el("i",{class:"pcode",text:EX_CODE[p.id]}):null,(fichas[p.id]||{}).prazo?el("em",{class:"pprz",text:"Prazo "+przTxt(fichas[p.id].prazo)}):null,el("span",{class:s2.late?"plate":"",text:s2.late?`${s2.late} fora do prazo`:s2.m?rel(s2.m.criadoEm):"sem atualização"}))));
     n.style.left=p.x/PM.W*100+"%";n.style.top=p.y/PM.H*100+"%";n.style.animationDelay=(anim?150+i*70:0)+"ms";
     n.addEventListener("mouseenter",()=>pmTipShow(n,p.id));n.addEventListener("mouseleave",pmTipHide);n.addEventListener("click",pmTipHide);
     inner.appendChild(n);});
@@ -2241,7 +2277,67 @@ function poText(txt,lines,cls){const box=el("div",{class:"po-p po-clamp "+(cls||
   b.style.display="none";w.appendChild(b);requestAnimationFrame(()=>{if(box.scrollHeight>box.clientHeight+2)b.style.display="";});return w;}
 function poSec(lb,...kids){kids=kids.filter(Boolean);return kids.length?el("div",{class:"po-sec"},el("div",{class:"po-lb",text:lb}),...kids):null;}
 function contribList(f){if(Array.isArray(f.contrib))return f.contrib.filter(x=>x&&(x.titulo||x.link));const o=[];if(f.linkContribDoc)o.push({titulo:"Documento",link:f.linkContribDoc});if(f.linkContribApres)o.push({titulo:"Apresentação",link:f.linkContribApres});return o;}
-const isUrl=u=>/^https?:\/\//i.test(u||"");
+const isUrl=u=>/^(https?:\/\/|\/_blob\/|blob:)/i.test(u||"");
+/* ---------- anexos (upload de arquivos) ---------- */
+let _assetsP=null;
+function getAssets(){if(!_assetsP)_assetsP=(window.claude&&window.claude.use)?window.claude.use("assets").catch(()=>null):Promise.resolve(null);return _assetsP;}
+const UP_OK=/\.(pdf|png|jpe?g|gif|webp|svg|txt|csv|md|json)$/i;
+async function uploadFile(file){
+  if(!file)return null;
+  if(!UP_OK.test(file.name)){toast(`"${file.name}": formato não aceito. Salve como PDF (Word e PowerPoint → Salvar como PDF) ou use o link do SharePoint.`,true);return null;}
+  if(file.size>20*1024*1024){toast("Arquivo maior que 20 MB. Use o link do SharePoint.",true);return null;}
+  const a=await getAssets();
+  if(!a){if(isLocal)return{url:URL.createObjectURL(file),nome:file.name,local:true};toast("Anexo indisponível para o seu perfil. Use o link do documento.",true);return null;}
+  try{const r=await a.upload(file);return{url:"/_blob/"+r.id,assetId:r.id,nome:file.name};}catch(e){toast("Não foi possível enviar o arquivo: "+(e&&e.message||e),true);return null;}
+}
+function dropZone(onFile,label){
+  const inp=el("input",{type:"file",accept:".pdf,image/*,.txt,.csv,.md,.json",style:"display:none"});
+  const st=el("span",{class:"dz-st",text:label||"Arraste o arquivo aqui ou clique para escolher"});
+  const z=el("div",{class:"dz",tabindex:"0",role:"button",onclick:()=>inp.click(),onkeydown:e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();inp.click();}}},
+    el("span",{class:"dz-ic"},mic("page")),el("div",{},st,el("small",{text:"PDF ou imagem · até 20 MB"})),inp);
+  const go=async f=>{if(!f)return;z.classList.add("busy");st.textContent="Enviando "+f.name+"…";const r=await uploadFile(f);z.classList.remove("busy");if(r){z.classList.add("ok");st.textContent="✓ "+r.nome;onFile(r);}else st.textContent=label||"Arraste o arquivo aqui ou clique para escolher";};
+  inp.onchange=()=>go(inp.files[0]);
+  z.ondragover=e=>{e.preventDefault();z.classList.add("over");};z.ondragleave=()=>z.classList.remove("over");
+  z.ondrop=e=>{e.preventDefault();z.classList.remove("over");go(e.dataTransfer.files[0]);};
+  return z;
+}
+/* inclusão rápida por bloco da ficha */
+const QA={onepage:{t:"Incluir One Page",file:true,link:true},norma:{t:"Incluir norma base",text:"Norma base"},sei:{t:"Incluir processo SEI",sei:true},contrib:{t:"Incluir documento da Contribuição Energisa",file:true,link:true,nome:true},resultado:{t:"Incluir resultado",text:"Resultado (por extenso)",file:true,link:true}};
+function openQuickAdd(id,kind){
+  if(!canWrite){toast("Você está em modo leitura.",true);return;}
+  closeFichaEditor();const c=QA[kind],f=fichas[id]||{};let up=null;
+  const inp=(v,ph,ta)=>{const x=el(ta?"textarea":"input",{class:"fe-in",placeholder:ph||""});x.value=v||"";return x;};
+  const nome=c.nome?inp("","Nome do documento (ex.: Contribuição, Apresentação)"):null;
+  const link=c.link?inp("","https://… (SharePoint, Teams, SEI)"):null;
+  const txt=c.text?inp(kind==="norma"?f.norma:f.resultado,c.text,true):null;
+  const seiN=c.sei?inp("","48500.000000/2026-00"):null,seiT=c.sei?inp("","Assunto (opcional)"):null,seiL=c.sei?inp("","Link da pesquisa pública (opcional)"):null;
+  const dz=c.file?dropZone(r=>{up=r;if(nome&&!nome.value)nome.value=r.nome.replace(/\.[^.]+$/,"");}):null;
+  const fld=(lb,n)=>el("label",{class:"fe-f"},el("span",{class:"fe-l",text:lb}),n);
+  const body=el("div",{class:"fe-bd qa-bd"},
+    txt?fld(c.text,txt):null,
+    dz?el("div",{class:"fe-f"},el("span",{class:"fe-l",text:"Arquivo"}),dz):null,
+    link?fld(dz?"ou cole um link":"Link",link):null,
+    nome?fld("Nome",nome):null,
+    seiN?fld("Número do processo",seiN):null,seiT?fld("Assunto",seiT):null,seiL?fld("Link",seiL):null);
+  const panel=el("div",{class:"fe-panel qa",role:"dialog","aria-label":c.t},
+    el("div",{class:"fe-hd"},el("span",{class:"xn",text:String(exNum(id))}),el("div",{},el("div",{class:"fe-eb",text:sigla(id).toUpperCase()}),el("b",{text:c.t})),el("button",{class:"fe-close","aria-label":"Fechar",onclick:closeFichaEditor},"×")),
+    body,el("div",{class:"fe-ft"},el("button",{class:"xbtn ghost",onclick:closeFichaEditor},"Cancelar"),el("button",{class:"xbtn",onclick:()=>salvar()},"Incluir")));
+  const ov=el("div",{class:"fe-ov qa-ov",id:"feOv",onclick:e=>{if(e.target.id==="feOv")closeFichaEditor();}},panel);
+  document.body.appendChild(ov);requestAnimationFrame(()=>ov.classList.add("show"));setTimeout(()=>(txt||seiN||link||panel).focus&&(txt||seiN||link).focus(),300);
+  async function salvar(){
+    const L=(link&&link.value.trim())||"",url=up?up.url:L;
+    const patchFicha=async(p,msg)=>{await db.doc("temas/"+id).set({...(fichas[id]||{}),...p,atualizadoPor:myId||null,atualizadoEm:new Date().toISOString()});await addMov(id,"documento",msg);};
+    let job=null,ok="Incluído.";
+    if(kind==="onepage"){if(!url)return toast("Anexe o arquivo ou cole um link.",true);job=()=>patchFicha({linkOnePage:url,onePageArquivo:up?up.nome:"",onePageAsset:up&&up.assetId||""},"One Page incluído"+(up?": "+up.nome:"."));}
+    else if(kind==="norma"){const v=txt.value.trim();if(!v)return toast("Escreva a norma base.",true);job=()=>patchFicha({norma:v},"Norma base atualizada.");}
+    else if(kind==="contrib"){if(!url)return toast("Anexe o arquivo ou cole um link.",true);const it={titulo:(nome.value.trim()||(up&&up.nome)||"Documento"),link:url,arquivo:up?up.nome:"",assetId:up&&up.assetId||""};job=()=>patchFicha({contrib:[...contribList(fichas[id]||{}),it]},"Contribuição Energisa: documento incluído — "+it.titulo);}
+    else if(kind==="resultado"){const v=txt.value.trim();if(!v&&!url)return toast("Escreva o resultado ou anexe o documento.",true);const p={resultado:v};if(url){p.linkResultado=url;p.resultadoArquivo=up?up.nome:"";}job=()=>patchFicha(p,"Resultado atualizado.");}
+    else if(kind==="sei"){const n=seiN.value.trim();SEI_RX.lastIndex=0;if(!SEI_RX.test(n)){SEI_RX.lastIndex=0;return toast("Número inválido. Use 48500.000000/2026-00.",true);}SEI_RX.lastIndex=0;
+      job=async()=>{await db.collection(`temas/${id}/sei`).add({numero:n,titulo:seiT.value.trim(),link:seiL.value.trim(),autorId:myId||null,criadoEm:new Date().toISOString()});await addMov(id,"documento",`Processo SEI incluído: ${n}`);};}
+    const r=await save(job,ok);if(r)closeFichaEditor();
+  }
+}
+
 const ST_TONE={"A preencher":"st-idle","Em monitoramento":"st-mon","Em análise":"st-an","Contribuição em elaboração":"st-el","Aguardando ANEEL":"st-ag","Contribuições encerradas":"st-enc","Concluído":"st-ok"};
 const MI={cal:'<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/>',
   hour:'<path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.17a2 2 0 0 0-.59-1.42L12 12l-4.41 4.41A2 2 0 0 0 7 17.83V22"/><path d="M7 2v4.17a2 2 0 0 0 .59 1.42L12 12l4.41-4.41A2 2 0 0 0 17 6.17V2"/>',
@@ -2263,27 +2359,28 @@ function exDetProc(id){
   const fact=(lb,ic)=>{const r=mk.find(x=>(x[0]||"").toLowerCase().replace(/\s+/g," ").startsWith(lb.toLowerCase()));const has=r&&r[1];
     return el("div",{class:"wf"+(has?" on":"")},el("span",{class:"wf-ic"},mic(ic)),el("div",{class:"wf-tx"},el("small",{text:lb}),el("b",{text:has?r[1]:"—"}),r&&r[2]?el("span",{text:r[2]}):null));};
   const chip=(t,u)=>isUrl(u)?el("a",{class:"wlink",href:u,target:"_blank",rel:"noopener"},el("span",{text:t}),el("i",{text:"↗"})):el("span",{class:"wlink off",text:t});
-  const empty=()=>el("div",{class:"wempty"},el("span",{text:"Não informado"}),canWrite?el("button",{class:"wadd edit-only",onclick:()=>{exStop();openFichaEditor(id);}},"+ incluir"):null);
-  const tile=(lb,ic,cls,...v)=>{v=v.filter(Boolean);return el("div",{class:"wt "+(cls||"")+(v.length?"":" is-empty")},el("div",{class:"wt-h"},el("span",{class:"wt-ic"},mic(ic)),el("span",{class:"wt-lb",text:lb}),v.length&&cls!=="res"?el("span",{class:"wt-n"}):null),el("div",{class:"wt-b"},...(v.length?v:[empty()])));};
+  const KIND={"One Page":"onepage","Norma base":"norma","Processos SEI":"sei","Contribuição Energisa":"contrib","Resultado":"resultado"};
+  const empty=k=>el("div",{class:"wempty"},el("span",{text:"Não informado"}),canWrite?el("button",{class:"wadd edit-only",onclick:()=>{exStop();openQuickAdd(id,k);}},k==="norma"?"+ incluir":"+ anexar"):null);
+  const tile=(lb,ic,cls,...v)=>{v=v.filter(Boolean);const k=KIND[lb];return el("div",{class:"wt "+(cls||"")+(v.length?"":" is-empty")},el("div",{class:"wt-h"},el("span",{class:"wt-ic"},mic(ic)),el("span",{class:"wt-lb",text:lb}),v.length&&canWrite&&(k==="sei"||k==="contrib")?el("button",{class:"wt-plus edit-only",title:"Incluir mais","aria-label":"Incluir mais em "+lb,onclick:()=>{exStop();openQuickAdd(id,k);}},"+"):null,v.length&&cls!=="res"?el("span",{class:"wt-n"}):null),el("div",{class:"wt-b"},...(v.length?v:[empty(k)])));};
   const d=el("article",{class:"pone mini wk t-"+tone});
   d.append(...[
     el("div",{class:"po-top"},el("span",{class:"xn",text:String(i)}),el("span",{class:"wst "+(ST_TONE[f.status||"A preencher"]||"st-idle"),text:f.status||"A preencher"}),(()=>{const lt=acoes[id].filter(a=>a.status!=="Concluída"&&situacao(a).k==="late").length;return lt?el("span",{class:"wlate",text:`⚠ ${lt} fora do prazo`}):null;})(),
       el("span",{class:"pcnav"},el("button",{"aria-label":"Anterior",onclick:()=>{exStop();exCycle(-1);}},"‹"),el("button",{"aria-label":"Próximo",onclick:()=>{exStop();exCycle(1);}},"›"),el("button",{class:"pclose","aria-label":"Fechar ficha",onclick:()=>{exStop();closeSheet();}},"×"))),
     el("div",{class:"whd"},el("span",{class:"whd-ic"},lucide(id)),el("div",{class:"whd-tx"},el("h3",{class:"po-h",text:sigla(id)}),capaTxt(id)?el("div",{class:"po-sub",text:capaTxt(id)}):null)),
-    el("div",{class:"wref"},f.processo?el("span",{},pmCut(f.processo,240)):null,el("span",{class:"wresp"},mic("user"),"Responsável: ",el("b",{text:f.responsavel||"a definir"}))),
+    el("div",{class:"wref"},f.processo?el("span",{},pmCut(f.processo,240)):null,el("span",{class:"wresp"},mic("user"),"Responsável: ",el("b",{text:f.responsavel||"a definir"})),f.prazo?el("span",{class:"wprz"},mic("cal"),"Prazo: ",el("b",{text:przTxt(f.prazo)})):null),
     (f.impDisco||f.impactaCurto||f.impacto||f.impRE||f.impactoEnergisa)?el("div",{class:"wimp"},
       el("div",{},el("small",{text:"Impacto DISCO"}),(f.impDisco||f.impactaCurto||f.impacto)?poText(f.impDisco||f.impactaCurto||f.impacto,3):el("span",{class:"mnone",text:"—"})),
       el("div",{},el("small",{text:"Impacto (RE) Energisa"}),(f.impRE||f.impactoEnergisa)?poText(f.impRE||f.impactoEnergisa,3):el("span",{class:"mnone",text:"—"}))):null,
     el("div",{class:"wfacts"},fact("Abertura","cal"),fact("Prazo total","hour"),fact("Encerramento","flag"),fact("Envio","send")),
     el("div",{class:"wand"},
-      el("div",{class:"wa"},el("span",{class:"wa-ic"},mic("clock")),el("div",{},el("small",{text:"Último andamento"+(m?" · "+rel(m.criadoEm):"")}),el("p",{text:m?pmCut(m.texto,220):"Nenhuma atualização registrada ainda."}),m?el("span",{class:"wa-by",text:`${nameOf(m.autorId)} · ${fmtD(m.criadoEm)}`}):null)),
+      el("div",{class:"wa"},el("span",{class:"wa-ic"},mic("clock")),el("div",{},el("small",{text:"Último andamento"}),el("p",{text:m?pmCut(m.texto,220):"Nenhuma atualização registrada ainda."}),m?el("span",{class:"wa-by",text:`${nameOf(m.autorId)} · ${fmtD(m.criadoEm)}`}):null)),
       el("div",{class:"wa nx"},el("span",{class:"wa-ic"},mic("next")),el("div",{},el("small",{text:"Próximo passo"+(next&&next.prazo?" · "+fmtDay(next.prazo):"")}),el("p",{text:next?pmCut(next.descricao,220):"Sem próximo passo cadastrado."}),next&&next.dependeTipo?el("span",{class:"wa-by",text:`${next.direcao==="entregar"?"Entregar para":"Aguardando"} ${next.dependeDe||next.dependeTipo}`}):null))),
     el("div",{class:"wsec",text:"Documentos e referências"}),
     el("div",{class:"wgrid"},
-      tile("One Page","page","",isUrl(f.linkOnePage)?chip("Abrir One Page",f.linkOnePage):null),
+      tile("One Page","page","",isUrl(f.linkOnePage)?chip(f.onePageArquivo?"📎 "+f.onePageArquivo:"Abrir One Page",f.linkOnePage):null),
       tile("Norma base","law","",f.norma?poText(f.norma,3):null),
       tile("Processos SEI","folder","",sei.length?el("div",{class:"wlist"},...sei.map(x=>el("a",{class:"wsei",title:x.titulo||"",href:isUrl(x.link)?x.link:SEI_PESQ,target:"_blank",rel:"noopener",onclick:async()=>{if(!isUrl(x.link)){try{await navigator.clipboard.writeText(x.numero);toast(`Número ${x.numero} copiado.`);}catch(e){}}}},el("b",{text:x.numero||"SEI"}),x.titulo?el("span",{text:x.titulo}):null))):null),
-      tile("Contribuição Energisa","docs","",cb.length?el("div",{class:"wlist"},...cb.map(x=>chip(x.titulo||"Documento",x.link))):null),
+      tile("Contribuição Energisa","docs","",cb.length?el("div",{class:"wlist"},...cb.map(x=>chip((x.arquivo?"📎 ":"")+(x.titulo||"Documento"),x.link))):null),
       tile("Resultado","award","res",(f.resultado||isUrl(f.linkResultado))?el("div",{},f.resultado?poText(f.resultado,3):null,isUrl(f.linkResultado)?el("div",{style:"margin-top:8px"},chip("Abrir resultado",f.linkResultado)):null):null)),
     el("div",{class:"po-foot"},el("button",{class:"xlink",onclick:()=>closeSheet()},"← voltar ao mapa"),
       el("span",{class:"row",style:"gap:8px"},el("button",{class:"xbtn ghost edit-only",onclick:()=>{exStop();openFichaEditor(id);}},"✎ Editar ficha"),el("button",{class:"xbtn edit-only",onclick:()=>{exStop();openModal(id);}},"+ Atualização")))].filter(Boolean));
@@ -2297,7 +2394,7 @@ function openFichaEditor(id){
   const inp=(v,ph,type)=>{const x=el(type==="ta"?"textarea":"input",{class:"fe-in",placeholder:ph||""});x.value=v||"";return x;};
   const fld=(lb,node,hint)=>el("label",{class:"fe-f"},el("span",{class:"fe-l",text:lb}),node,hint?el("span",{class:"fe-h",text:hint}):null);
   const F={sigla:inp(f.sigla||sigla(id),"Nome do processo"),capa:inp(capaTxt(id),"Texto que aparece na capa, no mapa e na ficha","ta"),
-    responsavel:inp(f.responsavel,"Nome do responsável"),processo:inp(f.processo,"Ex.: Processo 48500.000000/2026-00 · Atividade AR 25-15 da Agenda Regulatória · Relatora: …","ta"),
+    responsavel:inp(f.responsavel,"Nome do responsável"),prazo:inp(przTxt(f.prazo),"dd/mm/aaaa"),processo:inp(f.processo,"Ex.: Processo 48500.000000/2026-00 · Atividade AR 25-15 da Agenda Regulatória · Relatora: …","ta"),
     impDisco:inp(f.impDisco,"Impacto para as distribuidoras (aparece no mapa)","ta"),impRE:inp(f.impRE,"Impacto para a (RE) Energisa (aparece no mapa)","ta"),
     linkOnePage:inp(f.linkOnePage,"https://…"),norma:inp(f.norma,"Norma base","ta"),resultado:inp(f.resultado,"Escreva o resultado por extenso","ta"),linkResultado:inp(f.linkResultado,"https://… (opcional)")};
   F.responsavel.setAttribute("list","dlResp");
@@ -2305,23 +2402,25 @@ function openFichaEditor(id){
   const DL=["Abertura","Prazo total","Encerramento","Envio"],dates=DL.map(lb=>{const r=mk.find(x=>(x[0]||"").toLowerCase().startsWith(lb.toLowerCase()))||[];return{lb,v:inp(r[1],"—"),n:inp(r[2],"observação (opcional)")};});
   const extraMk=mk.filter(x=>!DL.some(lb=>(x[0]||"").toLowerCase().startsWith(lb.toLowerCase())));
   // listas
-  const mkList=(items,cols,addTxt)=>{const box=el("div",{class:"fe-list"}),rows=[];
-    const add=(it)=>{const ins=cols.map(([k,ph])=>inp(it&&it[k],ph));const r=el("div",{class:"fe-lr"},...ins,el("button",{type:"button",class:"fe-x",title:"Remover","aria-label":"Remover",onclick:()=>{r.remove();rec.del=true;}},"×"));const rec={it,ins,del:false};rows.push(rec);box.insertBefore(r,addBtn);};
+  const pickUp=cb=>{const i=el("input",{type:"file",accept:".pdf,image/*,.txt,.csv,.md,.json"});i.onchange=async()=>{toast("Enviando "+i.files[0].name+"…");const r=await uploadFile(i.files[0]);if(r){cb(r);toast("Arquivo anexado: "+r.nome+". Clique em Salvar ficha.");}};i.click();};
+  const withAtt=x=>el("div",{class:"fe-row"},x,el("button",{type:"button",class:"fe-att",title:"Anexar arquivo",onclick:()=>pickUp(r=>{x.value=r.url;})},"📎 Anexar"));
+  const mkList=(items,cols,addTxt,attach)=>{const box=el("div",{class:"fe-list"}),rows=[];
+    const add=(it)=>{const ins=cols.map(([k,ph])=>inp(it&&it[k],ph));const li=cols.findIndex(c=>c[0]==="link"),ti=cols.findIndex(c=>c[0]==="titulo");const att=attach&&li>=0?el("button",{type:"button",class:"fe-att",title:"Anexar arquivo","aria-label":"Anexar arquivo",onclick:()=>pickUp(r2=>{ins[li].value=r2.url;if(ti>=0&&!ins[ti].value)ins[ti].value=r2.nome.replace(/\.[^.]+$/,"");})},"📎"):null;const r=el("div",{class:"fe-lr"+(att?" has-att":"")},...ins,att,el("button",{type:"button",class:"fe-x",title:"Remover","aria-label":"Remover",onclick:()=>{r.remove();rec.del=true;}},"×"));const rec={it,ins,del:false};rows.push(rec);box.insertBefore(r,addBtn);};
     const addBtn=el("button",{type:"button",class:"fe-add",onclick:()=>add(null)},addTxt);box.appendChild(addBtn);items.forEach(add);if(!items.length)add(null);
     box.read=()=>rows.filter(r=>!r.del).map(r=>({it:r.it,v:Object.fromEntries(cols.map(([k],j)=>[k,r.ins[j].value.trim()]))}));box.removed=()=>rows.filter(r=>r.del&&r.it).map(r=>r.it);return box;};
   const seiBox=mkList(seiItems(id).map(x=>({...x})),[["numero","48500.000000/2026-00"],["titulo","Assunto (opcional)"],["link","Link do SEI (opcional)"]],"+ adicionar processo SEI");
-  const cbBox=mkList(contribList(f),[["titulo","Ex.: Contribuição, Apresentação, Carta…"],["link","https://…"]],"+ adicionar documento");
+  const cbBox=mkList(contribList(f),[["titulo","Ex.: Contribuição, Apresentação, Carta…"],["link","https://…"]],"+ adicionar documento",true);
   const sec=(t,...k)=>el("section",{class:"fe-sec"},el("div",{class:"fe-st",text:t}),...k);
   const panel=el("div",{class:"fe-panel",role:"dialog","aria-label":"Editar ficha"},
     el("div",{class:"fe-hd"},el("span",{class:"xn",text:String(exNum(id))}),el("div",{},el("div",{class:"fe-eb",text:"EDITAR FICHA"}),el("b",{text:sigla(id)})),el("button",{class:"fe-close","aria-label":"Fechar",onclick:closeFichaEditor},"×")),
     el("div",{class:"fe-bd"},
-      sec("Processo",fld("Nome",F.sigla),fld("Objeto (texto da capa)",F.capa),el("div",{class:"fe-2"},fld("Status",st),fld("Responsável",F.responsavel)),fld("Processo, atividade e relator",F.processo)),
+      sec("Processo",fld("Nome",F.sigla),fld("Objeto (texto da capa)",F.capa),el("div",{class:"fe-2"},fld("Status",st),fld("Responsável",F.responsavel)),el("div",{class:"fe-2"},fld("Prazo",F.prazo)),fld("Processo, atividade e relator",F.processo)),
       sec("Datas",el("div",{class:"fe-dates"},...dates.map(d=>el("div",{class:"fe-d"},el("span",{class:"fe-l",text:d.lb}),d.v,d.n)))),
       sec("Resumo do mapa",fld("Impacto DISCO",F.impDisco),fld("Impacto (RE) Energisa",F.impRE)),
-      sec("Documentos",fld("One Page — link",F.linkOnePage),fld("Norma base",F.norma),
+      sec("Documentos",fld("One Page — arquivo ou link",withAtt(F.linkOnePage)),fld("Norma base",F.norma),
         el("div",{class:"fe-f"},el("span",{class:"fe-l",text:"Processos SEI"}),seiBox,el("span",{class:"fe-h",text:"Cole o link da pesquisa pública para abrir direto; sem link, o número é copiado ao clicar."})),
         el("div",{class:"fe-f"},el("span",{class:"fe-l",text:"Contribuição Energisa"}),cbBox)),
-      sec("Resultado",fld("Resultado (por extenso)",F.resultado),fld("Link do resultado",F.linkResultado))),
+      sec("Resultado",fld("Resultado (por extenso)",F.resultado),fld("Resultado — arquivo ou link",withAtt(F.linkResultado)))),
     el("div",{class:"fe-ft"},el("button",{class:"xbtn ghost",onclick:closeFichaEditor},"Cancelar"),el("button",{class:"xbtn",onclick:()=>saveFicha()},"Salvar ficha")));
   const ov=el("div",{class:"fe-ov",id:"feOv",onclick:e=>{if(e.target.id==="feOv")closeFichaEditor();}},panel);
   document.body.appendChild(ov);requestAnimationFrame(()=>ov.classList.add("show"));setTimeout(()=>F.capa.focus(),300);
@@ -2329,7 +2428,7 @@ function openFichaEditor(id){
     const nv={};Object.entries(F).forEach(([k,x])=>nv[k]=x.value.trim());nv.status=st.value;
     nv.marcos=[...dates.filter(d=>d.v.value.trim()||d.n.value.trim()).map(d=>[d.lb,d.v.value.trim(),d.n.value.trim()].join(" | ")),...extraMk.map(x=>x.join(" | "))].join("\n");
     nv.contrib=cbBox.read().map(r=>r.v).filter(x=>x.titulo||x.link);
-    const LB={sigla:"nome",capa:"objeto",responsavel:"responsável",processo:"processo",impDisco:"impacto DISCO",impRE:"impacto (RE) Energisa",linkOnePage:"One Page",norma:"norma base",resultado:"resultado",linkResultado:"link do resultado",status:"status",marcos:"datas",contrib:"contribuição Energisa"};
+    const LB={prazo:"prazo",sigla:"nome",capa:"objeto",responsavel:"responsável",processo:"processo",impDisco:"impacto DISCO",impRE:"impacto (RE) Energisa",linkOnePage:"One Page",norma:"norma base",resultado:"resultado",linkResultado:"link do resultado",status:"status",marcos:"datas",contrib:"contribuição Energisa"};
     const ch=Object.keys(nv).filter(k=>JSON.stringify(nv[k]??"")!==JSON.stringify(k==="contrib"?contribList(f):(k==="sigla"?(f.sigla||sigla(id)):k==="capa"?capaTxt(id):(f[k]??""))));
     const seiRows=seiBox.read(),seiDel=seiBox.removed();
     for(const r of seiRows){const v=r.v;if(!v.numero&&!v.link)continue;if(v.numero&&!SEI_RX.test(v.numero)){SEI_RX.lastIndex=0;toast(`Número SEI inválido: ${v.numero}. Use 48500.000000/2026-00.`,true);return;}SEI_RX.lastIndex=0;}
@@ -2728,7 +2827,7 @@ async function save(fn,okMsg){
 /* ===== Modo demonstração local (arquivo aberto fora do claude.ai): dados de exemplo em memória ===== */
 let isLocal=false;
 const DEMO_DATA={"temas/cp33/movs/demo0": {"tipo": "resumo", "texto": "Kick-off interno da CP 33 com Regulação Técnica e Engenharia; divisão dos temas da contribuição.", "autorId": "demo:Carla Mendes", "criadoEm": "2026-08-26T10:50:00Z", "demo": true}, "temas/cp33/movs/demo1": {"tipo": "documento", "texto": "Documento incluído: NT 107/2026-STD", "autorId": "demo:Rafael Duarte", "criadoEm": "2026-09-09T10:50:00Z", "demo": true}, "temas/cp33/movs/demo2": {"tipo": "resumo", "texto": "Levantamento com a Engenharia do parque de GD Tipo III e minigeração afetado pelos prazos de 120/180 dias.", "autorId": "demo:Juliana Prado", "criadoEm": "2026-09-18T10:05:00Z", "demo": true}, "temas/cp33/movs/demo3": {"tipo": "acao", "texto": "Aguardando receber de Engenharia: estimativa de custo de telecomando — prazo combinado para 25/10/2026.", "autorId": "demo:Carla Mendes", "criadoEm": "2026-10-02T10:20:00Z", "demo": true}, "temas/cp33/movs/demo4": {"tipo": "acao", "texto": "Prazo repactuado — \"Estimativa de custo de telecomando\": 25/10/2026 → 05/11/2026. Motivo: Engenharia pediu mais prazo para cotar fornecedores.", "autorId": "demo:Rafael Duarte", "criadoEm": "2026-10-24T10:05:00Z", "demo": true}, "temas/cp33/movs/demo5": {"tipo": "resumo", "texto": "Contribuição protocolada na ANEEL dentro do prazo (09/11). Aguardando análise da STD.", "autorId": "demo:Carla Mendes", "criadoEm": "2026-11-06T10:50:00Z", "demo": true}, "temas/cp33/movs/demo6": {"tipo": "ficha", "texto": "Ficha — Status: Contribuição em elaboração → Contribuições encerradas.", "autorId": "demo:Juliana Prado", "criadoEm": "2026-11-09T10:05:00Z", "demo": true}, "temas/erag/movs/demo0": {"tipo": "resumo", "texto": "Primeira reunião do grupo ERAG; definido escopo inicial envolvendo GD e sistema.", "autorId": "demo:Marcos Lima", "criadoEm": "2026-09-03T10:05:00Z", "demo": true}, "temas/erag/movs/demo1": {"tipo": "acao", "texto": "Aguardando receber de ONS: dados de inversão de fluxo por subestação — prazo combinado para 30/10/2026.", "autorId": "demo:Patrícia Rocha", "criadoEm": "2026-09-25T10:20:00Z", "demo": true}, "temas/erag/movs/demo2": {"tipo": "documento", "texto": "Documento incluído: Ofício 245/2026", "autorId": "demo:Marcos Lima", "criadoEm": "2026-10-10T10:05:00Z", "demo": true}, "temas/erag/movs/demo3": {"tipo": "resumo", "texto": "ONS sinalizou atraso no envio dos dados; cobrado por e-mail.", "autorId": "demo:Patrícia Rocha", "criadoEm": "2026-10-23T10:50:00Z", "demo": true}, "temas/erag/movs/demo4": {"tipo": "acao", "texto": "Entregar para ANEEL: relatório preliminar ERAG — prazo combinado para 28/11/2026.", "autorId": "demo:Marcos Lima", "criadoEm": "2026-11-03T10:05:00Z", "demo": true}, "temas/sandbox/movs/demo0": {"tipo": "resumo", "texto": "Avaliação das chamadas de sandbox tarifário e da proposta DSO do ONS.", "autorId": "demo:Eduardo Sales", "criadoEm": "2026-08-19T10:20:00Z", "demo": true}, "temas/sandbox/movs/demo1": {"tipo": "documento", "texto": "Documento incluído: NT 12/2026-STR", "autorId": "demo:Juliana Prado", "criadoEm": "2026-09-13T10:05:00Z", "demo": true}, "temas/sandbox/movs/demo2": {"tipo": "acao", "texto": "Aguardando receber de Pessoa — Beatriz Nogueira: parecer sobre afastamentos regulatórios — prazo combinado para 15/11/2026.", "autorId": "demo:Eduardo Sales", "criadoEm": "2026-10-06T10:20:00Z", "demo": true}, "temas/sandbox/movs/demo3": {"tipo": "resumo", "texto": "Reunião com P&D para definir municípios-piloto.", "autorId": "demo:Juliana Prado", "criadoEm": "2026-10-31T10:35:00Z", "demo": true}, "temas/art28/movs/demo0": {"tipo": "resumo", "texto": "Mapeamento de casos de múltiplas UCs no mesmo local com GD.", "autorId": "demo:Beatriz Nogueira", "criadoEm": "2026-09-21T10:50:00Z", "demo": true}, "temas/art28/movs/demo1": {"tipo": "acao", "texto": "Aguardando receber de Jurídico: entendimento sobre fracionamento de GD — prazo combinado para 10/11/2026.", "autorId": "demo:Rafael Duarte", "criadoEm": "2026-10-16T10:20:00Z", "demo": true}, "temas/tarifabranca/movs/demo0": {"tipo": "resumo", "texto": "Análise do impacto da tarifa branca no faturamento de UCs com GD (postos tarifários).", "autorId": "demo:Patrícia Rocha", "criadoEm": "2026-08-09T10:05:00Z", "demo": true}, "temas/tarifabranca/movs/demo1": {"tipo": "documento", "texto": "Documento incluído: Despacho 1.980/2026", "autorId": "demo:Carla Mendes", "criadoEm": "2026-09-07T10:35:00Z", "demo": true}, "temas/tarifabranca/movs/demo2": {"tipo": "resumo", "texto": "Base de clientes com GD em tarifa branca extraída do faturamento.", "autorId": "demo:Patrícia Rocha", "criadoEm": "2026-09-29T10:20:00Z", "demo": true}, "temas/tarifabranca/movs/demo3": {"tipo": "acao", "texto": "Entregar para Comercial: nota de orientação ao atendimento — prazo combinado para 20/11/2026.", "autorId": "demo:Carla Mendes", "criadoEm": "2026-10-28T10:05:00Z", "demo": true}, "temas/excedente/movs/demo0": {"tipo": "resumo", "texto": "Início da discussão do Plano de Excedente; levantamento das regras de alocação (arts. 655-G e 655-H).", "autorId": "demo:Rafael Duarte", "criadoEm": "2026-10-04T10:20:00Z", "demo": true}, "temas/excedente/movs/demo1": {"tipo": "acao", "texto": "Aguardando receber de ANEEL: resposta à consulta sobre comercialização de excedente — sem prazo combinado.", "autorId": "demo:Eduardo Sales", "criadoEm": "2026-10-30T10:35:00Z", "demo": true}, "temas/cp33/acoes/demo0": {"descricao": "Estimativa de custo de telecomando", "direcao": "receber", "dependeTipo": "Área interna", "dependeDe": "Engenharia", "prazo": "2026-11-05", "prazoOriginal": "2026-10-25", "combinadoEm": "2026-10-02", "repactuacoes": [{"de": "2026-10-25", "para": "2026-11-05", "motivo": "Engenharia pediu mais prazo para cotar fornecedores", "autorId": "demo:Rafael Duarte", "em": "2026-10-24T10:35:00Z"}], "responsavel": "Carla Mendes", "status": "Concluída", "autorId": "demo:Carla Mendes", "criadoEm": "2026-10-02T10:20:00Z", "demo": true}, "temas/cp33/acoes/demo1": {"descricao": "Acompanhar análise das contribuições pela STD", "direcao": "receber", "dependeTipo": "ANEEL", "dependeDe": "ANEEL", "prazo": "", "prazoOriginal": "", "combinadoEm": "", "repactuacoes": [], "responsavel": "Juliana Prado", "status": "Em andamento", "autorId": "demo:Juliana Prado", "criadoEm": "2026-11-06T10:50:00Z", "demo": true}, "temas/erag/acoes/demo0": {"descricao": "Dados de inversão de fluxo por subestação", "direcao": "receber", "dependeTipo": "Outro órgão", "dependeDe": "ONS", "prazo": "2026-10-30", "prazoOriginal": "2026-10-30", "combinadoEm": "2026-09-25", "repactuacoes": [], "responsavel": "Patrícia Rocha", "status": "Pendente", "autorId": "demo:Patrícia Rocha", "criadoEm": "2026-09-25T10:05:00Z", "demo": true}, "temas/erag/acoes/demo1": {"descricao": "Relatório preliminar ERAG", "direcao": "entregar", "dependeTipo": "ANEEL", "dependeDe": "ANEEL", "prazo": "2026-11-28", "prazoOriginal": "2026-11-28", "combinadoEm": "2026-11-03", "repactuacoes": [], "responsavel": "Marcos Lima", "status": "Em andamento", "autorId": "demo:Marcos Lima", "criadoEm": "2026-11-03T10:05:00Z", "demo": true}, "temas/sandbox/acoes/demo0": {"descricao": "Parecer sobre afastamentos regulatórios", "direcao": "receber", "dependeTipo": "Pessoa", "dependeDe": "Beatriz Nogueira", "prazo": "2026-11-15", "prazoOriginal": "2026-11-06", "combinadoEm": "2026-10-06", "repactuacoes": [{"de": "2026-11-06", "para": "2026-11-15", "motivo": "Aguardando definição dos municípios-piloto", "autorId": "demo:Eduardo Sales", "em": "2026-11-04T10:05:00Z"}], "responsavel": "Eduardo Sales", "status": "Em andamento", "autorId": "demo:Eduardo Sales", "criadoEm": "2026-10-06T10:35:00Z", "demo": true}, "temas/art28/acoes/demo0": {"descricao": "Entendimento sobre fracionamento de GD", "direcao": "receber", "dependeTipo": "Área interna", "dependeDe": "Jurídico", "prazo": "2026-11-10", "prazoOriginal": "2026-11-10", "combinadoEm": "2026-10-16", "repactuacoes": [], "responsavel": "Rafael Duarte", "status": "Pendente", "autorId": "demo:Rafael Duarte", "criadoEm": "2026-10-16T10:05:00Z", "demo": true}, "temas/tarifabranca/acoes/demo0": {"descricao": "Nota de orientação ao atendimento", "direcao": "entregar", "dependeTipo": "Área interna", "dependeDe": "Comercial", "prazo": "2026-11-20", "prazoOriginal": "2026-11-13", "combinadoEm": "2026-10-28", "repactuacoes": [{"de": "2026-11-13", "para": "2026-11-20", "motivo": "Inclusão de exemplos de fatura a pedido do Comercial", "autorId": "demo:Carla Mendes", "em": "2026-11-08T10:20:00Z"}], "responsavel": "Patrícia Rocha", "status": "Pendente", "autorId": "demo:Carla Mendes", "criadoEm": "2026-10-28T10:05:00Z", "demo": true}, "temas/excedente/acoes/demo0": {"descricao": "Resposta à consulta sobre comercialização de excedente", "direcao": "receber", "dependeTipo": "ANEEL", "dependeDe": "ANEEL", "prazo": "", "prazoOriginal": "", "combinadoEm": "", "repactuacoes": [], "responsavel": "Rafael Duarte", "status": "Pendente", "autorId": "demo:Eduardo Sales", "criadoEm": "2026-10-30T10:05:00Z", "demo": true}, "temas/cp33/docs/demo0": {"titulo": "NT 107/2026-STD", "tipo": "Nota Técnica", "numero": "107/2026-STD", "data": "", "link": "", "autorId": "demo:Carla Mendes", "criadoEm": "2026-09-09T10:05:00Z", "demo": true}, "temas/erag/docs/demo0": {"titulo": "Ofício 245/2026", "tipo": "Ofício", "numero": "245/2026", "data": "", "link": "", "autorId": "demo:Marcos Lima", "criadoEm": "2026-10-10T10:20:00Z", "demo": true}, "temas/sandbox/docs/demo0": {"titulo": "NT 12/2026-STR", "tipo": "Nota Técnica", "numero": "12/2026-STR", "data": "", "link": "", "autorId": "demo:Juliana Prado", "criadoEm": "2026-09-13T10:50:00Z", "demo": true}, "temas/tarifabranca/docs/demo0": {"titulo": "Despacho 1.980/2026", "tipo": "Despacho", "numero": "1.980/2026", "data": "", "link": "", "autorId": "demo:Carla Mendes", "criadoEm": "2026-09-07T10:50:00Z", "demo": true}, "temas/art28": {"fontes": "REN 1.000/2021 compilada", "ligacaoGD": "A titularidade de várias UCs é a base para alocar excedentes de MMGD em outras unidades do mesmo titular (art. 655-G, §3º, II).", "nome": "CP xx – Comercialização de MMGD", "norma": "Art. 28. O consumidor ou os demais usuários podem ser titulares de uma ou mais instalações, no mesmo local ou em locais diversos.", "sigla": "CP xx – Comercialização de MMGD", "status": "Em análise", "membros": ["demo:Beatriz Nogueira", "demo:Rafael Duarte"], "responsavel": "Beatriz Nogueira", "demo": true}, "temas/cp33": {"fontes": "Nota 20 do projeto Jurisprudência regulatória", "impacto": "Distribuidora responde pela comunicação até o ponto de conexão, segurança cibernética e definição dos meios (papel de DSO).", "ligacaoGD": "Conceito único de RED; observabilidade, operabilidade e controlabilidade da MMGD.", "nome": "Consulta Pública 33/2026 — novo Módulo 3 do PRODIST (RED)", "norma": "PRODIST Módulo 3 → minuta do novo Módulo 3; Lei 15.269/2025", "processo": "48500.002211/2026-10 · NT 107/2026-STD", "sigla": "CP 33/2026 – RED", "status": "Contribuições encerradas", "membros": ["demo:Carla Mendes", "demo:Rafael Duarte", "demo:Juliana Prado"], "responsavel": "Carla Mendes", "demo": true}, "temas/erag": {"ligacaoGD": "Envolve GD e sistema.", "sigla": "ERAG", "status": "Aguardando ANEEL", "membros": ["demo:Marcos Lima", "demo:Patrícia Rocha"], "responsavel": "Marcos Lima", "demo": true}, "temas/excedente": {"norma": "Possíveis referências (validar): REN 1.000 arts. 655-G, 655-H e 655-X.", "sigla": "Plano de Gestão de Excedentes", "status": "Em análise", "membros": ["demo:Rafael Duarte", "demo:Eduardo Sales"], "responsavel": "Rafael Duarte", "demo": true}, "temas/sandbox": {"nome": "Sandbox regulatório (ambiente experimental supervisionado pela ANEEL)", "norma": "Sandboxes tarifários: REN 1.045/2022 (PROPDI).", "sigla": "Sandbox Regulatório", "status": "Em monitoramento", "membros": ["demo:Eduardo Sales", "demo:Juliana Prado"], "responsavel": "Eduardo Sales", "demo": true}, "temas/tarifabranca": {"nome": "Modalidade tarifária horária branca (Hora Certa)", "norma": "REN 1.000/2021: arts. 212, 219, 222, 223 e 224.", "sigla": "Tarifa Hora Certa", "status": "Em monitoramento", "membros": ["demo:Patrícia Rocha", "demo:Carla Mendes"], "responsavel": "Patrícia Rocha", "demo": true}, "temas/cp33/sei/s1": {"numero": "48500.002211/2026-10", "titulo": "CP 33/2026 — novo Módulo 3 (RED)", "link": "", "criadoEm": "2026-09-09T10:00:00Z"}, "temas/sandbox/sei/s1": {"numero": "48500.034297/2025-69", "titulo": "NT 12/2026-STR — sandboxes tarifários", "link": "", "criadoEm": "2026-09-13T10:00:00Z"}};
-Object.assign(DEMO_DATA["temas/cp33"],{impDisco:"Novas exigências regulatórias e tecnológicas poderão elevar a complexidade operacional e os investimentos necessários para as distribuidoras.",impRE:"A implementação da proposta exigirá evolução tecnológica e operacional das usinas da (RE) Energisa, com reflexos em custos, governança e integração com as distribuidoras."});
+Object.assign(DEMO_DATA["temas/cp33"],{prazo:"30/11/2026",impDisco:"Novas exigências regulatórias e tecnológicas poderão elevar a complexidade operacional e os investimentos necessários para as distribuidoras.",impRE:"A implementação da proposta exigirá evolução tecnológica e operacional das usinas da (RE) Energisa, com reflexos em custos, governança e integração com as distribuidoras."});
 function localDB(seed){const st=new Map(Object.entries(seed).map(([k,v])=>[k,JSON.parse(JSON.stringify(v))]));const ls=new Map();let n=0;
   const col=p=>p.split("/").slice(0,-1).join("/");
   const snap=p=>({metadata:{fromCache:false,hasPendingWrites:false},docs:[...st.entries()].filter(([k])=>col(k)===p).map(([k,v])=>({id:k.split("/").pop(),exists:true,data:()=>v}))});
