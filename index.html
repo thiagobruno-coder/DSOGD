@@ -2444,8 +2444,8 @@ function openFichaEditor(id){
     if(!ch.length&&!seiOps.length&&!anCh&&!(npCh&&(npV||nextA))){closeFichaEditor();return;}
     const ok=await save(async()=>{
       if(ch.length){const base={...(fichas[id]||{})};delete base.linkContribDoc;delete base.linkContribApres;await db.doc("temas/"+id).set({...base,...nv,atualizadoPor:myId||null,atualizadoEm:new Date().toISOString()});await addMov(id,"ficha","Ficha atualizada — "+ch.map(k=>LB[k]||k).join(", ")+".");}
-      if(anCh&&anV){if(lastM&&lastM.id)await db.doc(`temas/${id}/movs/${lastM.id}`).update({texto:anV,editadoEm:new Date().toISOString(),editadoPor:myId||null});else await db.collection(`temas/${id}/movs`).add({tipo:"resumo",texto:anV,autorId:myId||null,criadoEm:new Date().toISOString()});}
-      if(npCh){if(nextA&&nextA.id){if(npV)await db.doc(`temas/${id}/acoes/${nextA.id}`).update({descricao:npV,prazo:pzV,dependeDe:qV,dependeTipo:qV?(nextA.dependeTipo||"Área"):"",direcao:qV?(nextA.direcao||"receber"):""});else await db.doc(`temas/${id}/acoes/${nextA.id}`).update({status:"Concluída"});}
+      if(anCh&&anV){if(lastM&&lastM.id){const {id:_m,...mb}=lastM;await db.doc(`temas/${id}/movs/${lastM.id}`).set({...mb,texto:anV,editadoEm:new Date().toISOString(),editadoPor:myId||""});}else await db.collection(`temas/${id}/movs`).add({tipo:"resumo",texto:anV,autorId:myId||null,criadoEm:new Date().toISOString()});}
+      if(npCh){if(nextA&&nextA.id){const {id:_a,...ab}=nextA;if(npV)await db.doc(`temas/${id}/acoes/${nextA.id}`).set({...ab,descricao:npV,prazo:pzV,dependeDe:qV,dependeTipo:qV?(nextA.dependeTipo||"Área"):"",direcao:qV?(nextA.direcao||"receber"):""});else await db.doc(`temas/${id}/acoes/${nextA.id}`).set({...ab,status:"Concluída"});}
         else if(npV)await db.collection(`temas/${id}/acoes`).add({descricao:npV,prazo:pzV,prazoOriginal:pzV,dependeTipo:qV?"Área":"",dependeDe:qV,direcao:qV?"receber":"",repactuacoes:[],status:"Pendente",autorId:myId||null,criadoEm:new Date().toISOString()});}
       for(const [op,it,v] of seiOps){
         if(op==="del"){if(it.src==="sei")await db.doc(`temas/${id}/sei/${it.id}`).delete();else await db.doc(`temas/${id}/docs/${it.id}`).delete();await addMov(id,"documento",`Processo SEI removido: ${it.numero||it.link}`);}
@@ -2829,7 +2829,7 @@ async function save(fn,okMsg){
   if(!db){toast("Base de dados indisponível nesta visualização.",true);return false;}
   if(busy)return false;busy=true;
   try{await fn();if(okMsg)toast(okMsg);render(false);return true;}
-  catch(e){const c=e&&e.code;toast(c==="invalid_argument"?"Sem permissão para editar. Peça ao dono do hub acesso de Colaborador.":c==="quota_exceeded"?"Limite de armazenamento atingido.":"Não foi possível salvar agora. Tente novamente.",true);
+  catch(e){const c=e&&e.code;try{console.error("save",e);}catch(_){}toast(c==="invalid_argument"?"Sem permissão para editar. Peça ao dono do hub acesso de Colaborador.":c==="quota_exceeded"?"Limite de armazenamento atingido.":"Não foi possível salvar agora ("+(c||(e&&e.message)||"erro")+"). Tente novamente.",true);
     if(c==="invalid_argument"){canWrite=false;document.body.classList.add("ro");}return false;}
   finally{busy=false;}
 }
