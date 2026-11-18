@@ -2858,10 +2858,16 @@ S("temas/eletromob",{linkNorma:"https://antigo.aneel.gov.br/web/guest/consultas-
 Object.keys(DEMO_DATA).forEach(k=>{if(/^temas\/[^/]+$/.test(k)){const d=DEMO_DATA[k];delete d.responsavel;delete d.membros;delete d.marcos;delete d.resultado;delete d.linkResultado;delete d.resultadoArquivo;}});
 DEMO_DATA["temas/cp09"].marcos="Abertura | 23/04/2026\nEncerramento | 08/06/2026";DEMO_DATA["temas/eletromob"].marcos="Abertura | 11/12/2025\nEncerramento | 10/03/2026";
 function localDB(seed){const st=new Map(Object.entries(seed).map(([k,v])=>[k,JSON.parse(JSON.stringify(v))]));const ls=new Map();let n=0;
+  /* edições salvas no navegador (por computador/navegador) */
+  const OK="hubgd_edicoes_v1";let ov={sets:{},dels:[]};
+  try{const r=localStorage.getItem(OK);if(r){const o=JSON.parse(r);if(o&&o.sets)ov={sets:o.sets||{},dels:o.dels||[]};}}catch(e){}
+  ov.dels.forEach(k=>st.delete(k));Object.entries(ov.sets).forEach(([k,v])=>st.set(k,v));
+  const persist=()=>{try{localStorage.setItem(OK,JSON.stringify(ov));}catch(e){toast("Não foi possível guardar no navegador (armazenamento cheio ou bloqueado).",true);}};
+  const rec=(path,v)=>{if(v===undefined){delete ov.sets[path];if(!ov.dels.includes(path))ov.dels.push(path);}else{ov.sets[path]=v;ov.dels=ov.dels.filter(k=>k!==path);}persist();};
   const col=p=>p.split("/").slice(0,-1).join("/");
   const snap=p=>({metadata:{fromCache:false,hasPendingWrites:false},docs:[...st.entries()].filter(([k])=>col(k)===p).map(([k,v])=>({id:k.split("/").pop(),exists:true,data:()=>v}))});
   const emit=p=>setTimeout(()=>(ls.get(p)||[]).forEach(f=>f(snap(p))),0);
-  const doc=path=>({path,id:path.split("/").pop(),set:async d=>{st.set(path,JSON.parse(JSON.stringify(d)));emit(col(path));},update:async d=>{st.set(path,{...(st.get(path)||{}),...JSON.parse(JSON.stringify(d))});emit(col(path));},delete:async()=>{st.delete(path);emit(col(path));},get:async()=>({exists:st.has(path),data:()=>st.get(path)}),collection:c=>collection(path+"/"+c)});
+  const doc=path=>({path,id:path.split("/").pop(),set:async d=>{const v=JSON.parse(JSON.stringify(d));st.set(path,v);rec(path,v);emit(col(path));},update:async d=>{const v={...(st.get(path)||{}),...JSON.parse(JSON.stringify(d))};st.set(path,v);rec(path,v);emit(col(path));},delete:async()=>{st.delete(path);rec(path,undefined);emit(col(path));},get:async()=>({exists:st.has(path),data:()=>st.get(path)}),collection:c=>collection(path+"/"+c)});
   const collection=p=>({path:p,doc:id=>doc(p+"/"+(id||"l"+(n++)+Date.now())),add:async d=>{const r=doc(p+"/l"+(n++)+Date.now());await r.set(d);return r;},onSnapshot:(f)=>{(ls.get(p)||ls.set(p,[]).get(p)).push(f);setTimeout(()=>f(snap(p)),0);return()=>{};}});
   return{doc,collection};}
 function localUser(){return{id:async()=>"demo:Visitante Teste",can:async()=>true,me:async()=>({name:"Visitante Teste"}),profiles:async ids=>Object.fromEntries(ids.map(i=>[i,{name:i}])),
