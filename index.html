@@ -1489,6 +1489,7 @@ body.sheet-open{overflow:hidden}
 .porb-in .pprz{display:none!important}
 .porb-in .pnd-b small:not(:has(.pcode)){display:none!important}
 .wlate{display:none!important}
+@container (max-width:760px){.porb-in .pnd{height:3.5em!important}}
 </style>
 
 </head>
@@ -2125,7 +2126,7 @@ function mapPanelProc(id){
 let exSel=null,exPlay=null,exPage=0;
 function exTone(id){const s2=procStats(id);if(s2.late)return"bad";const f=fresh(id);if(s2.soon||f==="warn")return"warn";if(f==="bad"||f==="none")return"idle";return"ok";}
 function exStop(){if(exPlay){clearInterval(exPlay);exPlay=null;const b=document.querySelector(".pplay");if(b)b.textContent="▶ Tocar";}}
-const EX_SHORT={cp33:"RED",erag:"ERAG",sandbox:"Sandbox · MAI",art28:"Comercialização MMGD",tarifabranca:"Hora Certa",excedente:"Plano de Gestão de Excedentes",cp09:"Tratamento de Excedentes",valoracao:"Custos e Benefícios",eletromob:"Eletromobilidade"};
+const EX_SHORT={cp33:"Controlabilidade REDs",erag:"ERAG",sandbox:"Sandbox · MAI",art28:"Comercialização MMGD",tarifabranca:"Hora Certa",excedente:"Plano de Gestão de Excedentes",cp09:"Tratamento de Excedentes",valoracao:"Custos e Benefícios",eletromob:"Eletromobilidade"};
 const EX_CODE={cp33:"CP 33/2026",art28:"CP xx",cp09:"CP 09/2026",valoracao:"CP xx",eletromob:"CP 42/2025"};
 const przTxt=v=>{v=(v||"").trim();if(!v)return"";const m=v.match(/^(\d{4})-(\d{2})-(\d{2})/);return m?`${m[3]}/${m[2]}/${m[1]}`:v;};
 const EX_PAGES=["Capa","Mapa"];
@@ -2302,7 +2303,7 @@ function dropZone(onFile,label){
   return z;
 }
 /* inclusão rápida por bloco da ficha */
-const QA={onepage:{t:"Incluir One Page",file:true,link:true},norma:{t:"Incluir norma base",text:"Norma base"},sei:{t:"Incluir processo SEI",sei:true},contrib:{t:"Incluir documento da Contribuição Energisa",file:true,link:true,nome:true},resultado:{t:"Incluir resultado",text:"Resultado (por extenso)",file:true,link:true}};
+const QA={onepage:{t:"Incluir One Page",file:true,link:true},norma:{t:"Incluir norma base",text:"Norma base (texto, opcional)",file:true,link:true},sei:{t:"Incluir processo SEI",sei:true},contrib:{t:"Incluir documento da Contribuição Energisa",file:true,link:true,nome:true},resultado:{t:"Incluir resultado",text:"Resultado (por extenso)",file:true,link:true}};
 function openQuickAdd(id,kind){
   if(!canWrite){toast("Você está em modo leitura.",true);return;}
   closeFichaEditor();const c=QA[kind],f=fichas[id]||{};let up=null;
@@ -2329,7 +2330,7 @@ function openQuickAdd(id,kind){
     const patchFicha=async(p,msg)=>{await db.doc("temas/"+id).set({...(fichas[id]||{}),...p,atualizadoPor:myId||null,atualizadoEm:new Date().toISOString()});await addMov(id,"documento",msg);};
     let job=null,ok="Incluído.";
     if(kind==="onepage"){if(!url)return toast("Anexe o arquivo ou cole um link.",true);job=()=>patchFicha({linkOnePage:url,onePageArquivo:up?up.nome:"",onePageAsset:up&&up.assetId||""},"One Page incluído"+(up?": "+up.nome:"."));}
-    else if(kind==="norma"){const v=txt.value.trim();if(!v)return toast("Escreva a norma base.",true);job=()=>patchFicha({norma:v},"Norma base atualizada.");}
+    else if(kind==="norma"){const v=txt.value.trim();if(!v&&!url)return toast("Cole o link ou escreva a norma base.",true);const p={norma:v};if(url)p.linkNorma=url;job=()=>patchFicha(p,"Norma base atualizada.");}
     else if(kind==="contrib"){if(!url)return toast("Anexe o arquivo ou cole um link.",true);const it={titulo:(nome.value.trim()||(up&&up.nome)||"Documento"),link:url,arquivo:up?up.nome:"",assetId:up&&up.assetId||""};job=()=>patchFicha({contrib:[...contribList(fichas[id]||{}),it]},"Contribuição Energisa: documento incluído — "+it.titulo);}
     else if(kind==="resultado"){const v=txt.value.trim();if(!v&&!url)return toast("Escreva o resultado ou anexe o documento.",true);const p={resultado:v};if(url){p.linkResultado=url;p.resultadoArquivo=up?up.nome:"";}job=()=>patchFicha(p,"Resultado atualizado.");}
     else if(kind==="sei"){const n=seiN.value.trim();SEI_RX.lastIndex=0;if(!SEI_RX.test(n)){SEI_RX.lastIndex=0;return toast("Número inválido. Use 48500.000000/2026-00.",true);}SEI_RX.lastIndex=0;
@@ -2378,7 +2379,7 @@ function exDetProc(id){
     el("div",{class:"wsec",text:"Documentos e referências"}),
     el("div",{class:"wgrid"},
       tile("One Page","page","",isUrl(f.linkOnePage)?chip(f.onePageArquivo?"📎 "+f.onePageArquivo:"Abrir One Page",f.linkOnePage):null),
-      tile("Norma base","law","",f.norma?poText(f.norma,3):null),
+      tile("Norma base","law","",(f.norma||isUrl(f.linkNorma))?el("div",{},f.norma?poText(f.norma,3):null,isUrl(f.linkNorma)?el("div",{style:f.norma?"margin-top:8px":""},chip("Abrir norma base",f.linkNorma)):null):null),
       tile("Processos SEI","folder","",sei.length?el("div",{class:"wlist"},...sei.map(x=>el("a",{class:"wsei",title:x.titulo||"",href:isUrl(x.link)?x.link:SEI_PESQ,target:"_blank",rel:"noopener",onclick:async()=>{if(!isUrl(x.link)){try{await navigator.clipboard.writeText(x.numero);toast(`Número ${x.numero} copiado.`);}catch(e){}}}},el("b",{text:x.numero||"SEI"}),x.titulo?el("span",{text:x.titulo}):null))):null),
       tile("Contribuição Energisa","docs","",cb.length?el("div",{class:"wlist"},...cb.map(x=>chip((x.arquivo?"📎 ":"")+(x.titulo||"Documento"),x.link))):null),
       tile("Resultado","award","res",(f.resultado||isUrl(f.linkResultado))?el("div",{},f.resultado?poText(f.resultado,3):null,isUrl(f.linkResultado)?el("div",{style:"margin-top:8px"},chip("Abrir resultado",f.linkResultado)):null):null)),
@@ -2396,7 +2397,7 @@ function openFichaEditor(id){
   const F={sigla:inp(f.sigla||sigla(id),"Nome do processo"),capa:inp(capaTxt(id),"Texto que aparece na capa, no mapa e na ficha","ta"),
     responsavel:inp(f.responsavel,"Nome do responsável"),prazo:inp(przTxt(f.prazo),"dd/mm/aaaa"),processo:inp(f.processo,"Ex.: Processo 48500.000000/2026-00 · Atividade AR 25-15 da Agenda Regulatória · Relatora: …","ta"),
     impDisco:inp(f.impDisco,"Impacto para as distribuidoras (aparece no mapa)","ta"),impRE:inp(f.impRE,"Impacto para a (RE) Energisa (aparece no mapa)","ta"),
-    linkOnePage:inp(f.linkOnePage,"https://…"),norma:inp(f.norma,"Norma base","ta"),resultado:inp(f.resultado,"Escreva o resultado por extenso","ta"),linkResultado:inp(f.linkResultado,"https://… (opcional)")};
+    linkOnePage:inp(f.linkOnePage,"https://…"),norma:inp(f.norma,"Norma base (texto, opcional)","ta"),linkNorma:inp(f.linkNorma,"https://… (link da norma base)"),resultado:inp(f.resultado,"Escreva o resultado por extenso","ta"),linkResultado:inp(f.linkResultado,"https://… (opcional)")};
   F.responsavel.setAttribute("list","dlResp");
   const st=el("select",{class:"fe-in"},...STATUS_OPTS.map(s=>el("option",{value:s,text:s})));if(f.status&&!STATUS_OPTS.includes(f.status))st.appendChild(el("option",{value:f.status,text:f.status}));st.value=f.status||"A preencher";
   const DL=["Abertura","Prazo total","Encerramento","Envio"],dates=DL.map(lb=>{const r=mk.find(x=>(x[0]||"").toLowerCase().startsWith(lb.toLowerCase()))||[];return{lb,v:inp(r[1],"—"),n:inp(r[2],"observação (opcional)")};});
@@ -2417,7 +2418,7 @@ function openFichaEditor(id){
       sec("Processo",fld("Nome",F.sigla),fld("Objeto (texto da capa)",F.capa),el("div",{class:"fe-2"},fld("Status",st),fld("Responsável",F.responsavel)),el("div",{class:"fe-2"},fld("Prazo",F.prazo)),fld("Processo, atividade e relator",F.processo)),
       sec("Datas",el("div",{class:"fe-dates"},...dates.map(d=>el("div",{class:"fe-d"},el("span",{class:"fe-l",text:d.lb}),d.v,d.n)))),
       sec("Resumo do mapa",fld("Impacto DISCO",F.impDisco),fld("Impacto (RE) Energisa",F.impRE)),
-      sec("Documentos",fld("One Page — arquivo ou link",withAtt(F.linkOnePage)),fld("Norma base",F.norma),
+      sec("Documentos",fld("One Page — arquivo ou link",withAtt(F.linkOnePage)),fld("Norma base — link",withAtt(F.linkNorma)),fld("Norma base — texto",F.norma),
         el("div",{class:"fe-f"},el("span",{class:"fe-l",text:"Processos SEI"}),seiBox,el("span",{class:"fe-h",text:"Cole o link da pesquisa pública para abrir direto; sem link, o número é copiado ao clicar."})),
         el("div",{class:"fe-f"},el("span",{class:"fe-l",text:"Contribuição Energisa"}),cbBox)),
       sec("Resultado",fld("Resultado (por extenso)",F.resultado),fld("Resultado — arquivo ou link",withAtt(F.linkResultado)))),
@@ -2428,7 +2429,7 @@ function openFichaEditor(id){
     const nv={};Object.entries(F).forEach(([k,x])=>nv[k]=x.value.trim());nv.status=st.value;
     nv.marcos=[...dates.filter(d=>d.v.value.trim()||d.n.value.trim()).map(d=>[d.lb,d.v.value.trim(),d.n.value.trim()].join(" | ")),...extraMk.map(x=>x.join(" | "))].join("\n");
     nv.contrib=cbBox.read().map(r=>r.v).filter(x=>x.titulo||x.link);
-    const LB={prazo:"prazo",sigla:"nome",capa:"objeto",responsavel:"responsável",processo:"processo",impDisco:"impacto DISCO",impRE:"impacto (RE) Energisa",linkOnePage:"One Page",norma:"norma base",resultado:"resultado",linkResultado:"link do resultado",status:"status",marcos:"datas",contrib:"contribuição Energisa"};
+    const LB={linkNorma:"link da norma base",prazo:"prazo",sigla:"nome",capa:"objeto",responsavel:"responsável",processo:"processo",impDisco:"impacto DISCO",impRE:"impacto (RE) Energisa",linkOnePage:"One Page",norma:"norma base",resultado:"resultado",linkResultado:"link do resultado",status:"status",marcos:"datas",contrib:"contribuição Energisa"};
     const ch=Object.keys(nv).filter(k=>JSON.stringify(nv[k]??"")!==JSON.stringify(k==="contrib"?contribList(f):(k==="sigla"?(f.sigla||sigla(id)):k==="capa"?capaTxt(id):(f[k]??""))));
     const seiRows=seiBox.read(),seiDel=seiBox.removed();
     for(const r of seiRows){const v=r.v;if(!v.numero&&!v.link)continue;if(v.numero&&!SEI_RX.test(v.numero)){SEI_RX.lastIndex=0;toast(`Número SEI inválido: ${v.numero}. Use 48500.000000/2026-00.`,true);return;}SEI_RX.lastIndex=0;}
@@ -2834,6 +2835,18 @@ DEMO_DATA["temas/sandbox/sei/s1"]={numero:"48500.034297/2025-69",titulo:"Sandbox
 DEMO_DATA["temas/cp09"]=Object.assign(DEMO_DATA["temas/cp09"]||{sigla:"CP 09/26 – Tratamento de excedentes",capa:"Fortalecimento do papel da distribuidora na operação da rede.",status:"A preencher"},{linkResultado:"https://antigo.aneel.gov.br/web/guest/consultas-publicas?p_p_id=participacaopublica_WAR_participacaopublicaportlet&p_p_lifecycle=2&p_p_state=normal&p_p_mode=view&p_p_cacheability=cacheLevelPage&p_p_col_id=column-2&p_p_col_pos=1&p_p_col_count=2&_participacaopublica_WAR_participacaopublicaportlet_ideDocumento=57698&_participacaopublica_WAR_participacaopublicaportlet_tipoFaseReuniao=fase&_participacaopublica_WAR_participacaopublicaportlet_jspPage=%2Fhtml%2Fpp%2Fvisualizar.jsp"});
 DEMO_DATA["temas/eletromob"]=Object.assign(DEMO_DATA["temas/eletromob"]||{sigla:"CP 042/25 – Eletromobilidade e conexão à rede de distribuição",capa:"Integração da eletromobilidade ao sistema elétrico, conciliando expansão da infraestrutura de recarga, planejamento da rede e competição equilibrada no mercado.",status:"A preencher"},{linkResultado:"https://antigo.aneel.gov.br/web/guest/consultas-publicas?p_p_id=participacaopublica_WAR_participacaopublicaportlet&p_p_lifecycle=2&p_p_state=normal&p_p_mode=view&p_p_cacheability=cacheLevelPage&p_p_col_id=column-2&p_p_col_pos=1&p_p_col_count=2&_participacaopublica_WAR_participacaopublicaportlet_ideDocumento=56704&_participacaopublica_WAR_participacaopublicaportlet_tipoFaseReuniao=fase&_participacaopublica_WAR_participacaopublicaportlet_jspPage=%2Fhtml%2Fpp%2Fvisualizar.jsp",contrib:[{titulo:"Contribuição Energisa",link:"https://antigo.aneel.gov.br/web/guest/consultas-publicas?p_p_id=participacaopublica_WAR_participacaopublicaportlet&p_p_lifecycle=2&p_p_state=normal&p_p_mode=view&p_p_cacheability=cacheLevelPage&p_p_col_id=column-2&p_p_col_pos=1&p_p_col_count=2&_participacaopublica_WAR_participacaopublicaportlet_ideDocumento=57270&_participacaopublica_WAR_participacaopublicaportlet_tipoFaseReuniao=fase&_participacaopublica_WAR_participacaopublicaportlet_jspPage=%2Fhtml%2Fpp%2Fvisualizar.jsp"}]});
 if(DEMO_DATA["temas/art28"])DEMO_DATA["temas/art28"].linkResultado="https://antigo.aneel.gov.br/web/guest/tomadas-de-subsidios?p_auth=I3vcEa0R&p_p_id=participacaopublica_WAR_participacaopublicaportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_participacaopublica_WAR_participacaopublicaportlet_ideParticipacaoPublica=3975&_participacaopublica_WAR_participacaopublicaportlet_javax.portlet.action=visualizarParticipacaoPublica";
+/* links e datas enviados em 18/11/2026 */
+(function(){const S=(k,o)=>{DEMO_DATA[k]=Object.assign(DEMO_DATA[k]||{},o);};
+S("temas/cp33",{linkNorma:"https://antigo.aneel.gov.br/web/guest/consultas-publicas?p_auth=jvL9H76t&p_p_id=participacaopublica_WAR_participacaopublicaportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_pos=1&p_p_col_count=2&_participacaopublica_WAR_participacaopublicaportlet_ideParticipacaoPublica=4048&_participacaopublica_WAR_participacaopublicaportlet_javax.portlet.action=visualizarParticipacaoPublica"});delete DEMO_DATA["temas/cp33"].norma;
+S("temas/excedente",{linkNorma:"https://www.in.gov.br/web/dou/-/despacho-n-3.431-de-18-de-novembro-de-2025-670734868"});delete DEMO_DATA["temas/excedente"].norma;
+DEMO_DATA["temas/excedente/sei/s1"]={numero:"48500.033898/2025-54",titulo:"Plano de Gestão de Excedentes",link:"https://sei.aneel.gov.br/sei/modulos/pesquisa/md_pesq_processo_exibir.php?wt7h6hFBI_9S3DJjGLl0dpQiiSEQL4RcICP821UP_Zu3te9Mz8pMgdSFPXZPRHsDc8jMQ17erGYJfOcrc-boq3oQE_Afvofx_swpM8IM1bQuK-pSVNPcSf4q0R6n0tXt",autorId:null,criadoEm:"2026-11-18T18:16:00Z"};
+S("temas/cp09",{linkNorma:"https://antigo.aneel.gov.br/web/guest/consultas-publicas?p_auth=jvL9H76t&p_p_id=participacaopublica_WAR_participacaopublicaportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_pos=1&p_p_col_count=2&_participacaopublica_WAR_participacaopublicaportlet_ideParticipacaoPublica=4008&_participacaopublica_WAR_participacaopublicaportlet_javax.portlet.action=visualizarParticipacaoPublica",prazo:"08/06/2026",contrib:[{titulo:"Contribuição Energisa",link:"https://antigo.aneel.gov.br/web/guest/consultas-publicas?p_p_id=participacaopublica_WAR_participacaopublicaportlet&p_p_lifecycle=2&p_p_state=normal&p_p_mode=view&p_p_cacheability=cacheLevelPage&p_p_col_id=column-2&p_p_col_pos=1&p_p_col_count=2&_participacaopublica_WAR_participacaopublicaportlet_ideDocumento=58090&_participacaopublica_WAR_participacaopublicaportlet_tipoFaseReuniao=fase&_participacaopublica_WAR_participacaopublicaportlet_jspPage=%2Fhtml%2Fpp%2Fvisualizar.jsp"}]});
+S("temas/valoracao",{linkNorma:"https://antigo.aneel.gov.br/web/guest/tomadas-de-subsidios?p_auth=I3vcEa0R&p_p_id=participacaopublica_WAR_participacaopublicaportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_participacaopublica_WAR_participacaopublicaportlet_ideParticipacaoPublica=3975&_participacaopublica_WAR_participacaopublicaportlet_javax.portlet.action=visualizarParticipacaoPublica"});
+S("temas/eletromob",{linkNorma:"https://antigo.aneel.gov.br/web/guest/consultas-publicas?p_auth=jvL9H76t&p_p_id=participacaopublica_WAR_participacaopublicaportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_pos=1&p_p_col_count=2&_participacaopublica_WAR_participacaopublicaportlet_ideParticipacaoPublica=3980&_participacaopublica_WAR_participacaopublicaportlet_javax.portlet.action=visualizarParticipacaoPublica",prazo:"10/03/2026"});
+})();
+/* responsáveis e datas das CPs: preenchimento manual */
+Object.keys(DEMO_DATA).forEach(k=>{if(/^temas\/[^/]+$/.test(k)){const d=DEMO_DATA[k];delete d.responsavel;delete d.membros;delete d.marcos;delete d.resultado;delete d.linkResultado;delete d.resultadoArquivo;}});
+DEMO_DATA["temas/cp09"].marcos="Abertura | 23/04/2026\nEncerramento | 08/06/2026";DEMO_DATA["temas/eletromob"].marcos="Abertura | 11/12/2025\nEncerramento | 10/03/2026";
 function localDB(seed){const st=new Map(Object.entries(seed).map(([k,v])=>[k,JSON.parse(JSON.stringify(v))]));const ls=new Map();let n=0;
   const col=p=>p.split("/").slice(0,-1).join("/");
   const snap=p=>({metadata:{fromCache:false,hasPendingWrites:false},docs:[...st.entries()].filter(([k])=>col(k)===p).map(([k,v])=>({id:k.split("/").pop(),exists:true,data:()=>v}))});
