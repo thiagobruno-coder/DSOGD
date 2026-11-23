@@ -2271,8 +2271,8 @@ function exSide(id){
     el("div",{class:"ps-top"},el("span",{class:"xn",text:String(i)}),el("span",{class:"ps-eb",text:f.status||"A preencher"}),nav),
     el("h3",{text:sigla(id)}),
     item("O que é (objeto)",capaTxt(id)),
-    item("Impacto DISCO",f.impDisco||f.impactaCurto||f.impacto),
-    item("Impacto (RE) Energisa",f.impRE||f.impactoEnergisa),
+    item("Impacto DISCO",f.impDisco),
+    item("Impacto (RE) Energisa",f.impRE),
     el("button",{class:"ps-go",onclick:goDet},"Ver ficha completa"));
 }
 function pBlock(lbl,txt,cls){return txt?el("div",{class:"pblk "+(cls||"")},el("div",{class:"pbl",text:lbl}),typeof txt==="string"?el("div",{class:"pbt",text:txt}):txt):null;}
@@ -2357,6 +2357,7 @@ const MI={cal:'<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4
   award:'<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>',
   user:'<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>'};
 function mic(k){const s=sv("svg",{viewBox:"0 0 24 24",fill:"none",stroke:"currentColor","stroke-width":"2","stroke-linecap":"round","stroke-linejoin":"round","aria-hidden":"true"});s.innerHTML=MI[k];return s;}
+function impEmpty(id,ph){return el("div",{class:"wempty"},el("span",{text:"Não informado"}),canWrite?el("button",{class:"wadd edit-only",onclick:()=>{exStop();openFichaEditor(id);setTimeout(()=>{const t=document.querySelector(`#feOv textarea[placeholder^="${ph}"]`);if(t){t.scrollIntoView({block:"center"});t.focus();}},350);}},"+ preencher"):null);}
 function exDetProc(id){
   const f=fichas[id]||{},m=lastResumo(id),i=exNum(id),tone=exTone(id);
   const op=acoes[id].filter(a=>a.status!=="Concluída").sort((a,b)=>(a.prazo||"9").localeCompare(b.prazo||"9"));
@@ -2373,9 +2374,9 @@ function exDetProc(id){
       el("span",{class:"pcnav"},el("button",{"aria-label":"Anterior",onclick:()=>{exStop();exCycle(-1);}},"‹"),el("button",{"aria-label":"Próximo",onclick:()=>{exStop();exCycle(1);}},"›"),el("button",{class:"pclose","aria-label":"Fechar ficha",onclick:()=>{exStop();closeSheet();}},"×"))),
     el("div",{class:"whd"},el("span",{class:"whd-ic"},lucide(id)),el("div",{class:"whd-tx"},el("h3",{class:"po-h",text:sigla(id)}),capaTxt(id)?el("div",{class:"po-sub",text:capaTxt(id)}):null)),
     el("div",{class:"wref"},f.processo?el("span",{},pmCut(f.processo,240)):null,el("span",{class:"wresp"},mic("user"),"Responsável: ",el("b",{text:f.responsavel||"a definir"})),f.prazo?el("span",{class:"wprz"},mic("cal"),"Prazo: ",el("b",{text:przTxt(f.prazo)})):null),
-    (f.impDisco||f.impactaCurto||f.impacto||f.impRE||f.impactoEnergisa)?el("div",{class:"wimp"},
-      el("div",{},el("small",{text:"Impacto DISCO"}),(f.impDisco||f.impactaCurto||f.impacto)?poText(f.impDisco||f.impactaCurto||f.impacto,3):el("span",{class:"mnone",text:"—"})),
-      el("div",{},el("small",{text:"Impacto (RE) Energisa"}),(f.impRE||f.impactoEnergisa)?poText(f.impRE||f.impactoEnergisa,3):el("span",{class:"mnone",text:"—"}))):null,
+    el("div",{class:"wimp"},
+      el("div",{},el("small",{text:"Impacto DISCO"}),f.impDisco?poText(f.impDisco,3):impEmpty(id,"Impacto para as distribuidoras")),
+      el("div",{},el("small",{text:"Impacto (RE) Energisa"}),f.impRE?poText(f.impRE,3):impEmpty(id,"Impacto para a (RE)"))),
     el("div",{class:"wfacts"},fact("Abertura","cal"),fact("Prazo total","hour"),fact("Encerramento","flag"),fact("Envio","send")),
     el("div",{class:"wand"},
       el("div",{class:"wa"},el("span",{class:"wa-ic"},mic("clock")),el("div",{},el("small",{text:"Último andamento"}),el("p",{text:m?pmCut(m.texto,220):"Nenhuma atualização registrada ainda."}),m?el("span",{class:"wa-by",text:`${byWho(m.autorId,fmtD(m.criadoEm))}`}):null)),
