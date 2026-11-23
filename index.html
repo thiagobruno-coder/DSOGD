@@ -1559,6 +1559,7 @@ const TEMAS=[
   {id:"cp33",sigla:"CP 33/2026 – RED"},{id:"erag",sigla:"ERAG"},{id:"sandbox",sigla:"Sandbox Regulatório"},
   {id:"art28",sigla:"CP xx – Comercialização de MMGD"},{id:"tarifabranca",sigla:"Tarifa Hora Certa"},{id:"excedente",sigla:"Plano de Gestão de Excedentes"},
   {id:"cp09",sigla:"CP 09/26 – Tratamento de excedentes"},{id:"valoracao",sigla:"CP xx – Valoração de custos e benefícios da MMGD"},{id:"eletromob",sigla:"CP 042/25 – Eletromobilidade e conexão à rede de distribuição"},
+  {id:"cp28",sigla:"CP 28/2026 – ERC"},
 ];
 const FIELDS=[
   ["capa","Objeto — texto da capa (repete no mapa e na ficha)","long"],["impDisco","Impacto DISCO (resumo do mapa)","long"],["impRE","Impacto (RE) Energisa (resumo do mapa)","long"],
@@ -2019,6 +2020,7 @@ const IC={
   eletromob:'<path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/>',
   valoracao:'<path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>',
   cp09:'<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
+  cp28:'<path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/>',
   hub:'<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>'
 };
 function lucide(name){const s2=sv("svg",{viewBox:"0 0 24 24",fill:"none",stroke:"currentColor","stroke-width":"2","stroke-linecap":"round","stroke-linejoin":"round"});s2.innerHTML=IC[name]||IC.hub;return s2;}
@@ -2055,7 +2057,7 @@ function viewMapa(anim){
   stage.appendChild(svg);
   // centro
   const core=el("button",{class:"core"+(!mapSel?" sel":""),onclick:()=>{mapSel=null;render(false);},"aria-label":"Visão consolidada GD e DISCO"},
-    el("span",{class:"ring r1"}),el("span",{class:"ring r2"}),el("span",{class:"cin"},(()=>{const s3=sv("svg",{viewBox:"0 0 24 24",fill:"none",stroke:"currentColor","stroke-width":"2","stroke-linecap":"round","stroke-linejoin":"round"});s3.innerHTML=IC.erag;return s3;})(),el("b",{text:"GD e DISCO"}),el("small",{text:"Geração Distribuída"})));
+    el("span",{class:"ring r1"}),el("span",{class:"ring r2"}),el("span",{class:"cin"},(()=>{const s3=sv("svg",{viewBox:"0 0 24 24",fill:"none",stroke:"currentColor","stroke-width":"2","stroke-linecap":"round","stroke-linejoin":"round"});s3.innerHTML=IC.erag;return s3;})(),el("b",{text:"REDs & DSO"}),el("small",{text:"Geração Distribuída"})));
   core.style.left=(cx/W*100)+"%";core.style.top=(cy/H*100)+"%";stage.appendChild(core);
   // nós
   pos.forEach((p,i)=>{const id=p.t.id,s2=procStats(id),tone=procTone(id),sel=mapSel===id;
@@ -2130,8 +2132,8 @@ function mapPanelProc(id){
 let exSel=null,exPlay=null,exPage=0;
 function exTone(id){const s2=procStats(id);if(s2.late)return"bad";const f=fresh(id);if(s2.soon||f==="warn")return"warn";if(f==="bad"||f==="none")return"idle";return"ok";}
 function exStop(){if(exPlay){clearInterval(exPlay);exPlay=null;const b=document.querySelector(".pplay");if(b)b.textContent="▶ Tocar";}}
-const EX_SHORT={cp33:"Controlabilidade REDs",erag:"ERAG",sandbox:"Sandbox · MAI",art28:"Comercialização MMGD",tarifabranca:"Hora Certa",excedente:"Plano de Gestão de Excedentes",cp09:"Tratamento de Excedentes",valoracao:"Custos e Benefícios",eletromob:"Eletromobilidade"};
-const EX_CODE={cp33:"CP 33/2026",art28:"CP xx",cp09:"CP 09/2026",valoracao:"CP xx",eletromob:"CP 42/2025"};
+const EX_SHORT={cp33:"Controlabilidade REDs",erag:"ERAG",sandbox:"Sandbox · MAI",art28:"Comercialização MMGD",tarifabranca:"Hora Certa",excedente:"Plano de Gestão de Excedentes",cp09:"Tratamento de Excedentes",valoracao:"Custos e Benefícios",eletromob:"Eletromobilidade",cp28:"ERC"};
+const EX_CODE={cp33:"CP 33/2026",art28:"CP xx",cp09:"CP 09/2026",valoracao:"CP xx",eletromob:"CP 42/2025",cp28:"CP 28/2026"};
 const przTxt=v=>{v=(v||"").trim();if(!v)return"";const m=v.match(/^(\d{4})-(\d{2})-(\d{2})/);return m?`${m[3]}/${m[2]}/${m[1]}`:v;};
 const EX_PAGES=["Capa","Mapa"];
 function exNum(id){return TEMAS.findIndex(t=>t.id===id)+1;}
@@ -2140,7 +2142,7 @@ function exAllOpen(){return TEMAS.flatMap(t=>acoes[t.id].map(a=>({...a,tema:t.id
 function lastResumo(id){const l=[...movs[id]].sort((a,b)=>(b.criadoEm||"").localeCompare(a.criadoEm||""));return l.find(m=>(m.tipo||"resumo")==="resumo")||l[0];}
 
 /* ---------- página 1: capa ---------- */
-const EX_DESC={cp33:"Consulta Pública 033/26 – RED. Conceito único de RED: observabilidade, operabilidade e controlabilidade da MMGD.",erag:"Desconexão automática por proteção de sobrefrequência.",sandbox:"Mecanismo de Acionamento Intermediado (MAI). Interface ONS/DSO.",art28:"Aplicação do art. 28 da Lei 14.300/22, que caracteriza a MMGD como forma de produção de energia elétrica destinada ao consumo próprio.",tarifabranca:"Aplicação automática de tarifa horária para os consumidores de baixa tensão dos subgrupos B1 (residencial), B2 (rural) e B3 (comercial, industrial, outros) com consumo mensal igual ou superior a 1 MW.",excedente:"Redução de usinas Tipo III em situação de excedentes.",cp09:"Fortalecimento do papel da distribuidora na operação da rede.",valoracao:"Impactos MMGD; soluções para acomodação da MMGD.",eletromob:"Integração da eletromobilidade ao sistema elétrico, conciliando expansão da infraestrutura de recarga, planejamento da rede e competição equilibrada no mercado."};
+const EX_DESC={cp28:"Consulta Pública nº 28/2026 - ERC. Proposta de revisão normativa para implementação do Encargo Complementar de Recursos – ECR e do teto da Conta de Desenvolvimento Energético – CDE, nos termos do artigo 7º da Lei nº 15.269/2025.",cp33:"Consulta Pública 033/26 – RED. Conceito único de RED: observabilidade, operabilidade e controlabilidade da MMGD.",erag:"Desconexão automática por proteção de sobrefrequência.",sandbox:"Mecanismo de Acionamento Intermediado (MAI). Interface ONS/DSO.",art28:"Aplicação do art. 28 da Lei 14.300/22, que caracteriza a MMGD como forma de produção de energia elétrica destinada ao consumo próprio.",tarifabranca:"Aplicação automática de tarifa horária para os consumidores de baixa tensão dos subgrupos B1 (residencial), B2 (rural) e B3 (comercial, industrial, outros) com consumo mensal igual ou superior a 1 MW.",excedente:"Redução de usinas Tipo III em situação de excedentes.",cp09:"Fortalecimento do papel da distribuidora na operação da rede.",valoracao:"Impactos MMGD; soluções para acomodação da MMGD.",eletromob:"Integração da eletromobilidade ao sistema elétrico, conciliando expansão da infraestrutura de recarga, planejamento da rede e competição equilibrada no mercado."};
 const capaTxt=id=>((fichas[id]||{}).capa)||EX_DESC[id]||((fichas[id]||{}).nome)||"";
 function exCapa(){
   const w=el("section",{class:"pcapa"});
@@ -2164,7 +2166,7 @@ function exCapa(){
 }
 
 /* ---------- página 2: mapa interativo ---------- */
-const PM={W:1000,H:560,cx:500,cy:280,rx:398,ry:226};
+const PM={W:1000,H:560,cx:500,cy:280,rx:440,ry:226};
 function pmPos(){return TEMAS.map((t,i)=>{const a=-Math.PI/2+i*2*Math.PI/TEMAS.length;return{id:t.id,x:PM.cx+Math.cos(a)*PM.rx,y:PM.cy+Math.sin(a)*PM.ry};});}
 function exMapa(anim){
   const w=el("section",{class:"pmapa"});
@@ -2178,8 +2180,8 @@ function exMapa(anim){
   pmPos().forEach(p=>{const tone=exTone(p.id);const ln=sv("line",{x1:PM.cx,y1:PM.cy,x2:p.x,y2:p.y,class:"pflow t-"+tone,"data-id":p.id});svg.appendChild(ln);
     if(procStats(p.id).m30){const d=sv("circle",{r:4,class:"pdot t-"+tone,"data-id":p.id});d.appendChild(sv("animateMotion",{dur:(3+Math.random()*2).toFixed(1)+"s",repeatCount:"indefinite",path:`M${p.x},${p.y} L${PM.cx},${PM.cy}`}));svg.appendChild(d);}});
   inner.appendChild(svg);
-  const core=el("button",{class:"pcore","data-id":"core",onclick:()=>exSelect(exSel==="core"?null:"core"),"aria-label":"GD e DISCO — visão consolidada"},
-    el("span",{class:"ring r1"}),el("span",{class:"ring r2"}),el("span",{class:"pcin"},lucide("erag"),el("b",{text:"GD e DISCO"}),el("small",{text:"Geração Distribuída"})));
+  const core=el("button",{class:"pcore","data-id":"core",onclick:()=>exSelect(exSel==="core"?null:"core"),"aria-label":"REDs & DSO — visão consolidada"},
+    el("span",{class:"ring r1"}),el("span",{class:"ring r2"}),el("span",{class:"pcin"},lucide("erag"),el("b",{text:"REDs & DSO"}),el("small",{text:"Geração Distribuída"})));
   core.style.left=PM.cx/PM.W*100+"%";core.style.top=PM.cy/PM.H*100+"%";inner.appendChild(core);
   pmPos().forEach((p,i)=>{const s2=procStats(p.id),tone=exTone(p.id);
     const n=el("button",{class:"pnd t-"+tone,"data-id":p.id,onclick:()=>{exStop();exSelect(exSel===p.id?null:p.id);},"aria-label":sigla(p.id)},
@@ -2466,7 +2468,7 @@ function exDetGD(){
   const op=exAllOpen(),late=op.filter(a=>situacao(a).k==="late").length;
   const d=el("article",{class:"pone"});
   d.append(el("div",{class:"po-top"},el("span",{class:"xn",text:"GD"}),el("span",{class:"po-eb",text:"Visão consolidada"}),el("span",{class:"pcnav"},el("button",{class:"pclose","aria-label":"Fechar",onclick:()=>closeSheet()},"×"))),
-    el("h3",{class:"po-h",text:"GD e DISCO"}),
+    el("h3",{class:"po-h",text:"REDs & DSO"}),
     el("div",{class:"po-sub",style:"margin-bottom:14px",text:`Geração Distribuída e o papel de operador da distribuição. ${op.length} pendências em aberto${late?`, ${late} fora do prazo`:""}.`}),
     el("div",{class:"plist"},...TEMAS.map((t,i)=>{const m=lastResumo(t.id),tone=exTone(t.id);return el("button",{class:"pli t-"+tone,onclick:()=>exSelect(t.id)},el("span",{class:"xn",text:String(i+1)}),
       el("span",{class:"pli-b"},el("b",{text:sigla(t.id)}),el("span",{text:m?m.texto:"Sem atualização registrada."})),el("small",{text:m?rel(m.criadoEm):"—"}));})),
@@ -2862,6 +2864,8 @@ S("temas/eletromob",{linkNorma:"https://antigo.aneel.gov.br/web/guest/consultas-
 /* responsáveis e datas das CPs: preenchimento manual */
 Object.keys(DEMO_DATA).forEach(k=>{if(/^temas\/[^/]+$/.test(k)){const d=DEMO_DATA[k];delete d.responsavel;delete d.membros;delete d.marcos;delete d.resultado;delete d.linkResultado;delete d.resultadoArquivo;}});
 DEMO_DATA["temas/cp09"].marcos="Abertura | 23/04/2026\nEncerramento | 08/06/2026";DEMO_DATA["temas/eletromob"].marcos="Abertura | 11/12/2025\nEncerramento | 10/03/2026";
+DEMO_DATA["temas/cp28"]={sigla:"CP 28/2026 – ERC",nome:"Consulta Pública nº 28/2026 - ERC",processo:"48500.022172/2026-77 · Nota Técnica Conjunta nº 17/2026-STR STD/ANEE",status:"A preencher"};
+DEMO_DATA["temas/cp28/sei/s1"]={numero:"48500.022172/2026-77",titulo:"CP 28/2026 — ERC",link:"",autorId:null,criadoEm:"2026-11-23T16:00:00Z"};
 function localDB(seed){const st=new Map(Object.entries(seed).map(([k,v])=>[k,JSON.parse(JSON.stringify(v))]));const ls=new Map();let n=0;
   /* edições salvas no navegador (por computador/navegador) */
   const OK="hubgd_edicoes_v1";let ov={sets:{},dels:[]};
