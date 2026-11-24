@@ -773,6 +773,7 @@ div.xk{cursor:default}
 /* capa */
 .pcapa{justify-content:center;max-width:1100px}
 .pcapa-h{font:900 clamp(44px,7vw,92px)/1 Nunito,Arial,sans-serif;color:#fff;margin:4px 0 0;letter-spacing:-.02em}
+.pcapa-sub{display:block;font-size:.5em;line-height:1.15;font-weight:800;margin-top:.25em;letter-spacing:-.01em}
 .g{background:linear-gradient(90deg,#009FC2,#66C8DE 40%,#B5E622);-webkit-background-clip:text;background-clip:text;color:transparent}
 .pcapa-l{font-size:clamp(17px,1.5vw,21px);line-height:1.55;color:var(--mt);max-width:760px;margin:0}
 .pkpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:rgba(255,255,255,.02)}
@@ -2150,7 +2151,7 @@ function exCapa(){
   w.append(
     el("div",{class:"pcapa-in"},
       el("div",{class:"xeyebrow",text:"ENERGISA · VPR · DREG · GRTC"}),
-      el("h1",{class:"pcapa-h"},el("span",{class:"g",text:"REDs & DSO:"})," A nova fronteira da distribuição de energia"),fx,
+      el("h1",{class:"pcapa-h"},el("span",{class:"g",text:"REDs & DSO:"}),el("span",{class:"pcapa-sub",text:"A nova fronteira da distribuição de energia"})),fx,
       el("p",{class:"pcapa-l",text:"Um só lugar para acompanhar os processos regulatórios que impactam a micro e minigeração distribuída (MMGD) e a atuação das distribuidoras (DISCO)."})),
     el("div",{class:"psec",text:"COMO FUNCIONA O HUB"}),
     el("div",{class:"phow"},...[["1","Cada um atualiza o seu","O responsável registra andamentos, documentos, prazos e de quem depende — sem precisar escolher o processo."],
